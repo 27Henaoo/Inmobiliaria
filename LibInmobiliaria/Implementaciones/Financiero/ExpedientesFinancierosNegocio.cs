@@ -1,18 +1,17 @@
 ﻿using LibInmobiliaria.Entidades;
-using LibInmobiliaria.Implementaciones;
 using LibInmobiliaria.Interfaces;
-using LibInmobiliaria.Interfaces.Convenios;
+using LibInmobiliaria.Interfaces.Financiero;
 using Microsoft.EntityFrameworkCore;
 
-namespace Lib.Implementaciones.Convenios
+namespace LibInmobiliaria.Implementaciones.Financiero
 {
-    public class PropiedadesNegocio : IPropiedadesNegocio
+    public class ExpedientesFinancierosNegocio : IExpedientesFinancierosNegocio
     {
 
         // Variable privada para manejar la conexión a la base de datos.
         private IConexion? iConexion;
 
-        public List<Propiedades> Consultar()
+        public List<ExpedientesFinancieros> Consultar()
         {
             // Se crea una nueva conexión.
             this.iConexion = new Conexion();
@@ -20,12 +19,12 @@ namespace Lib.Implementaciones.Convenios
             // Se asigna la cadena de conexión.
             this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
 
-            // Se consultan todos los registros de Propiedades y se devuelven en forma de lista.
-            return this.iConexion.Propiedades!.ToList();
+            // Se consultan todos los registros de ExpedientesFinancieros y se devuelven en forma de lista.
+            return this.iConexion.ExpedientesFinancieros!.ToList();
         }
 
-        // Método para guardar Propiedades nuevos.
-        public Propiedades Guardar(Propiedades entidad)
+        // Método para guardar ExpedientesFinancieros nuevos.
+        public ExpedientesFinancieros Guardar(ExpedientesFinancieros entidad)
         {
             // Si el Id es distinto de 0, significa que la entidad supuestamente ya fue guardada.
             if (entidad.Id != 0)
@@ -37,8 +36,8 @@ namespace Lib.Implementaciones.Convenios
             // Se asigna la cadena de conexión.
             this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
 
-            // Se agrega la entidad al conjunto de Propiedades.
-            this.iConexion.Propiedades!.Add(entidad);
+            // Se agrega la entidad al conjunto de ExpedientesFinancieros.
+            this.iConexion.ExpedientesFinancieros!.Add(entidad);
 
             // Se guardan los cambios en la base de datos.
             this.iConexion.SaveChanges();
@@ -47,8 +46,8 @@ namespace Lib.Implementaciones.Convenios
             return entidad;
         }
 
-        // Método para modificar Propiedades existentes.
-        public Propiedades Modificar(Propiedades entidad)
+        // Método para modificar ExpedientesFinancieros existentes.
+        public ExpedientesFinancieros Modificar(ExpedientesFinancieros entidad)
         {
             // Si el Id es 0, no se puede modificar porque no existe en base de datos.
             if (entidad.Id == 0)
@@ -61,7 +60,7 @@ namespace Lib.Implementaciones.Convenios
             this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
 
             // Se obtiene la entrada de Entity Framework para la entidad recibida.
-            var entry = this.iConexion.Entry<Propiedades>(entidad);
+            var entry = this.iConexion.Entry<ExpedientesFinancieros>(entidad);
 
             // Se marca la entidad como modificada.
             entry.State = EntityState.Modified;
@@ -72,8 +71,8 @@ namespace Lib.Implementaciones.Convenios
             // Se devuelve la entidad modificada.
             return entidad;
         }
-        // Método para borrar Propiedades existentes.
-        public Propiedades Borrar(Propiedades entidad)
+        // Método para borrar ExpedientesFinancieros existentes.
+        public ExpedientesFinancieros Borrar(ExpedientesFinancieros entidad)
         {
             // Si el Id es 0, no se puede borrar porque no existe en base de datos.
             if (entidad.Id == 0)
@@ -86,7 +85,7 @@ namespace Lib.Implementaciones.Convenios
             this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
 
             // Se marca la entidad para eliminarla.
-            this.iConexion.Propiedades!.Remove(entidad);
+            this.iConexion.ExpedientesFinancieros!.Remove(entidad);
 
             // Se guardan los cambios en la base de datos.
             this.iConexion.SaveChanges();
