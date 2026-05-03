@@ -1,5 +1,5 @@
-﻿using Lib.Implementaciones.Convenios;
-using LibInmobiliaria.Entidades;
+﻿using LibInmobiliaria.Entidades;
+using LibInmobiliaria.Implementaciones.Convenios;
 using LibInmobiliaria.Interfaces.Convenios;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

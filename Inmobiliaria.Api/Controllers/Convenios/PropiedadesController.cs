@@ -1,4 +1,4 @@
-﻿using Lib.Implementaciones.Convenios;
+﻿using LibInmobiliaria.Implementaciones.Convenios;
 using LibInmobiliaria.Entidades;
 using LibInmobiliaria.Interfaces.Convenios;
 using Microsoft.AspNetCore.Http;

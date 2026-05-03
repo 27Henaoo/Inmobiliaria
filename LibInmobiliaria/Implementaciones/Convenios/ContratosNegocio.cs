@@ -1,11 +1,10 @@
 ﻿using LibInmobiliaria.Entidades;
-using LibInmobiliaria.Implementaciones;
 using LibInmobiliaria.Interfaces;
 using LibInmobiliaria.Interfaces.Convenios;
 using Microsoft.EntityFrameworkCore;
 
 
-namespace Lib.Implementaciones.Convenios {
+namespace LibInmobiliaria.Implementaciones.Convenios {
     public class ContratosNegocio : IContratosNegocio
     {
 
