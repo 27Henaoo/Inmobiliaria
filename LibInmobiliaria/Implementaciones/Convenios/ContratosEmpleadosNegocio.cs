@@ -4,92 +4,94 @@ using LibInmobiliaria.Interfaces;
 using LibInmobiliaria.Interfaces.Convenios;
 using Microsoft.EntityFrameworkCore;
 
-public class ContratosEmpleadosNegocio : IContratosEmpleadosNegocio
-{
-
-    // Variable privada para manejar la conexión a la base de datos.
-    private IConexion? iConexion;
-
-    public List<ContratosEmpleados> Consultar()
+namespace Lib.Implementaciones.Convenios {
+    public class ContratosEmpleadosNegocio : IContratosEmpleadosNegocio
     {
-        // Se crea una nueva conexión.
-        this.iConexion = new Conexion();
 
-        // Se asigna la cadena de conexión.
-        this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
+        // Variable privada para manejar la conexión a la base de datos.
+        private IConexion? iConexion;
 
-        // Se consultan todos los registros de ContratosEmpleados y se devuelven en forma de lista.
-        return this.iConexion.ContratosEmpleados!.ToList();
-    }
+        public List<ContratosEmpleados> Consultar()
+        {
+            // Se crea una nueva conexión.
+            this.iConexion = new Conexion();
 
-    // Método para guardar ContratosEmpleados nuevos.
-    public ContratosEmpleados Guardar(ContratosEmpleados entidad)
-    {
-        // Si el Id es distinto de 0, significa que la entidad supuestamente ya fue guardada.
-        if (entidad.Id != 0)
-            throw new Exception("Ya se guardo");
+            // Se asigna la cadena de conexión.
+            this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
 
-        // Se crea una nueva conexión.
-        this.iConexion = new Conexion();
+            // Se consultan todos los registros de ContratosEmpleados y se devuelven en forma de lista.
+            return this.iConexion.ContratosEmpleados!.ToList();
+        }
 
-        // Se asigna la cadena de conexión.
-        this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
+        // Método para guardar ContratosEmpleados nuevos.
+        public ContratosEmpleados Guardar(ContratosEmpleados entidad)
+        {
+            // Si el Id es distinto de 0, significa que la entidad supuestamente ya fue guardada.
+            if (entidad.Id != 0)
+                throw new Exception("Ya se guardo");
 
-        // Se agrega la entidad al conjunto de ContratosEmpleados.
-        this.iConexion.ContratosEmpleados!.Add(entidad);
+            // Se crea una nueva conexión.
+            this.iConexion = new Conexion();
 
-        // Se guardan los cambios en la base de datos.
-        this.iConexion.SaveChanges();
+            // Se asigna la cadena de conexión.
+            this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
 
-        // Se devuelve la entidad guardada.
-        return entidad;
-    }
+            // Se agrega la entidad al conjunto de ContratosEmpleados.
+            this.iConexion.ContratosEmpleados!.Add(entidad);
 
-    // Método para modificar ContratosEmpleados existentes.
-    public ContratosEmpleados Modificar(ContratosEmpleados entidad)
-    {
-        // Si el Id es 0, no se puede modificar porque no existe en base de datos.
-        if (entidad.Id == 0)
-            throw new Exception("No se puede modificar");
+            // Se guardan los cambios en la base de datos.
+            this.iConexion.SaveChanges();
 
-        // Se crea una nueva conexión.
-        this.iConexion = new Conexion();
+            // Se devuelve la entidad guardada.
+            return entidad;
+        }
 
-        // Se asigna la cadena de conexión.
-        this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
+        // Método para modificar ContratosEmpleados existentes.
+        public ContratosEmpleados Modificar(ContratosEmpleados entidad)
+        {
+            // Si el Id es 0, no se puede modificar porque no existe en base de datos.
+            if (entidad.Id == 0)
+                throw new Exception("No se puede modificar");
 
-        // Se obtiene la entrada de Entity Framework para la entidad recibida.
-        var entry = this.iConexion.Entry<ContratosEmpleados>(entidad);
+            // Se crea una nueva conexión.
+            this.iConexion = new Conexion();
 
-        // Se marca la entidad como modificada.
-        entry.State = EntityState.Modified;
+            // Se asigna la cadena de conexión.
+            this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
 
-        // Se guardan los cambios en la base de datos.
-        this.iConexion.SaveChanges();
+            // Se obtiene la entrada de Entity Framework para la entidad recibida.
+            var entry = this.iConexion.Entry<ContratosEmpleados>(entidad);
 
-        // Se devuelve la entidad modificada.
-        return entidad;
-    }
-    // Método para borrar ContratosEmpleados existentes.
-    public ContratosEmpleados Borrar(ContratosEmpleados entidad)
-    {
-        // Si el Id es 0, no se puede borrar porque no existe en base de datos.
-        if (entidad.Id == 0)
-            throw new Exception("No se puede borrar");
+            // Se marca la entidad como modificada.
+            entry.State = EntityState.Modified;
 
-        // Se crea una nueva conexión.
-        this.iConexion = new Conexion();
+            // Se guardan los cambios en la base de datos.
+            this.iConexion.SaveChanges();
 
-        // Se asigna la cadena de conexión.
-        this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
+            // Se devuelve la entidad modificada.
+            return entidad;
+        }
+        // Método para borrar ContratosEmpleados existentes.
+        public ContratosEmpleados Borrar(ContratosEmpleados entidad)
+        {
+            // Si el Id es 0, no se puede borrar porque no existe en base de datos.
+            if (entidad.Id == 0)
+                throw new Exception("No se puede borrar");
 
-        // Se marca la entidad para eliminarla.
-        this.iConexion.ContratosEmpleados!.Remove(entidad);
+            // Se crea una nueva conexión.
+            this.iConexion = new Conexion();
 
-        // Se guardan los cambios en la base de datos.
-        this.iConexion.SaveChanges();
+            // Se asigna la cadena de conexión.
+            this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
 
-        // Se devuelve la entidad borrada.
-        return entidad;
+            // Se marca la entidad para eliminarla.
+            this.iConexion.ContratosEmpleados!.Remove(entidad);
+
+            // Se guardan los cambios en la base de datos.
+            this.iConexion.SaveChanges();
+
+            // Se devuelve la entidad borrada.
+            return entidad;
+        }
     }
 }
