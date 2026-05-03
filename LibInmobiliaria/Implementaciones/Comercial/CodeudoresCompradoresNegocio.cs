@@ -1,0 +1,98 @@
+﻿using LibInmobiliaria.Entidades;
+using LibInmobiliaria.Interfaces;
+using LibInmobiliaria.Interfaces.Comercial;
+using Microsoft.EntityFrameworkCore;
+
+namespace LibInmobiliaria.Implementaciones.Comercial
+{
+    public class CodeudoresCompradoresNegocio : ICodeudoresCompradoresNegocio
+    {
+
+        // Variable privada para manejar la conexión a la base de datos.
+        private IConexion? iConexion;
+
+        public List<CodeudoresCompradores> Consultar()
+        {
+            // Se crea una nueva conexión.
+            this.iConexion = new Conexion();
+
+            // Se asigna la cadena de conexión.
+            this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
+
+            // Se consultan todos los registros de CodeudoresCompradores y se devuelven en forma de lista.
+            return this.iConexion.CodeudoresCompradores!.ToList();
+        }
+
+        // Método para guardar CodeudoresCompradores nuevos.
+        public CodeudoresCompradores Guardar(CodeudoresCompradores entidad)
+        {
+            // Si el Id es distinto de 0, significa que la entidad supuestamente ya fue guardada.
+            if (entidad.Id != 0)
+                throw new Exception("Ya se guardo");
+
+            // Se crea una nueva conexión.
+            this.iConexion = new Conexion();
+
+            // Se asigna la cadena de conexión.
+            this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
+
+            // Se agrega la entidad al conjunto de CodeudoresCompradores.
+            this.iConexion.CodeudoresCompradores!.Add(entidad);
+
+            // Se guardan los cambios en la base de datos.
+            this.iConexion.SaveChanges();
+
+            // Se devuelve la entidad guardada.
+            return entidad;
+        }
+
+        // Método para modificar CodeudoresCompradores existentes.
+        public CodeudoresCompradores Modificar(CodeudoresCompradores entidad)
+        {
+            // Si el Id es 0, no se puede modificar porque no existe en base de datos.
+            if (entidad.Id == 0)
+                throw new Exception("No se puede modificar");
+
+            // Se crea una nueva conexión.
+            this.iConexion = new Conexion();
+
+            // Se asigna la cadena de conexión.
+            this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
+
+            // Se obtiene la entrada de Entity Framework para la entidad recibida.
+            var entry = this.iConexion.Entry<CodeudoresCompradores>(entidad);
+
+            // Se marca la entidad como modificada.
+            entry.State = EntityState.Modified;
+
+            // Se guardan los cambios en la base de datos.
+            this.iConexion.SaveChanges();
+
+            // Se devuelve la entidad modificada.
+            return entidad;
+        }
+        // Método para borrar CodeudoresCompradores existentes.
+        public CodeudoresCompradores Borrar(CodeudoresCompradores entidad)
+        {
+            // Si el Id es 0, no se puede borrar porque no existe en base de datos.
+            if (entidad.Id == 0)
+                throw new Exception("No se puede borrar");
+
+            // Se crea una nueva conexión.
+            this.iConexion = new Conexion();
+
+            // Se asigna la cadena de conexión.
+            this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
+
+            // Se marca la entidad para eliminarla.
+            this.iConexion.CodeudoresCompradores!.Remove(entidad);
+
+            // Se guardan los cambios en la base de datos.
+            this.iConexion.SaveChanges();
+
+            // Se devuelve la entidad borrada.
+            return entidad;
+        }
+
+    }
+}
