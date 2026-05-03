@@ -2,7 +2,6 @@ using LibInmobiliaria.Entidades;
 using LibInmobiliaria.Implementaciones;
 using LibInmobiliaria.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using PruebasUnitarias.Nucleo;
 
 namespace PruebasUnitarias.Repositorios
 {
