@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\Ventanas\" />
+    <ProjectReference Include="..\LibPresentacion\LibPresentacion.csproj" />
   </ItemGroup>
 
 </Project>
