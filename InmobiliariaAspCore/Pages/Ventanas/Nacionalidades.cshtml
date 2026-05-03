@@ -1,7 +1,7 @@
 ﻿@page
-@model EstadosCivilesModel
+@model NacionalidadesModel
 @{
-    ViewData["Title"] = "Estados Civiles";
+    ViewData["Title"] = "Nacionalidades";
 }
 <center>
     <div>
@@ -10,7 +10,7 @@
             @Html.AntiForgeryToken()
 
             <div align="left">
-                <h3>Estados Civiles</h3>
+                <h3>Nacionalidades</h3>
             </div>
 
             <div>
@@ -22,18 +22,18 @@
                        value="Nuevo"
                        class="btn btn-secondary"
                        asp-page-handler="BtNuevo"
-                       disabled="@(Model.EstadoCivil != null)" />
+                       disabled="@(Model.Nacionalidad != null)" />
                 <input type="submit"
                        value="Guardar"
                        class="btn btn-secondary"
                        asp-page-handler="BtGuardar"
-                       disabled="@(Model.EstadoCivil == null)" />
+                       disabled="@(Model.Nacionalidad == null)" />
             </div>
 
-            @if (Model.EstadoCivil != null)
+            @if (Model.Nacionalidad != null)
             {
                 <input type="hidden"
-                       asp-for="@Model.EstadoCivil!.Id" />
+                       asp-for="@Model.Nacionalidad!.Id" />
 
                 <div>
                     <div class="form-group">
@@ -43,7 +43,7 @@
                         <div class="col-6">
                             <input id="inNombre"
                                    class="cts_forms form-control"
-                                   asp-for="@Model.EstadoCivil!.Nombre" />
+                                   asp-for="@Model.Nacionalidad!.Nombre" />
                         </div>
                     </div>
                 </div>
@@ -55,7 +55,7 @@
                 ;
             }
 
-            @if (Model.EstadoCivil != null && Model.Borrando)
+            @if (Model.Nacionalidad != null && Model.Borrando)
             {
                 <div class='popup'>
                     <div class='pp_ms_inner'>
@@ -65,10 +65,10 @@
                             </h2>
 
                             <h6 align="left">
-                                Desea borrar el EstadoCivil?
+                                Desea borrar el Nacionalidad?
                             </h6>
                             <h6 align="left">
-                                @Model.EstadoCivil!.Nombre
+                                @Model.Nacionalidad!.Nombre
                             </h6>
                             
                             <input type="submit"
