@@ -4,6 +4,28 @@ GO
 USE db_inmobiliaria;
 GO
 
+CREATE TABLE [Historicos]
+(
+  [Id] INT NOT NULL IDENTITY(1, 1) PRIMARY KEY,
+
+  [Usuario] NVARCHAR(100) NULL,
+  [Tabla] NVARCHAR(100) NULL,
+  [Accion] NVARCHAR(50) NULL,
+  [RegistroId] INT NULL,
+
+  [Descripcion] NVARCHAR(500) NOT NULL,
+  [Cambios] NVARCHAR(500) NULL,
+  [ValorAnterior] NVARCHAR(1000) NULL,
+  [ValorNuevo] NVARCHAR(1000) NULL,
+
+  [Origen] NVARCHAR(100) NULL,
+  [Exitoso] BIT NOT NULL DEFAULT 1,
+  [Error] NVARCHAR(1000) NULL,
+
+  [Fecha] SMALLDATETIME NOT NULL
+);
+GO
+
 -- =========================================
 -- TABLAS PADRES
 -- =========================================
@@ -779,3 +801,4 @@ SELECT COUNT(*) AS Bienes FROM Bienes;
 SELECT COUNT(*) AS BienesMuebles FROM BienesMuebles;
 SELECT COUNT(*) AS BienesInmuebles FROM BienesInmuebles;
 SELECT COUNT(*) AS Contratos FROM Contratos;
+
