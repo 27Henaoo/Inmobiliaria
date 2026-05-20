@@ -63,7 +63,7 @@ namespace LibInmobiliaria.Implementaciones.Catalogos
             try
             {
                 //Se consultan los registros de Ciudades en forma de lista
-                var lista = this.iConexion.Ciudades!.ToList();
+                var lista = this.iConexion.Ciudades!.Include(x => x._Departamento).ToList();
                 AgregarHistorico(
                   accion: "Consultar",
                   registroId: null,

@@ -1,4 +1,6 @@
 ﻿
+using System.Text.Json.Serialization;
+
 namespace LibModelos._5._1ModelosComunes
 {
     // =========================
@@ -19,7 +21,7 @@ namespace LibModelos._5._1ModelosComunes
         // Navegación 1:1
        public AdministradoresDepartamentos? _AdministradorDepartamento { get; set; }
 
-        public List<Ciudades>? Ciudades { get; set; }
+        [JsonIgnore] public List<Ciudades>? Ciudades { get; set; }
     }
 }
 
