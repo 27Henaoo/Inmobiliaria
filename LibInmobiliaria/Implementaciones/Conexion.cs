@@ -43,6 +43,8 @@ namespace LibInmobiliaria.Implementaciones
         public DbSet<TiposContratos>? TiposContratos { get; set; }
         public DbSet<TiposPropiedades>? TiposPropiedades { get; set; }
         public DbSet<Trabajadores>? Trabajadores { get; set; }
+        //Historicos 
+        public DbSet<Historicos>? Historicos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

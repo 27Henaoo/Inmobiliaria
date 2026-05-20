@@ -60,9 +60,10 @@ namespace LibInmobiliaria.Interfaces
         public DbSet<ContratosCodeudores>? ContratosCodeudores { get; set; }
         public DbSet<CodeudoresCompradores>? CodeudoresCompradores { get; set; }
 
-      
+        //Tabla Historicos
+        public DbSet<Historicos>? Historicos{ get; set; }
         // Métodos heredados de DbContext
-        
+
         public int SaveChanges();
         //public EntityEntry Entry(object entity);
         public EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class; 
