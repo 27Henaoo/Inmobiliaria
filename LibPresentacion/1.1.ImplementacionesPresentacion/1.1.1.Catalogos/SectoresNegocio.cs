@@ -5,16 +5,16 @@ using Newtonsoft.Json;
 
 namespace LibPresentacion._1._1.ImplementacionesPresentacion._1._1._1.Catalogos
 {
-    public class CiudadesNegocio : ICiudadesNegocio
+    public class SectoresNegocio : ISectoresNegocio
     {
         private IComunicaciones? iComunicaciones;
 
-        // Este método consulta y devuelve todos los Ciudades.
-        public List<Ciudades> Consultar()
+        // Este método consulta y devuelve todos los Sectores.
+        public List<Sectores> Consultar()
         {
             // Se crea el diccionario con los datos de la petición.
             var datos = new Dictionary<string, object>();
-            datos["Url"] = "https://localhost:7173/Ciudades/Consultar";
+            datos["Url"] = "https://localhost:7173/Sectores/Consultar";
             datos["Metodo"] = "GET";
 
             // Se ejecuta la comunicación.
@@ -25,15 +25,15 @@ namespace LibPresentacion._1._1.ImplementacionesPresentacion._1._1._1.Catalogos
 
             // Si no viene valor, se devuelve una lista vacía.
             if (!respuesta.ContainsKey("Valor"))
-                return new List<Ciudades>();
+                return new List<Sectores>();
 
             // Se deserializa la respuesta y se devuelve.
-            return JsonConvert.DeserializeObject<List<Ciudades>>(
+            return JsonConvert.DeserializeObject<List<Sectores>>(
                 respuesta["Valor"].ToString()!)!;
         }
 
         // Este método guarda un Arbol nuevo.
-        public Ciudades Guardar(Ciudades entidad)
+        public Sectores Guardar(Sectores entidad)
         {
             // Si el Id es distinto de 0, significa que ya fue guardado.
             if (entidad.Id != 0)
@@ -41,7 +41,7 @@ namespace LibPresentacion._1._1.ImplementacionesPresentacion._1._1._1.Catalogos
 
             // Se crea el diccionario con los datos de la petición.
             var datos = new Dictionary<string, object>();
-            datos["Url"] = "https://localhost:7173/Ciudades/Guardar";
+            datos["Url"] = "https://localhost:7173/Sectores/Guardar";
             datos["Metodo"] = "POST";
             datos["Entidad"] = entidad;
 
@@ -53,15 +53,15 @@ namespace LibPresentacion._1._1.ImplementacionesPresentacion._1._1._1.Catalogos
 
             // Si no viene valor, se devuelve una entidad vacía.
             if (!respuesta.ContainsKey("Valor"))
-                return new Ciudades();
+                return new Sectores();
 
             // Se deserializa la respuesta y se devuelve.
-            return JsonConvert.DeserializeObject<Ciudades>(
+            return JsonConvert.DeserializeObject<Sectores>(
                 respuesta["Valor"].ToString()!)!;
         }
 
         // Este método modifica un Arbol existente.
-        public Ciudades Modificar(Ciudades entidad)
+        public Sectores Modificar(Sectores entidad)
         {
             // Si el Id es 0, no se puede modificar.
             if (entidad.Id == 0)
@@ -69,7 +69,7 @@ namespace LibPresentacion._1._1.ImplementacionesPresentacion._1._1._1.Catalogos
 
             // Se crea el diccionario con los datos de la petición.
             var datos = new Dictionary<string, object>();
-            datos["Url"] = "https://localhost:7173/Ciudades/Modificar";
+            datos["Url"] = "https://localhost:7173/Sectores/Modificar";
             datos["Metodo"] = "PUT";
             datos["Entidad"] = entidad;
 
@@ -81,15 +81,15 @@ namespace LibPresentacion._1._1.ImplementacionesPresentacion._1._1._1.Catalogos
 
             // Si no viene valor, se devuelve una entidad vacía.
             if (!respuesta.ContainsKey("Valor"))
-                return new Ciudades();
+                return new Sectores();
 
             // Se deserializa la respuesta y se devuelve.
-            return JsonConvert.DeserializeObject<Ciudades>(
+            return JsonConvert.DeserializeObject<Sectores>(
                 respuesta["Valor"].ToString()!)!;
         }
 
         // Este método borra un Arbol existente.
-        public Ciudades Borrar(Ciudades entidad)
+        public Sectores Borrar(Sectores entidad)
         {
             // Si el Id es 0, no se puede borrar.
             if (entidad.Id == 0)
@@ -97,7 +97,7 @@ namespace LibPresentacion._1._1.ImplementacionesPresentacion._1._1._1.Catalogos
 
             // Se crea el diccionario con los datos de la petición.
             var datos = new Dictionary<string, object>();
-            datos["Url"] = "https://localhost:7173/Ciudades/Borrar";
+            datos["Url"] = "https://localhost:7173/Sectores/Borrar";
             datos["Metodo"] = "DELETE";
             datos["Entidad"] = entidad;
 
@@ -109,10 +109,10 @@ namespace LibPresentacion._1._1.ImplementacionesPresentacion._1._1._1.Catalogos
 
             // Si no viene valor, se devuelve una entidad vacía.
             if (!respuesta.ContainsKey("Valor"))
-                return new Ciudades();
+                return new Sectores();
 
             // Se deserializa la respuesta y se devuelve.
-            return JsonConvert.DeserializeObject<Ciudades>(
+            return JsonConvert.DeserializeObject<Sectores>(
                 respuesta["Valor"].ToString()!)!;
         }
     }

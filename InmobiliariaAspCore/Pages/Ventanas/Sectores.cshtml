@@ -1,7 +1,7 @@
 ﻿@page
-@model CiudadesModel
+@model SectoresModel
 @{
-    ViewData["Title"] = "Ciudades";
+    ViewData["Title"] = "Sectores";
 }
 <center>
     <div>
@@ -10,7 +10,7 @@
             @Html.AntiForgeryToken()
 
             <div align="left">
-                <h3>Ciudades</h3>
+                <h3>Sectores</h3>
             </div>
 
             <div>
@@ -22,18 +22,18 @@
                        value="Nuevo"
                        class="btn btn-secondary"
                        asp-page-handler="BtNuevo"
-                       disabled="@(Model.Ciudad != null)" />
+                       disabled="@(Model.Sector != null)" />
                 <input type="submit"
                        value="Guardar"
                        class="btn btn-secondary"
                        asp-page-handler="BtGuardar"
-                       disabled="@(Model.Ciudad == null)" />
+                       disabled="@(Model.Sector == null)" />
             </div>
 
-            @if (Model.Ciudad != null)
+            @if (Model.Sector != null)
             {
                 <input type="hidden"
-                       asp-for="@Model.Ciudad!.Id" />
+                       asp-for="@Model.Sector!.Id" />
 
                 <div>
                     <div class="form-group">
@@ -43,7 +43,7 @@
                         <div class="col-6">
                             <input id="inNombre"
                                    class="cts_forms form-control"
-                                   asp-for="@Model.Ciudad!.Nombre" />
+                                   asp-for="@Model.Sector!.Nombre" />
                         </div>
                     </div>
                     <div class="form-group">
@@ -52,7 +52,7 @@
                         </label>
                         <div class="col-6">
                             <input id="inEstado"
-                                   asp-for="@Model.Ciudad!.Estado" />
+                                   asp-for="@Model.Sector!.Estado" />
                         </div>
                     </div>
                     <div class="form-group">
@@ -62,40 +62,41 @@
                         <div class="col-6">
                             <input id="inFechaCreacion"
                                    class="cts_forms form-control"
-                                   asp-for="@Model.Ciudad!.FechaCreacion" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>
-                            Poblacion
-                        </label>
-                        <div class="col-6">
-                            <input id="inPoblacion"
-                                   class="cts_forms form-control"
-                                   asp-for="@Model.Ciudad!.Poblacion" />
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>
-                            CodigoPostal
-                        </label>
-                        <div class="col-6">
-                            <input id="inCodigoPostal"
-                                   class="cts_forms form-control"
-                                   asp-for="@Model.Ciudad!.CodigoPostal" />
+                                   asp-for="@Model.Sector!.FechaCreacion" />
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="col-lg-4 control-label">
-                            Departamento
+                            Ciudad
                         </label>
                         <div class="col-lg-6">
-                            <select id="inDepartamento"
+                            <select id="inCiudad"
                                     class="form-control"
-                                    asp-for="@Model.Ciudad!.Departamento"
-                                    asp-items="@(new SelectList(Model.Departamentos, "Id", "Nombre"))">
+                                    asp-for="@Model.Sector!.Ciudad"
+                                    asp-items="@(new SelectList(Model.Ciudades, "Id", "Nombre"))">
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>JefeSector</label>
+
+                        <div class="col-lg-6">
+                            <select id="inJefeSector"
+                                    class="form-control"
+                                    asp-for="@Model.JefeSectorSeleccionado">
+
+                                <option value="0">
+                                    Seleccione un jefe de sector
+                                </option>
+
+                                @foreach (var jefe in Model.JefesSectores)
+                                {
+                                    <option value="@jefe.Id">
+                                        @jefe.Nombre @jefe.Apellido
+                                    </option>
+                                }
                             </select>
                         </div>
                     </div>
@@ -109,7 +110,7 @@
                 ;
             }
 
-            @if (Model.Ciudad != null && Model.Borrando)
+            @if (Model.Sector != null && Model.Borrando)
             {
                 <div class='popup'>
                     <div class='pp_ms_inner'>
@@ -119,10 +120,10 @@
                             </h2>
 
                             <h6 align="left">
-                                Desea borrar el Ciudad?
+                                Desea borrar el Sector?
                             </h6>
                             <h6 align="left">
-                                @Model.Ciudad!.Nombre
+                                @Model.Sector!.Nombre
                             </h6>
 
                             <input type="submit"
@@ -154,13 +155,10 @@
                             FechaCreacion
                         </th>
                         <th>
-                            Poblacion
+                            Ciudad
                         </th>
                         <th class="cl_hidden">
-                            CodigoPostal
-                        </th>
-                        <th class="cl_hidden">
-                            Departamento
+                            JefeSector
                         </th>
                         <th class="cl_actions">
                             Acción
@@ -179,13 +177,17 @@
                                 @elemento.FechaCreacion.ToString("dd/MM/yyyy")
                             </td>
                             <td>
-                                @elemento.Poblacion
+                                @elemento._Ciudad?.Nombre
                             </td>
                             <td>
-                                @elemento.CodigoPostal
-                            </td>
-                            <td>
-                                @elemento._Departamento!.Nombre
+                                @if (elemento._JefeSector != null)
+                                {
+                                    @($"{elemento._JefeSector.Nombre} {elemento._JefeSector.Apellido}")
+                                }
+                                else
+                                {
+                                    <span>Sin jefe asignado</span>
+                                }
                             </td>
                             <td>
                                 <input type="submit"

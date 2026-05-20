@@ -19,10 +19,10 @@ namespace LibInmobiliaria.Implementaciones.Catalogos
             this.iConexion = new Conexion();
 
             // Se asigna la cadena de conexión.
-            this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
+            this.iConexion.StringConexion = Configuraciones.obtener("StringConexion");
 
             // Se consultan todos los registros de Sectores y se devuelven en forma de lista.
-            return this.iConexion.Sectores!.ToList();
+            return this.iConexion.Sectores!.Include(x => x._Ciudad).Include(x => x._JefeSector).ToList();
         }
 
         // Método para guardar un avión nuevo.
@@ -36,7 +36,7 @@ namespace LibInmobiliaria.Implementaciones.Catalogos
             this.iConexion = new Conexion();
 
             // Se asigna la cadena de conexión.
-            this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
+            this.iConexion.StringConexion = Configuraciones.obtener("StringConexion");
 
             // Se agrega la entidad al conjunto de Sectores.
             this.iConexion.Sectores!.Add(entidad);
@@ -59,7 +59,7 @@ namespace LibInmobiliaria.Implementaciones.Catalogos
             this.iConexion = new Conexion();
 
             // Se asigna la cadena de conexión.
-            this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
+            this.iConexion.StringConexion = Configuraciones.obtener("StringConexion");
 
             // Se obtiene la entrada de Entity Framework para la entidad recibida.
             var entry = this.iConexion.Entry<Sectores>(entidad);
@@ -85,7 +85,7 @@ namespace LibInmobiliaria.Implementaciones.Catalogos
             this.iConexion = new Conexion();
 
             // Se asigna la cadena de conexión.
-            this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
+            this.iConexion.StringConexion = Configuraciones.obtener("StringConexion");
 
             // Se marca la entidad para eliminarla.
             this.iConexion.Sectores!.Remove(entidad);
