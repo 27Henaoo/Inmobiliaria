@@ -1,4 +1,4 @@
-using LibInmobiliaria.Entidades;
+using LibModelos._5._1ModelosComunes;
 using LibInmobiliaria.Implementaciones;
 using LibInmobiliaria.Interfaces;
 using Microsoft.EntityFrameworkCore;

@@ -1,15 +1,16 @@
 ﻿
-namespace LibInmobiliaria.Entidades
+
+namespace LibModelos._5._1ModelosComunes
 {
     // =========================
-    // 1:N EstadosCiviles -> Personas
+    // 1:N Nacionalidades -> Personas
     // =========================
-    public class EstadosCiviles
+    public class Nacionalidades
     {
         public int Id { get; set; }
         public string? Nombre { get; set; }
 
-        // Un estado civil puede pertenecer a muchas personas
+        // Una nacionalidad puede pertenecer a muchas personas
         public List<Personas>? _Personas { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace LibInmobiliaria.Entidades
+﻿namespace LibModelos._5._1ModelosComunes
 {
     // =========================
     // Herencia: Personas -> Clientes

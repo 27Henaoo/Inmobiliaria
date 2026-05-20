@@ -1,4 +1,4 @@
-﻿using LibInmobiliaria.Entidades;
+﻿using LibModelos._5._1ModelosComunes;
 using LibInmobiliaria.Implementaciones.RRHH;
 using LibInmobiliaria.Interfaces.RRHH;
 using Microsoft.AspNetCore.Http;

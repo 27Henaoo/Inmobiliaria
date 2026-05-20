@@ -1,4 +1,4 @@
-using LibInmobiliaria.Entidades;
+using LibModelos._5._1ModelosComunes;
 using LibPresentacion._1._1.ImplementacionesPresentacion._1._1._1.Catalogos;
 using LibPresentacion._1._2.InterfacesPresentacion._1._2._1.Catalogos;
 using Microsoft.AspNetCore.Mvc;

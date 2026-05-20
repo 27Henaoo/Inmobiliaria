@@ -1,5 +1,5 @@
-﻿using LibInmobiliaria.Entidades;
-using LibInmobiliaria.Interfaces;
+﻿using LibInmobiliaria.Interfaces;
+using LibModelos._5._1ModelosComunes;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibInmobiliaria.Implementaciones
@@ -262,7 +262,7 @@ namespace LibInmobiliaria.Implementaciones
 }
 
 //ANTES DE CORREGIR Con nuevo SQL para mejores relaciones
-/*using LibInmobiliaria.Entidades;
+/*using LibModelos._5._1ModelosComunes;
 using LibInmobiliaria.Interfaces;
 using Microsoft.EntityFrameworkCore;
 

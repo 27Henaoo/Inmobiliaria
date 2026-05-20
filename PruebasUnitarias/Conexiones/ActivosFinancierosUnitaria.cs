@@ -1,6 +1,6 @@
-using LibInmobiliaria.Entidades;
 using LibInmobiliaria.Implementaciones;
 using LibInmobiliaria.Interfaces;
+using LibModelos._5._1ModelosComunes;
 using Microsoft.EntityFrameworkCore;
 
 namespace PruebasUnitarias.Repositorios

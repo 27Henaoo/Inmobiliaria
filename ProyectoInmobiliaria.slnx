@@ -14,4 +14,7 @@
   <Folder Name="/4. APIs/">
     <Project Path="Inmobiliaria.Api/Inmobiliaria.Api.csproj" Id="ad0dbb03-6de9-4526-bbe8-7bc23f0fea98" />
   </Folder>
+  <Folder Name="/5.Compartidos/">
+    <Project Path="LibModelos/LibModelos.csproj" Id="0c0dc363-2218-4f44-a316-f553ea421125" />
+  </Folder>
 </Solution>

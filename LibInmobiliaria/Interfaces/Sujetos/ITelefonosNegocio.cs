@@ -1,5 +1,5 @@
 ﻿
-using LibInmobiliaria.Entidades;
+using LibModelos._5._1ModelosComunes;
 
 namespace LibInmobiliaria.Interfaces.Sujetos
 {

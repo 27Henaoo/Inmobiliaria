@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace LibInmobiliaria.Entidades
+namespace LibModelos._5._1ModelosComunes
 {
     // =========================
     // Clase base de la jerarquía de bienes

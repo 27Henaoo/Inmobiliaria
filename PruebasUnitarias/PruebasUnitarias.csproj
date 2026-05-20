@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LibInmobiliaria\LibInmobiliaria.csproj" />
+    <ProjectReference Include="..\LibModelos\LibModelos.csproj" />
   </ItemGroup>
 
   <ItemGroup>

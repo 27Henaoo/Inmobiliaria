@@ -10,4 +10,12 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.5" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Entidades\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LibModelos\LibModelos.csproj" />
+  </ItemGroup>
+
 </Project>

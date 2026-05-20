@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace LibInmobiliaria.Entidades
+namespace LibModelos._5._1ModelosComunes
 {
     // =========================
     // Tabla puente N:N
-    // Contratos <-> Codeudores
+    // Contratos <-> EmpleadosSectores
     // =========================
-    public class ContratosCodeudores
+    public class ContratosEmpleados
     {
         public int Id { get; set; }
         public DateTime FechaCierre { get; set; }
@@ -14,12 +14,12 @@ namespace LibInmobiliaria.Entidades
         public string VendidaArrendada { get; set; } = null!;
 
         // FKs
-        public int Codeudor { get; set; }
+        public int Empleado { get; set; }
         public int Contrato { get; set; }
 
         // Navegaciones
-        [ForeignKey("Codeudor")]public Codeudores? _Codeudor { get; set; }
+        [ForeignKey("Empleado")] public EmpleadosSectores? _Empleado { get; set; }
 
-        [ForeignKey("Contrato")]public Contratos? _Contrato { get; set; }
+        [ForeignKey("Contrato")] public Contratos? _Contrato { get; set; }
     }
 }

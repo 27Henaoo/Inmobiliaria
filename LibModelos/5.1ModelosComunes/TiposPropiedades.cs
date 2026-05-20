@@ -1,5 +1,5 @@
 ﻿
-namespace LibInmobiliaria.Entidades
+namespace LibModelos._5._1ModelosComunes
 {
     // =========================
     // 1:N TiposPropiedades -> Propiedades

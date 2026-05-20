@@ -3,8 +3,7 @@
 //using LibInmobiliaria.Interfaces;
 
 //Console.WriteLine("Bienvenido a Inmobiliaria La Recocha ITM");
-
-//Console.WriteLine("CONSOLE MAIN");
+Console.WriteLine("CONSOLE MAIN");
 
 //Console.WriteLine("Cargando Conexion a Base de Datos");
 //IConexion conexion = new Conexion();

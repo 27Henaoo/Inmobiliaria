@@ -1,8 +1,7 @@
 ﻿
-using LibInmobiliaria.Entidades;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace LibInmobiliaria.Entidades
+namespace LibModelos._5._1ModelosComunes
 {
     // =========================
     // 1:N Ciudades -> Sectores
