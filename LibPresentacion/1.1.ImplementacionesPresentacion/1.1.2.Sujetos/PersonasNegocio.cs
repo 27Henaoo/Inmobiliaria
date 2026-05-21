@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace LibPresentacion._1._1.ImplementacionesPresentacion._1._1._2.Sujetos
 {
-    public class PeronasNegocio : IPeronasNegocio
+    public class PersonasNegocio : IPersonasNegocio
     {
         private IComunicaciones? iComunicaciones;
 

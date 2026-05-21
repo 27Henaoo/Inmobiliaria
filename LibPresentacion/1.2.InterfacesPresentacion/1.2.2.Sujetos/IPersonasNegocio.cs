@@ -3,7 +3,7 @@ using LibModelos._5._1ModelosComunes;
 
 namespace LibPresentacion._1._2.InterfacesPresentacion._1._2._2.Sujetos
 {
-    public interface IPeronasNegocio
+    public interface IPersonasNegocio
     {
         // Este método consulta y devuelve todos los Personas.
         List<Personas> Consultar();

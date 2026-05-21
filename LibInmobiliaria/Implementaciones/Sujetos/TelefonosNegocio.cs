@@ -19,10 +19,10 @@ namespace LibInmobiliaria.Implementaciones.Sujetos
             this.iConexion = new Conexion();
 
             // Se asigna la cadena de conexión.
-            this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
+            this.iConexion.StringConexion = Configuraciones.obtener("StringConexion");
 
             // Se consultan todos los registros de Telefonos y se devuelven en forma de lista.
-            return this.iConexion.Telefonos!.ToList();
+            return this.iConexion.Telefonos!.Include(x => x._Persona).ToList();
         }
 
         // Método para guardar un avión nuevo.
@@ -36,7 +36,7 @@ namespace LibInmobiliaria.Implementaciones.Sujetos
             this.iConexion = new Conexion();
 
             // Se asigna la cadena de conexión.
-            this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
+            this.iConexion.StringConexion = Configuraciones.obtener("StringConexion");
 
             // Se agrega la entidad al conjunto de Telefonos.
             this.iConexion.Telefonos!.Add(entidad);
@@ -59,7 +59,7 @@ namespace LibInmobiliaria.Implementaciones.Sujetos
             this.iConexion = new Conexion();
 
             // Se asigna la cadena de conexión.
-            this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
+            this.iConexion.StringConexion = Configuraciones.obtener("StringConexion");
 
             // Se obtiene la entrada de Entity Framework para la entidad recibida.
             var entry = this.iConexion.Entry<Telefonos>(entidad);
@@ -85,7 +85,7 @@ namespace LibInmobiliaria.Implementaciones.Sujetos
             this.iConexion = new Conexion();
 
             // Se asigna la cadena de conexión.
-            this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
+            this.iConexion.StringConexion = Configuraciones.obtener("StringConexion");
 
             // Se marca la entidad para eliminarla.
             this.iConexion.Telefonos!.Remove(entidad);

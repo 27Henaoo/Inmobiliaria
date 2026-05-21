@@ -1,7 +1,7 @@
 ﻿@page
-@model NacionalidadesModel
+@model TelefonosModel
 @{
-    ViewData["Title"] = "Nacionalidades";
+    ViewData["Title"] = "Telefonos";
 }
 <center>
     <div>
@@ -10,7 +10,7 @@
             @Html.AntiForgeryToken()
 
             <div align="left">
-                <h3>Nacionalidades</h3>
+                <h3>Telefonos</h3>
             </div>
 
             <div>
@@ -22,40 +22,73 @@
                        value="Nuevo"
                        class="btn btn-secondary"
                        asp-page-handler="BtNuevo"
-                       disabled="@(Model.Nacionalidad != null)" />
+                       disabled="@(Model.Telefono != null)" />
                 <input type="submit"
                        value="Guardar"
                        class="btn btn-secondary"
                        asp-page-handler="BtGuardar"
-                       disabled="@(Model.Nacionalidad == null)" />
+                       disabled="@(Model.Telefono == null)" />
             </div>
 
-            @if (Model.Nacionalidad != null)
+            @if (Model.Telefono != null)
             {
                 <input type="hidden"
-                       asp-for="@Model.Nacionalidad!.Id" />
+                       asp-for="@Model.Telefono!.Id" />
 
                 <div>
                     <div class="form-group">
                         <label>
-                            Nombre
+                            Numero
                         </label>
                         <div class="col-6">
-                            <input id="inNombre"
+                            <input id="inNumero"
                                    class="cts_forms form-control"
-                                   asp-for="@Model.Nacionalidad!.Nombre" />
+                                   asp-for="@Model.Telefono!.Numero" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            Prefijo
+                        </label>
+                        <div class="col-6">
+                            <input id="inPrefijo"
+                                   class="cts_forms form-control"
+                                   asp-for="@Model.Telefono!.Prefijo" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-4 control-label">
+                            Persona
+                        </label>
+
+                        <div class="col-lg-6">
+                            <select id="inPersona"
+                                    class="form-control"
+                                    asp-for="@Model.Telefono!.Persona">
+
+                                <option value="0">
+                                    Seleccione una persona
+                                </option>
+
+                                @foreach (var persona in Model.Personas)
+                                {
+                                    <option value="@persona.Id">
+                                        @persona.Nombre @persona.Apellido
+                                    </option>
+                                }
+                            </select>
                         </div>
                     </div>
                 </div>
             }
-            
+
             @if (ViewData.ContainsKey("Mensaje"))
             {
                 @await Html.PartialAsync("../Emergentes/Mensajes.cshtml")
                 ;
             }
 
-            @if (Model.Nacionalidad != null && Model.Borrando)
+            @if (Model.Telefono != null && Model.Borrando)
             {
                 <div class='popup'>
                     <div class='pp_ms_inner'>
@@ -65,12 +98,12 @@
                             </h2>
 
                             <h6 align="left">
-                                Desea borrar el Nacionalidad?
+                                Desea borrar el Telefono?
                             </h6>
                             <h6 align="left">
-                                @Model.Nacionalidad!.Nombre
+                                @Model.Telefono!.Numero
                             </h6>
-                            
+
                             <input type="submit"
                                    value="Cerrar"
                                    asp-page-handler="BtCerrar"
@@ -91,7 +124,13 @@
                 <table class="tb_data table table-striped table-bordered table-hover">
                     <tr>
                         <th>
-                            Nombre
+                            Numero
+                        </th>
+                        <th>
+                            Prefijo
+                        </th>
+                        <th>
+                            Persona
                         </th>
                         <th class="cl_actions">
                             Acción
@@ -101,7 +140,20 @@
                     {
                         <tr>
                             <td>
-                                @elemento.Nombre
+                                @elemento.Numero
+                            </td>
+                            <td>
+                                @elemento.Prefijo
+                            </td>
+                            <td>
+                                @if (elemento._Persona != null)
+                                {
+                                    @($"{elemento._Persona.Nombre} {elemento._Persona.Apellido}")
+                                }
+                                else
+                                {
+                                    <span>Sin Persona Asignada</span>
+                                }
                             </td>
                             <td>
                                 <input type="submit"
