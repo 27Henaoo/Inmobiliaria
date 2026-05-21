@@ -14,7 +14,7 @@ namespace LibModelos._5._1ModelosComunes
         public string? Cedula { get; set; }
         public string? Nombre { get; set; }
         public string? Apellido { get; set; }
-        public char Genero { get; set; }
+        public char Genero { get; set; } //Agregar unicamente una letra, F o M BdD Con NCHAR(1)
         public string? Correo { get; set; }
         public DateTime FechaNacimiento { get; set; }
         public DateTime FechaRegistro { get; set; }
