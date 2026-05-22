@@ -18,10 +18,13 @@ namespace LibInmobiliaria.Implementaciones.RRHH
             this.iConexion = new Conexion();
 
             // Se asigna la cadena de conexión.
-            this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
+            this.iConexion.StringConexion = Configuraciones.obtener("StringConexion");
 
             // Se consultan todos los registros de ExpedientesLaborales y se devuelven en forma de lista.
-            return this.iConexion.ExpedientesLaborales!.ToList();
+            return this.iConexion.ExpedientesLaborales!.Include(x => x._Persona!).ThenInclude(x => x._EstadoCivil)
+                       .Include(x => x._Persona!).ThenInclude(x => x._Nacionalidad).Include(x => x._Persona!)
+                       .ThenInclude(x => x.Telefonos).Include(x => x._Persona!).ThenInclude(x => x.Direcciones)
+                       .ToList();
         }
 
         // Método para guardar un avión nuevo.
@@ -35,7 +38,7 @@ namespace LibInmobiliaria.Implementaciones.RRHH
             this.iConexion = new Conexion();
 
             // Se asigna la cadena de conexión.
-            this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
+            this.iConexion.StringConexion = Configuraciones.obtener("StringConexion");
 
             // Se agrega la entidad al conjunto de ExpedientesLaborales.
             this.iConexion.ExpedientesLaborales!.Add(entidad);
@@ -58,7 +61,7 @@ namespace LibInmobiliaria.Implementaciones.RRHH
             this.iConexion = new Conexion();
 
             // Se asigna la cadena de conexión.
-            this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
+            this.iConexion.StringConexion = Configuraciones.obtener("StringConexion");
 
             // Se obtiene la entrada de Entity Framework para la entidad recibida.
             var entry = this.iConexion.Entry<ExpedientesLaborales>(entidad);
@@ -84,7 +87,7 @@ namespace LibInmobiliaria.Implementaciones.RRHH
             this.iConexion = new Conexion();
 
             // Se asigna la cadena de conexión.
-            this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
+            this.iConexion.StringConexion = Configuraciones.obtener("StringConexion");
 
             // Se marca la entidad para eliminarla.
             this.iConexion.ExpedientesLaborales!.Remove(entidad);
