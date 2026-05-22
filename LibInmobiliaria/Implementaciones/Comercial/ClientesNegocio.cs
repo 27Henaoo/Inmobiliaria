@@ -20,7 +20,9 @@ namespace LibInmobiliaria.Implementaciones.Comercial
             this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
 
             // Se consultan todos los registros de Clientes y se devuelven en forma de lista.
-            return this.iConexion.Clientes!.ToList();
+            return this.iConexion.Clientes!.Include(x => x._EstadoCivil).Include(x => x._Nacionalidad).Include(x => x.Telefonos)
+                                 .Include(x => x.Direcciones).Include(x => x.ExpedientesLaborales).Include(x => x._ExpedienteFinanciero!)
+                                 .ThenInclude(x => x.Bienes).Include(x => x._ExpedienteFinanciero!).ThenInclude(x => x.ActivosFinancieros).ToList();
         }
 
         // Método para guardar Clientes nuevos.
