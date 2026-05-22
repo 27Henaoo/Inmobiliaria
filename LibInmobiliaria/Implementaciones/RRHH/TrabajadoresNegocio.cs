@@ -18,10 +18,11 @@ namespace LibInmobiliaria.Implementaciones.RRHH
             this.iConexion = new Conexion();
 
             // Se asigna la cadena de conexión.
-            this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
+            this.iConexion.StringConexion = Configuraciones.obtener("StringConexion");
 
             // Se consultan todos los registros de Trabajadores y se devuelven en forma de lista.
-            return this.iConexion.Trabajadores!.ToList();
+            return this.iConexion.Trabajadores!.Include(x => x._EstadoCivil).Include(x => x._Nacionalidad).Include(x => x.Telefonos).Include(x => x.Direcciones)
+                       .Include(x => x.ExpedientesLaborales).ToList();
         }
 
         // Método para guardar un avión nuevo.
@@ -35,7 +36,7 @@ namespace LibInmobiliaria.Implementaciones.RRHH
             this.iConexion = new Conexion();
 
             // Se asigna la cadena de conexión.
-            this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
+            this.iConexion.StringConexion = Configuraciones.obtener("StringConexion");
 
             // Se agrega la entidad al conjunto de Trabajadores.
             this.iConexion.Trabajadores!.Add(entidad);
@@ -58,7 +59,7 @@ namespace LibInmobiliaria.Implementaciones.RRHH
             this.iConexion = new Conexion();
 
             // Se asigna la cadena de conexión.
-            this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
+            this.iConexion.StringConexion = Configuraciones.obtener("StringConexion");
 
             // Se obtiene la entrada de Entity Framework para la entidad recibida.
             var entry = this.iConexion.Entry<Trabajadores>(entidad);
@@ -84,7 +85,7 @@ namespace LibInmobiliaria.Implementaciones.RRHH
             this.iConexion = new Conexion();
 
             // Se asigna la cadena de conexión.
-            this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
+            this.iConexion.StringConexion = Configuraciones.obtener("StringConexion");
 
             // Se marca la entidad para eliminarla.
             this.iConexion.Trabajadores!.Remove(entidad);
