@@ -1,0 +1,602 @@
+﻿@page
+@model EmpleadosSectoresModel
+@{
+    ViewData["Title"] = "EmpleadosSectores";
+}
+
+<center>
+    <div>
+        <form method="POST"
+              enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+
+            <div align="left">
+                <h3>EmpleadosSectores</h3>
+            </div>
+
+            <div>
+                <input type="submit"
+                       value="Refrescar"
+                       class="btn btn-secondary"
+                       asp-page-handler="BtRefrescar" />
+
+                <input type="submit"
+                       value="Nuevo"
+                       class="btn btn-secondary"
+                       asp-page-handler="BtNuevo"
+                       disabled="@(Model.EmpleadoSector != null)" />
+
+                <input type="submit"
+                       value="Guardar"
+                       class="btn btn-secondary"
+                       asp-page-handler="BtGuardar"
+                       disabled="@(Model.EmpleadoSector == null)" />
+            </div>
+
+            @if (Model.EmpleadoSector != null)
+            {
+                <input type="hidden"
+                       asp-for="@Model.EmpleadoSector!.Id" />
+
+                <div>
+                    <div class="form-group">
+                        <label>Cedula</label>
+                        <div class="col-6">
+                            <input id="inCedula"
+                                   class="cts_forms form-control"
+                                   asp-for="@Model.EmpleadoSector!.Cedula" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Nombre</label>
+                        <div class="col-6">
+                            <input id="inNombre"
+                                   class="cts_forms form-control"
+                                   asp-for="@Model.EmpleadoSector!.Nombre" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Apellido</label>
+                        <div class="col-6">
+                            <input id="inApellido"
+                                   class="cts_forms form-control"
+                                   asp-for="@Model.EmpleadoSector!.Apellido" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Genero</label>
+                        <div class="col-6">
+                            <input id="inGenero"
+                                   class="cts_forms form-control"
+                                   asp-for="@Model.EmpleadoSector!.Genero" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Correo</label>
+                        <div class="col-6">
+                            <input id="inCorreo"
+                                   class="cts_forms form-control"
+                                   asp-for="@Model.EmpleadoSector!.Correo" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>FechaNacimiento</label>
+                        <div class="col-6">
+                            <input id="inFechaNacimiento"
+                                   class="cts_forms form-control"
+                                   asp-for="@Model.EmpleadoSector!.FechaNacimiento" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>FechaRegistro</label>
+                        <div class="col-6">
+                            <input id="inFechaRegistro"
+                                   class="cts_forms form-control"
+                                   asp-for="@Model.EmpleadoSector!.FechaRegistro" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-lg-4 control-label">
+                            EstadoCivil
+                        </label>
+                        <div class="col-lg-6">
+                            <select id="inEstadoCivil"
+                                    class="form-control"
+                                    asp-for="@Model.EmpleadoSector!.EstadoCivil"
+                                    asp-items="@(new SelectList(Model.EstadosCiviles, "Id", "Nombre"))">
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-lg-4 control-label">
+                            Nacionalidades
+                        </label>
+                        <div class="col-lg-6">
+                            <select id="inNacionalidades"
+                                    class="form-control"
+                                    asp-for="@Model.EmpleadoSector!.Nacionalidad"
+                                    asp-items="@(new SelectList(Model.Nacionalidades, "Id", "Nombre"))">
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Sueldo</label>
+                        <div class="col-6">
+                            <input id="inSueldo"
+                                   class="cts_forms form-control"
+                                   asp-for="@Model.EmpleadoSector!.Sueldo" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Estado</label>
+                        <div class="col-6">
+                            <input id="inEstado"
+                                   asp-for="@Model.EmpleadoSector!.Estado" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Jornada</label>
+                        <div class="col-6">
+                            <input id="inJornada"
+                                   class="cts_forms form-control"
+                                   asp-for="@Model.EmpleadoSector!.Jornada" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-lg-4 control-label">
+                            Sector
+                        </label>
+
+                        <div class="col-lg-6">
+                            <select id="inSector"
+                                    class="form-control"
+                                    asp-for="@Model.EmpleadoSector!.Sector">
+
+                                <option value="0">
+                                    Seleccione un sector
+                                </option>
+
+                                @foreach (var sector in Model.Sectores)
+                                {
+                                    <option value="@sector.Id">
+                                        @sector.Nombre
+                                    </option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-lg-4 control-label">
+                            JefeSector
+                        </label>
+
+                        <div class="col-lg-6">
+                            <select id="inJefeSector"
+                                    class="form-control"
+                                    asp-for="@Model.EmpleadoSector!.JefeSector">
+
+                                <option value="0">
+                                    Seleccione un jefe de sector
+                                </option>
+
+                                @foreach (var jefe in Model.JefesSectores)
+                                {
+                                    <option value="@jefe.Id">
+                                        @jefe.Nombre @jefe.Apellido
+                                    </option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-lg-4 control-label">
+                            TipoContrato
+                        </label>
+
+                        <div class="col-lg-6">
+                            <select id="inTipoContrato"
+                                    class="form-control"
+                                    asp-for="@Model.EmpleadoSector!.TipoContrato"
+                                    asp-items="@(new SelectList(Model.TiposContratos, "Id", "Nombre"))">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (ViewData.ContainsKey("Mensaje"))
+            {
+                @await Html.PartialAsync("../Emergentes/Mensajes.cshtml")
+                ;
+            }
+
+            @if (Model.EmpleadoSector != null && Model.Borrando)
+            {
+                <div class='popup'>
+                    <div class='pp_ms_inner'>
+                        <div style='width:95%'>
+                            <h2 align="left">
+                                Mensaje
+                            </h2>
+
+                            <h6 align="left">
+                                Desea borrar el EmpleadoSector? Con Documento:
+                            </h6>
+
+                            <h6 align="left">
+                                @Model.EmpleadoSector!.Cedula
+                            </h6>
+
+                            <input type="submit"
+                                   value="Cerrar"
+                                   asp-page-handler="BtCerrar"
+                                   class="btn btn-secondary" />
+
+                            <input type="submit"
+                                   value="Borrar"
+                                   asp-page-handler="BtBorrar"
+                                   class="btn btn-secondary" />
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (Model != null &&
+                 Model.Lista != null &&
+                 Model.Lista.Count > 0)
+            {
+                <table class="tb_data table table-striped table-bordered table-hover">
+                    <tr>
+                        <th>
+                            Cedula
+                        </th>
+
+                        <th>
+                            Nombre
+                        </th>
+                        <th>
+                            Apellido
+                        </th>
+                        <th>
+                            Genero
+                        </th>
+
+                        <th class="cl_hidden">
+                            Correo
+                        </th>
+
+                        <th class="cl_hidden">
+                            FechaNacimiento
+                        </th>
+
+                        <th class="cl_hidden">
+                            FechaRegistro
+                        </th>
+
+                        <th class="cl_hidden">
+                            EstadoCivil
+                        </th>
+
+                        <th class="cl_hidden">
+                            Nacionalidad
+                        </th>
+
+                        <th class="cl_hidden">
+                            Telefonos
+                        </th>
+
+                        <th class="cl_hidden">
+                            Direcciones
+                        </th>
+
+                        <th class="cl_hidden">
+                            ExpedientesLaborales
+                        </th>
+
+                        <th class="cl_hidden">
+                            Sueldo
+                        </th>
+
+                        <th class="cl_hidden">
+                            EstadoDelEmpleado
+                        </th>
+
+                        <th class="cl_hidden">
+                            Jornada
+                        </th>
+
+                        <th class="cl_hidden">
+                            Sector
+                        </th>
+
+                        <th class="cl_hidden">
+                            JefeSector
+                        </th>
+
+                        <th class="cl_hidden">
+                            TipoContrato
+                        </th>
+
+                        <th class="cl_hidden">
+                            Compradores
+                        </th>
+
+                        <th class="cl_hidden">
+                            ContratosEmpleados
+                        </th>
+
+                        <th class="cl_actions">
+                            Acción
+                        </th>
+
+                    </tr>
+
+                    @foreach (var elemento in Model.Lista)
+                    {
+                        <tr>
+                            <td>
+                                @elemento.Cedula
+                            </td>
+
+                            <td>
+                                @elemento.Nombre
+                            </td>
+
+                            <td>
+                                @elemento.Apellido
+                            </td>
+
+                            <td>@elemento.Genero</td>
+
+                            <td>
+                                @elemento.Correo
+                            </td>
+
+                            <td>
+                                @elemento.FechaNacimiento.ToString("dd/MM/yyyy")
+                            </td>
+
+                            <td>
+                                @elemento.FechaRegistro.ToString("dd/MM/yyyy")
+                            </td>
+
+                            <td>
+                                @if (elemento._EstadoCivil != null)
+                                {
+                                    @elemento._EstadoCivil.Nombre
+                                }
+                                else
+                                {
+                                    <span>Sin estado civil</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Nacionalidad != null)
+                                {
+                                    @elemento._Nacionalidad.Nombre
+                                }
+                                else
+                                {
+                                    <span>Sin nacionalidad</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento.Telefonos != null && elemento.Telefonos.Count > 0)
+                                {
+                                    foreach (var telefono in elemento.Telefonos)
+                                    {
+                                        <div>
+                                            @telefono.Prefijo
+                                            @telefono.Numero
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <span>Sin telefonos</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento.Direcciones != null && elemento.Direcciones.Count > 0)
+                                {
+                                    foreach (var direccion in elemento.Direcciones)
+                                    {
+                                        <div>
+                                            @direccion.TipoVia
+                                            @direccion.Numero
+                                            @direccion.Complemento
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <span>Sin direcciones</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento.ExpedientesLaborales != null && elemento.ExpedientesLaborales.Count > 0)
+                                {
+                                    foreach (var expediente in elemento.ExpedientesLaborales)
+                                    {
+                                        <div>
+                                            <strong>Empresa:</strong> @expediente.NombreEmpresa
+                                        </div>
+
+                                        <div>
+                                            <strong>Cargo:</strong> @expediente.Cargo
+                                        </div>
+
+                                        <div>
+                                            <strong>Salario:</strong> @expediente.SalarioPagado.ToString("N0")
+                                        </div>
+
+                                        <div>
+                                            <strong>Ingreso:</strong> @expediente.FechaIngreso.ToString("dd/MM/yyyy")
+                                        </div>
+
+                                        <div>
+                                            <strong>Egreso:</strong> @expediente.FechaEgreso.ToString("dd/MM/yyyy")
+                                        </div>
+
+                                        <div>
+                                            <strong>Desempeño:</strong> @expediente.Desempeno
+                                        </div>
+
+                                        <div>
+                                            <strong>Motivo salida:</strong> @expediente.MotivoSalida
+                                        </div>
+
+                                        <hr />
+                                    }
+                                }
+                                else
+                                {
+                                    <span>Sin expedientes laborales</span>
+                                }
+                            </td>
+
+                            <td>
+                                @elemento.Sueldo
+                            </td>
+
+                            <td>
+                                @elemento.Estado
+                            </td>
+
+                            <td>
+                                @elemento.Jornada
+                            </td>
+
+                            <td>
+                                @if (elemento._Sector != null)
+                                {
+                                    @elemento._Sector.Nombre
+                                }
+                                else
+                                {
+                                    <span>Sin sector</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._JefeSector != null)
+                                {
+                                    @($"{elemento._JefeSector.Nombre} {elemento._JefeSector.Apellido}")
+                                }
+                                else
+                                {
+                                    <span>Sin jefe</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._TipoContrato != null)
+                                {
+                                    @elemento._TipoContrato.Nombre
+                                }
+                                else
+                                {
+                                    <span>Sin tipo contrato</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento.EmpleadosCompradores != null && elemento.EmpleadosCompradores.Count > 0)
+                                {
+                                    foreach (var empleadoComprador in elemento.EmpleadosCompradores)
+                                    {
+                                        <div>
+                                            Fecha: @empleadoComprador.FechaAsesoramiento.ToString("dd/MM/yyyy")
+                                        </div>
+
+                                        @if (empleadoComprador._Comprador != null)
+                                        {
+                                            <div>
+                                                Comprador: @empleadoComprador._Comprador.Nombre @empleadoComprador._Comprador.Apellido
+                                            </div>
+                                        }
+
+                                        <hr />
+                                    }
+                                }
+                                else
+                                {
+                                    <span>Sin compradores</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento.ContratosEmpleados != null && elemento.ContratosEmpleados.Count > 0)
+                                {
+                                    foreach (var contratoEmpleado in elemento.ContratosEmpleados)
+                                    {
+                                        <div>
+                                            Fecha cierre: @contratoEmpleado.FechaCierre.ToString("dd/MM/yyyy")
+                                        </div>
+
+                                        <div>
+                                            Precio: @contratoEmpleado.PrecioAcordado.ToString("N0")
+                                        </div>
+
+                                        <div>
+                                            Tipo: @contratoEmpleado.VendidaArrendada
+                                        </div>
+
+                                        @if (contratoEmpleado._Contrato != null)
+                                        {
+                                            <div>
+                                                Contrato: @contratoEmpleado._Contrato.Id
+                                            </div>
+
+                                            <div>
+                                                Fecha contrato: @contratoEmpleado._Contrato.FechaContrato.ToString("dd/MM/yyyy")
+                                            </div>
+                                        }
+
+                                        <hr />
+                                    }
+                                }
+                                else
+                                {
+                                    <span>Sin contratos</span>
+                                }
+                            </td>
+
+                            <td>
+                                <input type="submit"
+                                       value="Modificar"
+                                       asp-page-handler="BtModificar"
+                                       class="btn btn-secondary"
+                                       asp-route-data="@elemento.Id" />
+
+                                <input type="submit"
+                                       value="Borrar"
+                                       asp-page-handler="BtBorrarVal"
+                                       class="btn btn-secondary"
+                                       asp-route-data="@elemento.Id" />
+                            </td>
+                        </tr>
+                    }
+                </table>
+            }
+        </form>
+    </div>
+</center>

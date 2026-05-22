@@ -21,7 +21,9 @@ namespace LibInmobiliaria.Implementaciones.RRHH
             this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
 
             // Se consultan todos los registros de EmpleadosSectores y se devuelven en forma de lista.
-            return this.iConexion.EmpleadosSectores!.ToList();
+            return this.iConexion.EmpleadosSectores!.Include(x => x._EstadoCivil).Include(x => x._Nacionalidad).Include(x => x.Telefonos).Include(x => x.Direcciones)
+                       .Include(x => x.ExpedientesLaborales).Include(x => x._Sector).Include(x => x._TipoContrato).Include(x => x._JefeSector).Include(x => x.EmpleadosCompradores!)
+                       .ThenInclude(x => x._Comprador).Include(x => x.ContratosEmpleados!).ThenInclude(x => x._Contrato).ToList();
         }
 
         // Método para guardar un avión nuevo.
