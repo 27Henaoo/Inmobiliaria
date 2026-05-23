@@ -20,7 +20,7 @@ namespace LibInmobiliaria.Implementaciones.Patrimonio
             this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
 
             // Se consultan todos los registros de BienesMuebles y se devuelven en forma de lista.
-            return this.iConexion.BienesMuebles!.ToList();
+            return this.iConexion.BienesMuebles!.Include(x => x._ExpedienteFinanciero!).ThenInclude(x => x._Persona).ToList();
         }
 
         // Método para guardar BienesMuebles nuevos.
