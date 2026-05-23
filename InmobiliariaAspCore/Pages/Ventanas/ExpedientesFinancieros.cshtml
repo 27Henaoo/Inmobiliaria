@@ -1,0 +1,449 @@
+﻿@page
+@model ExpedientesFinancierosModel
+@{
+    ViewData["Title"] = "ExpedientesFinancieros";
+}
+
+<center>
+    <div>
+        <form method="POST"
+              enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+
+            <div align="left">
+                <h3>ExpedientesFinancieros</h3>
+            </div>
+
+            <div>
+                <input type="submit"
+                       value="Refrescar"
+                       class="btn btn-secondary"
+                       asp-page-handler="BtRefrescar" />
+
+                <input type="submit"
+                       value="Nuevo"
+                       class="btn btn-secondary"
+                       asp-page-handler="BtNuevo"
+                       disabled="@(Model.ExpedienteFinanciero != null)" />
+
+                <input type="submit"
+                       value="Guardar"
+                       class="btn btn-secondary"
+                       asp-page-handler="BtGuardar"
+                       disabled="@(Model.ExpedienteFinanciero == null)" />
+            </div>
+
+            @if (Model.ExpedienteFinanciero != null)
+            {
+                <input type="hidden"
+                       asp-for="@Model.ExpedienteFinanciero!.Id" />
+
+                <div>
+                    <div class="form-group">
+                        <label class="col-lg-4 control-label">
+                            Cliente
+                        </label>
+
+                        <div class="col-lg-6">
+                            <select id="inCliente"
+                                    class="form-control"
+                                    asp-for="@Model.ExpedienteFinanciero!.Persona">
+
+                                <option value="0">
+                                    Seleccione un cliente
+                                </option>
+
+                                @foreach (var cliente in Model.Clientes)
+                                {
+                                    <option value="@cliente.Id">
+                                        @cliente.Nombre @cliente.Apellido
+                                    </option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (ViewData.ContainsKey("Mensaje"))
+            {
+                @await Html.PartialAsync("../Emergentes/Mensajes.cshtml")
+                ;
+            }
+
+            @if (Model.ExpedienteFinanciero != null && Model.Borrando)
+            {
+                <div class='popup'>
+                    <div class='pp_ms_inner'>
+                        <div style='width:95%'>
+                            <h2 align="left">
+                                Mensaje
+                            </h2>
+
+                            <h6 align="left">
+                                Desea borrar el ExpedienteFinanciero?
+                            </h6>
+
+                            <input type="submit"
+                                   value="Cerrar"
+                                   asp-page-handler="BtCerrar"
+                                   class="btn btn-secondary" />
+
+                            <input type="submit"
+                                   value="Borrar"
+                                   asp-page-handler="BtBorrar"
+                                   class="btn btn-secondary" />
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (Model != null &&
+                 Model.Lista != null &&
+                 Model.Lista.Count > 0)
+            {
+                <table class="tb_data table table-striped table-bordered table-hover">
+                    <tr>
+                        <th>
+                            Cliente
+                        </th>
+
+                        <th>
+                            CedulaCliente
+                        </th>
+
+                        <th class="cl_hidden">
+                            CorreoCliente
+                        </th>
+
+                        <th class="cl_hidden">
+                            GeneroCliente
+                        </th>
+
+                        <th class="cl_hidden">
+                            FechaNacimiento
+                        </th>
+
+                        <th class="cl_hidden">
+                            FechaRegistro
+                        </th>
+
+                        <th class="cl_hidden">
+                            EstadoCivilCliente
+                        </th>
+
+                        <th class="cl_hidden">
+                            NacionalidadCliente
+                        </th>
+
+                        <th class="cl_hidden">
+                            TelefonosCliente
+                        </th>
+
+                        <th class="cl_hidden">
+                            DireccionesCliente
+                        </th>
+
+                        <th class="cl_hidden">
+                            ExpedientesLaboralesCliente
+                        </th>
+
+                        <th class="cl_hidden">
+                            DatosCliente
+                        </th>
+
+                        <th class="cl_hidden">
+                            Bienes
+                        </th>
+
+                        <th class="cl_hidden">
+                            ActivosFinancieros
+                        </th>
+
+                        <th class="cl_hidden">
+                            TotalBienes
+                        </th>
+
+                        <th class="cl_actions">
+                            Accion
+                        </th>
+                    </tr>
+
+                    @foreach (var elemento in Model.Lista)
+                    {
+                        <tr>
+                            <td>
+                                @if (elemento._Persona != null)
+                                {
+                                    @($"{elemento._Persona.Nombre} {elemento._Persona.Apellido}")
+                                }
+                                else
+                                {
+                                    <span>Sin cliente</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Persona != null)
+                                {
+                                    @elemento._Persona.Cedula
+                                }
+                                else
+                                {
+                                    <span>Sin cedula</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Persona != null)
+                                {
+                                    @elemento._Persona.Correo
+                                }
+                                else
+                                {
+                                    <span>Sin correo</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Persona != null)
+                                {
+                                    @elemento._Persona.Genero
+                                }
+                                else
+                                {
+                                    <span>Sin genero</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Persona != null)
+                                {
+                                    @elemento._Persona.FechaNacimiento.ToString("dd/MM/yyyy")
+                                }
+                                else
+                                {
+                                    <span>Sin fecha</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Persona != null)
+                                {
+                                    @elemento._Persona.FechaRegistro.ToString("dd/MM/yyyy")
+                                }
+                                else
+                                {
+                                    <span>Sin fecha</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Persona != null &&
+                                     elemento._Persona._EstadoCivil != null)
+                                {
+                                    @elemento._Persona._EstadoCivil.Nombre
+                                }
+                                else
+                                {
+                                    <span>Sin estado civil</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Persona != null &&
+                                     elemento._Persona._Nacionalidad != null)
+                                {
+                                    @elemento._Persona._Nacionalidad.Nombre
+                                }
+                                else
+                                {
+                                    <span>Sin nacionalidad</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Persona != null && elemento._Persona.Telefonos != null &&
+                                     elemento._Persona.Telefonos.Count > 0)
+                                {
+                                    foreach (var telefono in elemento._Persona.Telefonos)
+                                    {
+                                        <div>
+                                            @telefono.Prefijo 
+                                            @telefono.Numero
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <span>Sin telefonos</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Persona != null && elemento._Persona.Direcciones != null &&
+                                     elemento._Persona.Direcciones.Count > 0)
+                                {
+                                    foreach (var direccion in elemento._Persona.Direcciones)
+                                    {
+                                        <div>
+                                            @direccion.TipoVia 
+                                            @direccion.Numero 
+                                            @direccion.Complemento
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <span>Sin direcciones</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Persona != null && elemento._Persona.ExpedientesLaborales != null &&
+                                     elemento._Persona.ExpedientesLaborales.Count > 0)
+                                {
+                                    foreach (var expediente in elemento._Persona.ExpedientesLaborales)
+                                    {
+                                        <div>
+                                            <strong>Empresa:</strong> @expediente.NombreEmpresa
+                                        </div>
+
+                                        <div>
+                                            <strong>Cargo:</strong> @expediente.Cargo
+                                        </div>
+
+                                        <div>
+                                            <strong>Salario:</strong> @expediente.SalarioPagado.ToString("N0")
+                                        </div>
+
+                                        <div>
+                                            <strong>Ingreso:</strong> @expediente.FechaIngreso.ToString("dd/MM/yyyy")
+                                        </div>
+
+                                        <div>
+                                            <strong>Egreso:</strong> @expediente.FechaEgreso.ToString("dd/MM/yyyy")
+                                        </div>
+
+                                        <div>
+                                            <strong>Desempeno:</strong> @expediente.Desempeno
+                                        </div>
+
+                                        <div>
+                                            <strong>Motivo salida:</strong> @expediente.MotivoSalida
+                                        </div>
+
+                                        <hr />
+                                    }
+                                }
+                                else
+                                {
+                                    <span>Sin expedientes laborales</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Persona != null)
+                                {
+                                    <div>
+                                        Comision: @elemento._Persona.PorcentajeComision
+                                    </div>
+
+                                    <div>
+                                        Contratos: @elemento._Persona.CantidadContratos
+                                    </div>
+
+                                    <div>
+                                        Prioridad: @elemento._Persona.PrioridadCliente
+                                    </div>
+
+                                    <div>
+                                        Motivo venta: @elemento._Persona.MotivoVenta
+                                    </div>
+                                }
+                                else
+                                {
+                                    <span>Sin datos cliente</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento.Bienes != null && elemento.Bienes.Count > 0)
+                                {
+                                    foreach (var bien in elemento.Bienes)
+                                    {
+                                        <div>
+                                            <strong>Bien:</strong> @bien.Nombre
+                                        </div>
+
+                                        <div>
+                                            <strong>Descripcion:</strong> @bien.Descripcion
+                                        </div>
+
+                                        <div>
+                                            <strong>Compra:</strong> @bien.PrecioCompra.ToString("N0")
+                                        </div>
+
+                                        <div>
+                                            <strong>Valor:</strong> @bien.ValorActual.ToString("N0")
+                                        </div>
+
+                                        <hr />
+                                    }
+                                }
+                                else
+                                {
+                                    <span>Sin bienes</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento.ActivosFinancieros != null && elemento.ActivosFinancieros.Count > 0)
+                                {
+                                    foreach (var activo in elemento.ActivosFinancieros)
+                                    {
+                                        <div>
+                                            <strong>Activo:</strong> @activo.Nombre
+                                        </div>
+
+                                        <div>
+                                            <strong>Descripcion:</strong> @activo.Descripcion
+                                        </div>
+
+                                        <div>
+                                            <strong>Precio:</strong> @activo.Precio.ToString("N0")
+                                        </div>
+
+                                        <hr />
+                                    }
+                                }
+                                else
+                                {
+                                    <span>Sin activos financieros</span>
+                                }
+                            </td>
+
+                            <td>
+                                @elemento.CalcularPrecioBienes().ToString("N0")
+                            </td>
+
+                            <td>
+                                <input type="submit"
+                                       value="Modificar"
+                                       asp-page-handler="BtModificar"
+                                       class="btn btn-secondary"
+                                       asp-route-data="@elemento.Id" />
+
+                                <input type="submit"
+                                       value="Borrar"
+                                       asp-page-handler="BtBorrarVal"
+                                       class="btn btn-secondary"
+                                       asp-route-data="@elemento.Id" />
+                            </td>
+                        </tr>
+                    }
+                </table>
+            }
+        </form>
+    </div>
+</center>

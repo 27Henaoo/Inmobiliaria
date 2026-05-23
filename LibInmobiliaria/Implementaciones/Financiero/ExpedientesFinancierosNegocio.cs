@@ -17,10 +17,14 @@ namespace LibInmobiliaria.Implementaciones.Financiero
             this.iConexion = new Conexion();
 
             // Se asigna la cadena de conexión.
-            this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
+            this.iConexion.StringConexion = Configuraciones.obtener("StringConexion");
 
             // Se consultan todos los registros de ExpedientesFinancieros y se devuelven en forma de lista.
-            return this.iConexion.ExpedientesFinancieros!.ToList();
+            return this.iConexion.ExpedientesFinancieros!.Include(x => x._Persona!).ThenInclude(x => x._EstadoCivil)
+                                 .Include(x => x._Persona!).ThenInclude(x => x._Nacionalidad).Include(x => x._Persona!)
+                                 .ThenInclude(x => x.Telefonos).Include(x => x._Persona!).ThenInclude(x => x.Direcciones)
+                                 .Include(x => x._Persona!).ThenInclude(x => x.ExpedientesLaborales).Include(x => x.Bienes)
+                                 .Include(x => x.ActivosFinancieros).ToList();
         }
 
         // Método para guardar ExpedientesFinancieros nuevos.
@@ -34,7 +38,7 @@ namespace LibInmobiliaria.Implementaciones.Financiero
             this.iConexion = new Conexion();
 
             // Se asigna la cadena de conexión.
-            this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
+            this.iConexion.StringConexion = Configuraciones.obtener("StringConexion");
 
             // Se agrega la entidad al conjunto de ExpedientesFinancieros.
             this.iConexion.ExpedientesFinancieros!.Add(entidad);
@@ -57,7 +61,7 @@ namespace LibInmobiliaria.Implementaciones.Financiero
             this.iConexion = new Conexion();
 
             // Se asigna la cadena de conexión.
-            this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
+            this.iConexion.StringConexion = Configuraciones.obtener("StringConexion");
 
             // Se obtiene la entrada de Entity Framework para la entidad recibida.
             var entry = this.iConexion.Entry<ExpedientesFinancieros>(entidad);
@@ -82,7 +86,7 @@ namespace LibInmobiliaria.Implementaciones.Financiero
             this.iConexion = new Conexion();
 
             // Se asigna la cadena de conexión.
-            this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
+            this.iConexion.StringConexion = Configuraciones.obtener("StringConexion");
 
             // Se marca la entidad para eliminarla.
             this.iConexion.ExpedientesFinancieros!.Remove(entidad);
