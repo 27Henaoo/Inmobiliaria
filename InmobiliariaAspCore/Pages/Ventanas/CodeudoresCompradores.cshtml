@@ -1,0 +1,369 @@
+﻿@page
+@model CodeudoresCompradoresModel
+@{
+    ViewData["Title"] = "CodeudoresCompradores";
+}
+
+<center>
+    <div>
+        <form method="POST"
+              enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+
+            <div align="left">
+                <h3>CodeudoresCompradores</h3>
+            </div>
+
+            <div>
+                <input type="submit"
+                       value="Refrescar"
+                       class="btn btn-secondary"
+                       asp-page-handler="BtRefrescar" />
+
+                <input type="submit"
+                       value="Nuevo"
+                       class="btn btn-secondary"
+                       asp-page-handler="BtNuevo"
+                       disabled="@(Model.CodeudorComprador != null)" />
+
+                <input type="submit"
+                       value="Guardar"
+                       class="btn btn-secondary"
+                       asp-page-handler="BtGuardar"
+                       disabled="@(Model.CodeudorComprador == null)" />
+            </div>
+
+            @if (Model.CodeudorComprador != null)
+            {
+                <input type="hidden"
+                       asp-for="@Model.CodeudorComprador!.Id" />
+
+                <div>
+                    <div class="form-group">
+                        <label class="col-lg-4 control-label">
+                            Comprador
+                        </label>
+
+                        <div class="col-lg-6">
+                            <select id="inComprador"
+                                    class="form-control"
+                                    asp-for="@Model.CodeudorComprador!.Comprador">
+
+                                <option value="0">
+                                    Seleccione un comprador
+                                </option>
+
+                                @foreach (var comprador in Model.Compradores)
+                                {
+                                    <option value="@comprador.Id">
+                                        @comprador.Nombre @comprador.Apellido
+                                    </option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-lg-4 control-label">
+                            Codeudor
+                        </label>
+
+                        <div class="col-lg-6">
+                            <select id="inCodeudor"
+                                    class="form-control"
+                                    asp-for="@Model.CodeudorComprador!.Codeudor">
+
+                                <option value="0">
+                                    Seleccione un codeudor
+                                </option>
+
+                                @foreach (var codeudor in Model.Codeudores)
+                                {
+                                    <option value="@codeudor.Id">
+                                        @codeudor.Nombre @codeudor.Apellido
+                                    </option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (ViewData.ContainsKey("Mensaje"))
+            {
+                @await Html.PartialAsync("../Emergentes/Mensajes.cshtml")
+                ;
+            }
+
+            @if (Model.CodeudorComprador != null && Model.Borrando)
+            {
+                <div class='popup'>
+                    <div class='pp_ms_inner'>
+                        <div style='width:95%'>
+                            <h2 align="left">
+                                Mensaje
+                            </h2>
+
+                            <h6 align="left">
+                                Desea borrar esta relacion?
+                            </h6>
+
+                            <input type="submit"
+                                   value="Cerrar"
+                                   asp-page-handler="BtCerrar"
+                                   class="btn btn-secondary" />
+
+                            <input type="submit"
+                                   value="Borrar"
+                                   asp-page-handler="BtBorrar"
+                                   class="btn btn-secondary" />
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (Model != null &&
+                 Model.Lista != null &&
+                 Model.Lista.Count > 0)
+            {
+                <table class="tb_data table table-striped table-bordered table-hover">
+                    <tr>
+                        <th>
+                            Comprador
+                        </th>
+
+                        <th>
+                            CedulaComprador
+                        </th>
+
+                        <th class="cl_hidden">
+                            EstadoCivilComprador
+                        </th>
+
+                        <th class="cl_hidden">
+                            NacionalidadComprador
+                        </th>
+
+                        <th class="cl_hidden">
+                            TelefonosComprador
+                        </th>
+
+                        <th class="cl_hidden">
+                            DireccionesComprador
+                        </th>
+
+                        <th>
+                            Codeudor
+                        </th>
+
+                        <th>
+                            CedulaCodeudor
+                        </th>
+
+                        <th class="cl_hidden">
+                            EstadoCivilCodeudor
+                        </th>
+
+                        <th class="cl_hidden">
+                            NacionalidadCodeudor
+                        </th>
+
+                        <th class="cl_hidden">
+                            TelefonosCodeudor
+                        </th>
+
+                        <th class="cl_hidden">
+                            DireccionesCodeudor
+                        </th>
+
+                        <th class="cl_actions">
+                            Accion
+                        </th>
+                    </tr>
+
+                    @foreach (var elemento in Model.Lista)
+                    {
+                        <tr>
+                            <td>
+                                @if (elemento._Comprador != null)
+                                {
+                                    @($"{elemento._Comprador.Nombre} {elemento._Comprador.Apellido}")
+                                }
+                                else
+                                {
+                                    <span>Sin comprador</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Comprador != null)
+                                {
+                                    @elemento._Comprador.Cedula
+                                }
+                                else
+                                {
+                                    <span>Sin cedula</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Comprador != null &&
+                                     elemento._Comprador._EstadoCivil != null)
+                                {
+                                    @elemento._Comprador._EstadoCivil.Nombre
+                                }
+                                else
+                                {
+                                    <span>Sin estado civil</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Comprador != null && elemento._Comprador._Nacionalidad != null)
+                                {
+                                    @elemento._Comprador._Nacionalidad.Nombre
+                                }
+                                else
+                                {
+                                    <span>Sin nacionalidad</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Comprador != null && elemento._Comprador.Telefonos != null &&
+                                     elemento._Comprador.Telefonos.Count > 0)
+                                {
+                                    foreach (var telefono in elemento._Comprador.Telefonos)
+                                    {
+                                        <div>
+                                            @telefono.Prefijo @telefono.Numero
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <span>Sin telefonos</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Comprador != null && elemento._Comprador.Direcciones != null &&
+                                     elemento._Comprador.Direcciones.Count > 0)
+                                {
+                                    foreach (var direccion in elemento._Comprador.Direcciones)
+                                    {
+                                        <div>
+                                            @direccion.TipoVia 
+                                            @direccion.Numero 
+                                            @direccion.Complemento
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <span>Sin direcciones</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Codeudor != null)
+                                {
+                                    @($"{elemento._Codeudor.Nombre} {elemento._Codeudor.Apellido}")
+                                }
+                                else
+                                {
+                                    <span>Sin codeudor</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Codeudor != null)
+                                {
+                                    @elemento._Codeudor.Cedula
+                                }
+                                else
+                                {
+                                    <span>Sin cedula</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Codeudor != null && elemento._Codeudor._EstadoCivil != null)
+                                {
+                                    @elemento._Codeudor._EstadoCivil.Nombre
+                                }
+                                else
+                                {
+                                    <span>Sin estado civil</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Codeudor != null &&
+                                     elemento._Codeudor._Nacionalidad != null)
+                                {
+                                    @elemento._Codeudor._Nacionalidad.Nombre
+                                }
+                                else
+                                {
+                                    <span>Sin nacionalidad</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Codeudor != null && elemento._Codeudor.Telefonos != null &&
+                                     elemento._Codeudor.Telefonos.Count > 0)
+                                {
+                                    foreach (var telefono in elemento._Codeudor.Telefonos)
+                                    {
+                                        <div>
+                                            @telefono.Prefijo 
+                                            @telefono.Numero
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <span>Sin telefonos</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Codeudor != null && elemento._Codeudor.Direcciones != null &&
+                                     elemento._Codeudor.Direcciones.Count > 0)
+                                {
+                                    foreach (var direccion in elemento._Codeudor.Direcciones)
+                                    {
+                                        <div>
+                                            @direccion.TipoVia 
+                                            @direccion.Numero 
+                                            @direccion.Complemento
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <span>Sin direcciones</span>
+                                }
+                            </td>
+
+                            <td>
+                                <input type="submit"
+                                       value="Modificar"
+                                       asp-page-handler="BtModificar"
+                                       class="btn btn-secondary"
+                                       asp-route-data="@elemento.Id" />
+
+                                <input type="submit"
+                                       value="Borrar"
+                                       asp-page-handler="BtBorrarVal"
+                                       class="btn btn-secondary"
+                                       asp-route-data="@elemento.Id" />
+                            </td>
+                        </tr>
+                    }
+                </table>
+            }
+        </form>
+    </div>
+</center>

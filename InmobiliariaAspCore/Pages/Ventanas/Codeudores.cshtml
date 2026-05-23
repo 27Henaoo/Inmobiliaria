@@ -303,7 +303,8 @@
                                     foreach (var telefono in elemento.Telefonos)
                                     {
                                         <div>
-                                            @telefono.Prefijo @telefono.Numero
+                                            @telefono.Prefijo 
+                                            @telefono.Numero
                                         </div>
                                     }
                                 }
@@ -319,7 +320,9 @@
                                     foreach (var direccion in elemento.Direcciones)
                                     {
                                         <div>
-                                            @direccion.TipoVia @direccion.Numero @direccion.Complemento
+                                            @direccion.TipoVia 
+                                            @direccion.Numero 
+                                            @direccion.Complemento
                                         </div>
                                     }
                                 }

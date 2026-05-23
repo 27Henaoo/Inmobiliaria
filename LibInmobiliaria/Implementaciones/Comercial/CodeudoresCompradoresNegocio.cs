@@ -17,10 +17,15 @@ namespace LibInmobiliaria.Implementaciones.Comercial
             this.iConexion = new Conexion();
 
             // Se asigna la cadena de conexión.
-            this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
+            this.iConexion.StringConexion = Configuraciones.obtener("StringConexion");
 
             // Se consultan todos los registros de CodeudoresCompradores y se devuelven en forma de lista.
-            return this.iConexion.CodeudoresCompradores!.ToList();
+            return this.iConexion.CodeudoresCompradores!.Include(x => x._Comprador!).ThenInclude(x => x._EstadoCivil).Include(x => x._Comprador!)
+                                  .ThenInclude(x => x._Nacionalidad).Include(x => x._Comprador!).ThenInclude(x => x.Telefonos).Include(x => x._Comprador!)
+                                  .ThenInclude(x => x.Direcciones).Include(x => x._Comprador!).ThenInclude(x => x.ExpedientesLaborales).Include(x => x._Codeudor!)
+                                  .ThenInclude(x => x._EstadoCivil).Include(x => x._Codeudor!).ThenInclude(x => x._Nacionalidad).Include(x => x._Codeudor!)
+                                  .ThenInclude(x => x.Telefonos).Include(x => x._Codeudor!).ThenInclude(x => x.Direcciones).Include(x => x._Codeudor!).ThenInclude(x => x.ExpedientesLaborales)
+                                  .ToList();
         }
 
         // Método para guardar CodeudoresCompradores nuevos.
@@ -34,7 +39,7 @@ namespace LibInmobiliaria.Implementaciones.Comercial
             this.iConexion = new Conexion();
 
             // Se asigna la cadena de conexión.
-            this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
+            this.iConexion.StringConexion = Configuraciones.obtener("StringConexion");
 
             // Se agrega la entidad al conjunto de CodeudoresCompradores.
             this.iConexion.CodeudoresCompradores!.Add(entidad);
@@ -57,7 +62,7 @@ namespace LibInmobiliaria.Implementaciones.Comercial
             this.iConexion = new Conexion();
 
             // Se asigna la cadena de conexión.
-            this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
+            this.iConexion.StringConexion = Configuraciones.obtener("StringConexion");
 
             // Se obtiene la entrada de Entity Framework para la entidad recibida.
             var entry = this.iConexion.Entry<CodeudoresCompradores>(entidad);
@@ -82,7 +87,7 @@ namespace LibInmobiliaria.Implementaciones.Comercial
             this.iConexion = new Conexion();
 
             // Se asigna la cadena de conexión.
-            this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
+            this.iConexion.StringConexion = Configuraciones.obtener("StringConexion");
 
             // Se marca la entidad para eliminarla.
             this.iConexion.CodeudoresCompradores!.Remove(entidad);
