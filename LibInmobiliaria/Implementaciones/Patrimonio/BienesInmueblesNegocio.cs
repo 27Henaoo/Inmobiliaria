@@ -17,10 +17,11 @@ namespace LibInmobiliaria.Implementaciones.Patrimonio
             this.iConexion = new Conexion();
 
             // Se asigna la cadena de conexión.
-            this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
+            this.iConexion.StringConexion = Configuraciones.obtener("StringConexion");
 
             // Se consultan todos los registros de BienesInmuebles y se devuelven en forma de lista.
-            return this.iConexion.BienesInmuebles!.ToList();
+            return this.iConexion.BienesInmuebles!.Include(x => x._ExpedienteFinanciero!).ThenInclude(x => x._Persona).ToList();
+
         }
 
         // Método para guardar BienesInmuebles nuevos.
@@ -34,7 +35,7 @@ namespace LibInmobiliaria.Implementaciones.Patrimonio
             this.iConexion = new Conexion();
 
             // Se asigna la cadena de conexión.
-            this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
+            this.iConexion.StringConexion = Configuraciones.obtener("StringConexion");
 
             // Se agrega la entidad al conjunto de BienesInmuebles.
             this.iConexion.BienesInmuebles!.Add(entidad);
@@ -57,7 +58,7 @@ namespace LibInmobiliaria.Implementaciones.Patrimonio
             this.iConexion = new Conexion();
 
             // Se asigna la cadena de conexión.
-            this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
+            this.iConexion.StringConexion = Configuraciones.obtener("StringConexion");
 
             // Se obtiene la entrada de Entity Framework para la entidad recibida.
             var entry = this.iConexion.Entry<BienesInmuebles>(entidad);
@@ -82,7 +83,7 @@ namespace LibInmobiliaria.Implementaciones.Patrimonio
             this.iConexion = new Conexion();
 
             // Se asigna la cadena de conexión.
-            this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
+            this.iConexion.StringConexion = Configuraciones.obtener("StringConexion");
 
             // Se marca la entidad para eliminarla.
             this.iConexion.BienesInmuebles!.Remove(entidad);
