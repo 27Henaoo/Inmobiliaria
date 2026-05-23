@@ -20,7 +20,10 @@ namespace LibInmobiliaria.Implementaciones.Comercial
             this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
 
             // Se consultan todos los registros de Compradores y se devuelven en forma de lista.
-            return this.iConexion.Compradores!.ToList();
+            return this.iConexion.Compradores!.Include(x => x._EstadoCivil).Include(x => x._Nacionalidad).Include(x => x.Telefonos)
+                                 .Include(x => x.Direcciones).Include(x => x.ExpedientesLaborales).Include(x => x.EmpleadosCompradores!)
+                                 .ThenInclude(x => x._Empleado).Include(x => x.Contratos!).ThenInclude(x => x._Propiedad).Include(x => x.Contratos!)
+                                 .ThenInclude(x => x._Cliente).Include(x => x.Contratos!).ThenInclude(x => x._JefeSector).ToList();
         }
 
         // Método para guardar Compradores nuevos.
