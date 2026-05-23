@@ -20,7 +20,10 @@ namespace LibInmobiliaria.Implementaciones.Convenios {
             this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
 
             // Se consultan todos los registros de Contratos y se devuelven en forma de lista.
-            return this.iConexion.Contratos!.ToList();
+            return this.iConexion.Contratos!.Include(x => x._Cliente).Include(x => x._Propiedad!).ThenInclude(x => x._TipoPropiedad).Include(x => x._Comprador)
+                                            .Include(x => x._JefeSector!).ThenInclude(x => x._Sector).Include(x => x.ContratosEmpleados!).ThenInclude(x => x._Empleado)
+                                            .Include(x => x.ContratosCodeudores!).ThenInclude(x => x._Codeudor).ToList();
+
         }
 
         // Método para guardar Contratos nuevos.

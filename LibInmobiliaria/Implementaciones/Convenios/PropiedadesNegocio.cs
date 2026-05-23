@@ -20,7 +20,10 @@ namespace LibInmobiliaria.Implementaciones.Convenios
             this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
 
             // Se consultan todos los registros de Propiedades y se devuelven en forma de lista.
-            return this.iConexion.Propiedades!.ToList();
+            return this.iConexion.Propiedades!.Include(x => x._Cliente!).ThenInclude(x => x._EstadoCivil).Include(x => x._Cliente!)
+                                 .ThenInclude(x => x._Nacionalidad).Include(x => x._Cliente!).ThenInclude(x => x.Telefonos).Include(x => x._Cliente!)
+                                 .ThenInclude(x => x.Direcciones).Include(x => x._Cliente!).ThenInclude(x => x.ExpedientesLaborales).Include(x => x._TipoPropiedad)
+                                 .Include(x => x.Contratos!).ThenInclude(x => x._Comprador).Include(x => x.Contratos!).ThenInclude(x => x._JefeSector).ToList();
         }
 
         // Método para guardar Propiedades nuevos.
