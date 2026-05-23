@@ -20,7 +20,7 @@ namespace LibInmobiliaria.Implementaciones.Financiero
             this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
 
             // Se consultan todos los registros de ActivosFinancieros y se devuelven en forma de lista.
-            return this.iConexion.ActivosFinancieros!.ToList();
+            return this.iConexion.ActivosFinancieros!.Include(x => x._ExpedienteFinanciero!).ThenInclude(x => x._Persona).ToList();
         }
 
         // Método para guardar ActivosFinancieros nuevos.
