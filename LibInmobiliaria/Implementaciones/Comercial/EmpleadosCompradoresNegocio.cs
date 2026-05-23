@@ -17,10 +17,16 @@ namespace LibInmobiliaria.Implementaciones.Comercial
             this.iConexion = new Conexion();
 
             // Se asigna la cadena de conexión.
-            this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
+            this.iConexion.StringConexion = Configuraciones.obtener("StringConexion");
 
             // Se consultan todos los registros de EmpleadosCompradores y se devuelven en forma de lista.
-            return this.iConexion.EmpleadosCompradores!.ToList();
+            return this.iConexion.EmpleadosCompradores!.Include(x => x._Comprador!).ThenInclude(x => x._EstadoCivil).Include(x => x._Comprador!)
+                                 .ThenInclude(x => x._Nacionalidad).Include(x => x._Comprador!).ThenInclude(x => x.Telefonos).Include(x => x._Comprador!)
+                                 .ThenInclude(x => x.Direcciones).Include(x => x._Comprador!).ThenInclude(x => x.ExpedientesLaborales).Include(x => x._Empleado!)
+                                 .ThenInclude(x => x._EstadoCivil).Include(x => x._Empleado!).ThenInclude(x => x._Nacionalidad).Include(x => x._Empleado!)
+                                 .ThenInclude(x => x.Telefonos).Include(x => x._Empleado!).ThenInclude(x => x.Direcciones).Include(x => x._Empleado!)
+                                 .ThenInclude(x => x.ExpedientesLaborales).Include(x => x._Empleado!).ThenInclude(x => x._Sector).Include(x => x._Empleado!)
+                                 .ThenInclude(x => x._JefeSector).Include(x => x._Empleado!).ThenInclude(x => x._TipoContrato).ToList();
         }
 
         // Método para guardar EmpleadosCompradores nuevos.
@@ -34,7 +40,7 @@ namespace LibInmobiliaria.Implementaciones.Comercial
             this.iConexion = new Conexion();
 
             // Se asigna la cadena de conexión.
-            this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
+            this.iConexion.StringConexion = Configuraciones.obtener("StringConexion");
 
             // Se agrega la entidad al conjunto de EmpleadosCompradores.
             this.iConexion.EmpleadosCompradores!.Add(entidad);
@@ -57,7 +63,7 @@ namespace LibInmobiliaria.Implementaciones.Comercial
             this.iConexion = new Conexion();
 
             // Se asigna la cadena de conexión.
-            this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
+            this.iConexion.StringConexion = Configuraciones.obtener("StringConexion");
 
             // Se obtiene la entrada de Entity Framework para la entidad recibida.
             var entry = this.iConexion.Entry<EmpleadosCompradores>(entidad);
@@ -82,7 +88,7 @@ namespace LibInmobiliaria.Implementaciones.Comercial
             this.iConexion = new Conexion();
 
             // Se asigna la cadena de conexión.
-            this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
+            this.iConexion.StringConexion = Configuraciones.obtener("StringConexion");
 
             // Se marca la entidad para eliminarla.
             this.iConexion.EmpleadosCompradores!.Remove(entidad);

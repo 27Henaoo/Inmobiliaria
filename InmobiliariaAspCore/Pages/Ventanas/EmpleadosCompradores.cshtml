@@ -1,0 +1,432 @@
+﻿@page
+@model EmpleadosCompradoresModel
+@{
+    ViewData["Title"] = "EmpleadosCompradores";
+}
+
+<center>
+    <div>
+        <form method="POST"
+              enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+
+            <div align="left">
+                <h3>EmpleadosCompradores</h3>
+            </div>
+
+            <div>
+                <input type="submit"
+                       value="Refrescar"
+                       class="btn btn-secondary"
+                       asp-page-handler="BtRefrescar" />
+
+                <input type="submit"
+                       value="Nuevo"
+                       class="btn btn-secondary"
+                       asp-page-handler="BtNuevo"
+                       disabled="@(Model.EmpleadoComprador != null)" />
+
+                <input type="submit"
+                       value="Guardar"
+                       class="btn btn-secondary"
+                       asp-page-handler="BtGuardar"
+                       disabled="@(Model.EmpleadoComprador == null)" />
+            </div>
+
+            @if (Model.EmpleadoComprador != null)
+            {
+                <input type="hidden"
+                       asp-for="@Model.EmpleadoComprador!.Id" />
+
+                <div>
+                    <div class="form-group">
+                        <label>
+                            FechaAsesoramiento
+                        </label>
+                        <div class="col-6">
+                            <input id="inFechaAsesoramiento"
+                                   class="cts_forms form-control"
+                                   asp-for="@Model.EmpleadoComprador!.FechaAsesoramiento" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-lg-4 control-label">
+                            Comprador
+                        </label>
+
+                        <div class="col-lg-6">
+                            <select id="inComprador"
+                                    class="form-control"
+                                    asp-for="@Model.EmpleadoComprador!.Comprador">
+
+                                <option value="0">
+                                    Seleccione un comprador
+                                </option>
+
+                                @foreach (var comprador in Model.Compradores)
+                                {
+                                    <option value="@comprador.Id">
+                                        @comprador.Nombre @comprador.Apellido
+                                    </option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-lg-4 control-label">
+                            Empleado
+                        </label>
+
+                        <div class="col-lg-6">
+                            <select id="inEmpleado"
+                                    class="form-control"
+                                    asp-for="@Model.EmpleadoComprador!.Empleado">
+
+                                <option value="0">
+                                    Seleccione un empleado
+                                </option>
+
+                                @foreach (var empleado in Model.EmpleadosSectores)
+                                {
+                                    <option value="@empleado.Id">
+                                        @empleado.Nombre @empleado.Apellido
+                                    </option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (ViewData.ContainsKey("Mensaje"))
+            {
+                @await Html.PartialAsync("../Emergentes/Mensajes.cshtml")
+                ;
+            }
+
+            @if (Model.EmpleadoComprador != null && Model.Borrando)
+            {
+                <div class='popup'>
+                    <div class='pp_ms_inner'>
+                        <div style='width:95%'>
+                            <h2 align="left">
+                                Mensaje
+                            </h2>
+
+                            <h6 align="left">
+                                Desea borrar esta relacion?
+                            </h6>
+
+                            <input type="submit"
+                                   value="Cerrar"
+                                   asp-page-handler="BtCerrar"
+                                   class="btn btn-secondary" />
+
+                            <input type="submit"
+                                   value="Borrar"
+                                   asp-page-handler="BtBorrar"
+                                   class="btn btn-secondary" />
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (Model != null &&
+                 Model.Lista != null &&
+                 Model.Lista.Count > 0)
+            {
+                <table class="tb_data table table-striped table-bordered table-hover">
+                    <tr>
+                        <th>
+                            FechaAsesoramiento
+                        </th>
+
+                        <th>
+                            Comprador
+                        </th>
+
+                        <th>
+                            CedulaComprador
+                        </th>
+
+                        <th class="cl_hidden">
+                            EstadoCivilComprador
+                        </th>
+
+                        <th class="cl_hidden">
+                            NacionalidadComprador
+                        </th>
+
+                        <th class="cl_hidden">
+                            TelefonosComprador
+                        </th>
+
+                        <th class="cl_hidden">
+                            DireccionesComprador
+                        </th>
+
+                        <th>
+                            Empleado
+                        </th>
+
+                        <th>
+                            CedulaEmpleado
+                        </th>
+
+                        <th class="cl_hidden">
+                            SectorEmpleado
+                        </th>
+
+                        <th class="cl_hidden">
+                            JefeSectorEmpleado
+                        </th>
+
+                        <th class="cl_hidden">
+                            TipoContratoEmpleado
+                        </th>
+
+                        <th class="cl_hidden">
+                            EstadoCivilEmpleado
+                        </th>
+
+                        <th class="cl_hidden">
+                            NacionalidadEmpleado
+                        </th>
+
+                        <th class="cl_hidden">
+                            TelefonosEmpleado
+                        </th>
+
+                        <th class="cl_hidden">
+                            DireccionesEmpleado
+                        </th>
+
+                        <th class="cl_actions">
+                            Accion
+                        </th>
+                    </tr>
+
+                    @foreach (var elemento in Model.Lista)
+                    {
+                        <tr>
+                            <td>
+                                @elemento.FechaAsesoramiento.ToString("dd/MM/yyyy")
+                            </td>
+
+                            <td>
+                                @if (elemento._Comprador != null)
+                                {
+                                    @($"{elemento._Comprador.Nombre} {elemento._Comprador.Apellido}")
+                                }
+                                else
+                                {
+                                    <span>Sin comprador</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Comprador != null)
+                                {
+                                    @elemento._Comprador.Cedula
+                                }
+                                else
+                                {
+                                    <span>Sin cedula</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Comprador != null && elemento._Comprador._EstadoCivil != null)
+                                {
+                                    @elemento._Comprador._EstadoCivil.Nombre
+                                }
+                                else
+                                {
+                                    <span>Sin estado civil</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Comprador != null && elemento._Comprador._Nacionalidad != null)
+                                {
+                                    @elemento._Comprador._Nacionalidad.Nombre
+                                }
+                                else
+                                {
+                                    <span>Sin nacionalidad</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Comprador != null && elemento._Comprador.Telefonos != null &&
+                                     elemento._Comprador.Telefonos.Count > 0)
+                                {
+                                    foreach (var telefono in elemento._Comprador.Telefonos)
+                                    {
+                                        <div>
+                                            @telefono.Prefijo 
+                                            @telefono.Numero
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <span>Sin telefonos</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Comprador != null && elemento._Comprador.Direcciones != null &&
+                                     elemento._Comprador.Direcciones.Count > 0)
+                                {
+                                    foreach (var direccion in elemento._Comprador.Direcciones)
+                                    {
+                                        <div>
+                                            @direccion.TipoVia 
+                                            @direccion.Numero 
+                                            @direccion.Complemento
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <span>Sin direcciones</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Empleado != null)
+                                {
+                                    @($"{elemento._Empleado.Nombre} {elemento._Empleado.Apellido}")
+                                }
+                                else
+                                {
+                                    <span>Sin empleado</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Empleado != null)
+                                {
+                                    @elemento._Empleado.Cedula
+                                }
+                                else
+                                {
+                                    <span>Sin cedula</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Empleado != null && elemento._Empleado._Sector != null)
+                                {
+                                    @elemento._Empleado._Sector.Nombre
+                                }
+                                else
+                                {
+                                    <span>Sin sector</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Empleado != null && elemento._Empleado._JefeSector != null)
+                                {
+                                    @($"{elemento._Empleado._JefeSector.Nombre} {elemento._Empleado._JefeSector.Apellido}")
+                                }
+                                else
+                                {
+                                    <span>Sin jefe</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Empleado != null && elemento._Empleado._TipoContrato != null)
+                                {
+                                    @elemento._Empleado._TipoContrato.Nombre
+                                }
+                                else
+                                {
+                                    <span>Sin tipo contrato</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Empleado != null && elemento._Empleado._EstadoCivil != null)
+                                {
+                                    @elemento._Empleado._EstadoCivil.Nombre
+                                }
+                                else
+                                {
+                                    <span>Sin estado civil</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Empleado != null && elemento._Empleado._Nacionalidad != null)
+                                {
+                                    @elemento._Empleado._Nacionalidad.Nombre
+                                }
+                                else
+                                {
+                                    <span>Sin nacionalidad</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Empleado != null && elemento._Empleado.Telefonos != null &&
+                                     elemento._Empleado.Telefonos.Count > 0)
+                                {
+                                    foreach (var telefono in elemento._Empleado.Telefonos)
+                                    {
+                                        <div>
+                                            @telefono.Prefijo 
+                                            @telefono.Numero
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <span>Sin telefonos</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Empleado != null && elemento._Empleado.Direcciones != null &&
+                                     elemento._Empleado.Direcciones.Count > 0)
+                                {
+                                    foreach (var direccion in elemento._Empleado.Direcciones)
+                                    {
+                                        <div>
+                                            @direccion.TipoVia 
+                                            @direccion.Numero 
+                                            @direccion.Complemento
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <span>Sin direcciones</span>
+                                }
+                            </td>
+
+                            <td>
+                                <input type="submit"
+                                       value="Modificar"
+                                       asp-page-handler="BtModificar"
+                                       class="btn btn-secondary"
+                                       asp-route-data="@elemento.Id" />
+
+                                <input type="submit"
+                                       value="Borrar"
+                                       asp-page-handler="BtBorrarVal"
+                                       class="btn btn-secondary"
+                                       asp-route-data="@elemento.Id" />
+                            </td>
+                        </tr>
+                    }
+                </table>
+            }
+        </form>
+    </div>
+</center>
