@@ -1,0 +1,282 @@
+﻿@page
+@model BienesModel
+@{
+    ViewData["Title"] = "Bienes";
+}
+
+<center>
+    <div>
+        <form method="POST"
+              enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+
+            <div align="left">
+                <h3>Bienes</h3>
+            </div>
+
+            <div>
+                <input type="submit"
+                       value="Refrescar"
+                       class="btn btn-secondary"
+                       asp-page-handler="BtRefrescar" />
+
+                <input type="submit"
+                       value="Nuevo"
+                       class="btn btn-secondary"
+                       asp-page-handler="BtNuevo"
+                       disabled="@(Model.Bien != null)" />
+
+                <input type="submit"
+                       value="Guardar"
+                       class="btn btn-secondary"
+                       asp-page-handler="BtGuardar"
+                       disabled="@(Model.Bien == null)" />
+            </div>
+
+            @if (Model.Bien != null)
+            {
+                <input type="hidden"
+                       asp-for="@Model.Bien!.Id" />
+
+                <div>
+                    <div class="form-group">
+                        <label>
+                            Nombre
+                        </label>
+                        <div class="col-6">
+                            <input id="inNombre"
+                                   class="cts_forms form-control"
+                                   asp-for="@Model.Bien!.Nombre" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            Descripcion
+                        </label>
+                        <div class="col-6">
+                            <input id="inDescripcion"
+                                   class="cts_forms form-control"
+                                   asp-for="@Model.Bien!.Descripcion" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            FechaAdquisicion
+                        </label>
+                        <div class="col-6">
+                            <input id="inFechaAdquisicion"
+                                   class="cts_forms form-control"
+                                   asp-for="@Model.Bien!.FechaAdquisicion" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            PrecioCompra
+                        </label>
+                        <div class="col-6">
+                            <input id="inPrecioCompra"
+                                   class="cts_forms form-control"
+                                   asp-for="@Model.Bien!.PrecioCompra" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            ValorActual
+                        </label>
+                        <div class="col-6">
+                            <input id="inValorActual"
+                                   class="cts_forms form-control"
+                                   asp-for="@Model.Bien!.ValorActual" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-lg-4 control-label">
+                            ExpedienteFinanciero
+                        </label>
+
+                        <div class="col-lg-6">
+                            <select id="inExpedienteFinanciero"
+                                    class="form-control"
+                                    asp-for="@Model.Bien!.ExpedienteFinanciero">
+
+                                <option value="0">
+                                    Seleccione un expediente financiero
+                                </option>
+
+                                @foreach (var expediente in Model.ExpedientesFinancieros)
+                                {
+                                    <option value="@expediente.Id">
+                                        Expediente @expediente.Id
+                                        @if (expediente._Persona != null)
+                                        {
+                                            @($" - {expediente._Persona.Nombre} {expediente._Persona.Apellido}")
+                                        }
+                                    </option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (ViewData.ContainsKey("Mensaje"))
+            {
+                @await Html.PartialAsync("../Emergentes/Mensajes.cshtml")
+                ;
+            }
+
+            @if (Model.Bien != null && Model.Borrando)
+            {
+                <div class='popup'>
+                    <div class='pp_ms_inner'>
+                        <div style='width:95%'>
+                            <h2 align="left">
+                                Mensaje
+                            </h2>
+
+                            <h6 align="left">
+                                Desea borrar el Bien?
+                            </h6>
+
+                            <h6 align="left">
+                                @Model.Bien!.Nombre
+                            </h6>
+
+                            <input type="submit"
+                                   value="Cerrar"
+                                   asp-page-handler="BtCerrar"
+                                   class="btn btn-secondary" />
+
+                            <input type="submit"
+                                   value="Borrar"
+                                   asp-page-handler="BtBorrar"
+                                   class="btn btn-secondary" />
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (Model != null &&
+                 Model.Lista != null &&
+                 Model.Lista.Count > 0)
+            {
+                <table class="tb_data table table-striped table-bordered table-hover">
+                    <tr>
+                        <th>
+                            Nombre
+                        </th>
+
+                        <th>
+                            Descripcion
+                        </th>
+
+                        <th>
+                            FechaAdquisicion
+                        </th>
+
+                        <th>
+                            PrecioCompra
+                        </th>
+
+                        <th>
+                            ValorActual
+                        </th>
+
+                        <th class="cl_hidden">
+                            ExpedienteFinanciero
+                        </th>
+
+                        <th class="cl_hidden">
+                            Cliente
+                        </th>
+
+                        <th class="cl_hidden">
+                            CedulaCliente
+                        </th>
+
+                        <th class="cl_actions">
+                            Accion
+                        </th>
+                    </tr>
+
+                    @foreach (var elemento in Model.Lista)
+                    {
+                        <tr>
+                            <td>
+                                @elemento.Nombre
+                            </td>
+
+                            <td>
+                                @elemento.Descripcion
+                            </td>
+
+                            <td>
+                                @elemento.FechaAdquisicion.ToString("dd/MM/yyyy")
+                            </td>
+
+                            <td>
+                                @elemento.PrecioCompra.ToString("N0")
+                            </td>
+
+                            <td>
+                                @elemento.ValorActual.ToString("N0")
+                            </td>
+
+                            <td>
+                                @if (elemento._ExpedienteFinanciero != null)
+                                {
+                                    <span>Expediente @elemento._ExpedienteFinanciero.Id</span>
+                                }
+                                else
+                                {
+                                    <span>Sin expediente financiero</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._ExpedienteFinanciero != null && elemento._ExpedienteFinanciero._Persona != null)
+                                {
+                                    @($"{elemento._ExpedienteFinanciero._Persona.Nombre} {elemento._ExpedienteFinanciero._Persona.Apellido}")
+                                }
+                                else
+                                {
+                                    <span>Sin cliente</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._ExpedienteFinanciero != null && elemento._ExpedienteFinanciero._Persona != null)
+                                {
+                                    @elemento._ExpedienteFinanciero._Persona.Cedula
+                                }
+                                else
+                                {
+                                    <span>Sin cedula</span>
+                                }
+                            </td>
+
+                            <td>
+                                <input type="submit"
+                                       value="Modificar"
+                                       asp-page-handler="BtModificar"
+                                       class="btn btn-secondary"
+                                       asp-route-data="@elemento.Id" />
+
+                                <input type="submit"
+                                       value="Borrar"
+                                       asp-page-handler="BtBorrarVal"
+                                       class="btn btn-secondary"
+                                       asp-route-data="@elemento.Id" />
+                            </td>
+                        </tr>
+                    }
+                </table>
+            }
+        </form>
+    </div>
+</center>
