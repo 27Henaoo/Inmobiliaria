@@ -1,0 +1,441 @@
+﻿@page
+@model ContratosEmpleadosModel
+@{
+    ViewData["Title"] = "ContratosEmpleados";
+}
+
+<center>
+    <div>
+        <form method="POST"
+              enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+
+            <div align="left">
+                <h3>ContratosEmpleados</h3>
+            </div>
+
+            <div>
+                <input type="submit"
+                       value="Refrescar"
+                       class="btn btn-secondary"
+                       asp-page-handler="BtRefrescar" />
+
+                <input type="submit"
+                       value="Nuevo"
+                       class="btn btn-secondary"
+                       asp-page-handler="BtNuevo"
+                       disabled="@(Model.ContratoEmpleado != null)" />
+
+                <input type="submit"
+                       value="Guardar"
+                       class="btn btn-secondary"
+                       asp-page-handler="BtGuardar"
+                       disabled="@(Model.ContratoEmpleado == null)" />
+            </div>
+
+            @if (Model.ContratoEmpleado != null)
+            {
+                <input type="hidden"
+                       asp-for="@Model.ContratoEmpleado!.Id" />
+
+                <div>
+                    <div class="form-group">
+                        <label>
+                            FechaCierre
+                        </label>
+                        <div class="col-6">
+                            <input id="inFechaCierre"
+                                   class="cts_forms form-control"
+                                   asp-for="@Model.ContratoEmpleado!.FechaCierre" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            PrecioAcordado
+                        </label>
+                        <div class="col-6">
+                            <input id="inPrecioAcordado"
+                                   class="cts_forms form-control"
+                                   asp-for="@Model.ContratoEmpleado!.PrecioAcordado" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            VendidaArrendada
+                        </label>
+                        <div class="col-6">
+                            <input id="inVendidaArrendada"
+                                   class="cts_forms form-control"
+                                   asp-for="@Model.ContratoEmpleado!.VendidaArrendada" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-lg-4 control-label">
+                            Contrato
+                        </label>
+
+                        <div class="col-lg-6">
+                            <select id="inContrato"
+                                    class="form-control"
+                                    asp-for="@Model.ContratoEmpleado!.Contrato">
+
+                                <option value="0">
+                                    Seleccione un contrato
+                                </option>
+
+                                @foreach (var contrato in Model.Contratos)
+                                {
+                                    <option value="@contrato.Id">
+                                        Contrato @contrato.Id - @contrato.ArriendoVenta
+                                    </option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-lg-4 control-label">
+                            Empleado
+                        </label>
+
+                        <div class="col-lg-6">
+                            <select id="inEmpleado"
+                                    class="form-control"
+                                    asp-for="@Model.ContratoEmpleado!.Empleado">
+
+                                <option value="0">
+                                    Seleccione un empleado
+                                </option>
+
+                                @foreach (var empleado in Model.EmpleadosSectores)
+                                {
+                                    <option value="@empleado.Id">
+                                        @empleado.Nombre @empleado.Apellido
+                                    </option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (ViewData.ContainsKey("Mensaje"))
+            {
+                @await Html.PartialAsync("../Emergentes/Mensajes.cshtml")
+                ;
+            }
+
+            @if (Model.ContratoEmpleado != null && Model.Borrando)
+            {
+                <div class='popup'>
+                    <div class='pp_ms_inner'>
+                        <div style='width:95%'>
+                            <h2 align="left">
+                                Mensaje
+                            </h2>
+
+                            <h6 align="left">
+                                Desea borrar esta relacion?
+                            </h6>
+
+                            <input type="submit"
+                                   value="Cerrar"
+                                   asp-page-handler="BtCerrar"
+                                   class="btn btn-secondary" />
+
+                            <input type="submit"
+                                   value="Borrar"
+                                   asp-page-handler="BtBorrar"
+                                   class="btn btn-secondary" />
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (Model != null &&
+                 Model.Lista != null &&
+                 Model.Lista.Count > 0)
+            {
+                <table class="tb_data table table-striped table-bordered table-hover">
+                    <tr>
+                        <th>
+                            FechaCierre
+                        </th>
+
+                        <th>
+                            PrecioAcordado
+                        </th>
+
+                        <th>
+                            VendidaArrendada
+                        </th>
+
+                        <th class="cl_hidden">
+                            Contrato
+                        </th>
+
+                        <th class="cl_hidden">
+                            FechaContrato
+                        </th>
+
+                        <th class="cl_hidden">
+                            FechaFinalizacion
+                        </th>
+
+                        <th class="cl_hidden">
+                            ClienteContrato
+                        </th>
+
+                        <th class="cl_hidden">
+                            PropiedadContrato
+                        </th>
+
+                        <th class="cl_hidden">
+                            CompradorContrato
+                        </th>
+
+                        <th class="cl_hidden">
+                            JefeSectorContrato
+                        </th>
+
+                        <th>
+                            Empleado
+                        </th>
+
+                        <th>
+                            CedulaEmpleado
+                        </th>
+
+                        <th class="cl_hidden">
+                            SectorEmpleado
+                        </th>
+
+                        <th class="cl_hidden">
+                            JefeEmpleado
+                        </th>
+
+                        <th class="cl_hidden">
+                            TipoContratoEmpleado
+                        </th>
+
+                        <th class="cl_actions">
+                            Accion
+                        </th>
+                    </tr>
+
+                    @foreach (var elemento in Model.Lista)
+                    {
+                        <tr>
+                            <td>
+                                @elemento.FechaCierre.ToString("dd/MM/yyyy")
+                            </td>
+
+                            <td>
+                                @elemento.PrecioAcordado.ToString("N0")
+                            </td>
+
+                            <td>
+                                @elemento.VendidaArrendada
+                            </td>
+
+                            <td>
+                                @if (elemento._Contrato != null)
+                                {
+                                    <span>Contrato @elemento._Contrato.Id</span>
+                                }
+                                else
+                                {
+                                    <span>Sin contrato</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Contrato != null)
+                                {
+                                    @elemento._Contrato.FechaContrato.ToString("dd/MM/yyyy")
+                                }
+                                else
+                                {
+                                    <span>Sin fecha</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Contrato != null)
+                                {
+                                    @elemento._Contrato.FechaFinalizacion.ToString("dd/MM/yyyy")
+                                }
+                                else
+                                {
+                                    <span>Sin fecha</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Contrato != null && elemento._Contrato._Cliente != null)
+                                {
+                                    <div>
+                                        Cliente: @elemento._Contrato._Cliente.Nombre 
+                                                 @elemento._Contrato._Cliente.Apellido
+                                    </div>
+
+                                    <div>
+                                        Cedula: @elemento._Contrato._Cliente.Cedula
+                                    </div>
+                                }
+                                else
+                                {
+                                    <span>Sin cliente</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Contrato != null && elemento._Contrato._Propiedad != null)
+                                {
+                                    <div>
+                                        Propiedad: @elemento._Contrato._Propiedad.Id
+                                    </div>
+
+                                    <div>
+                                        Valor: @elemento._Contrato._Propiedad.ValorPropiedad.ToString("N0")
+                                    </div>
+
+                                    <div>
+                                        Estado: @elemento._Contrato._Propiedad.Estado
+                                    </div>
+
+                                    @if (elemento._Contrato._Propiedad._TipoPropiedad != null)
+                                    {
+                                        <div>
+                                            Tipo: @elemento._Contrato._Propiedad._TipoPropiedad.Nombre
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <span>Sin propiedad</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Contrato != null &&
+                                     elemento._Contrato._Comprador != null)
+                                {
+                                    <div>
+                                        Comprador: @elemento._Contrato._Comprador.Nombre @elemento._Contrato._Comprador.Apellido
+                                    </div>
+
+                                    <div>
+                                        Cedula: @elemento._Contrato._Comprador.Cedula
+                                    </div>
+                                }
+                                else
+                                {
+                                    <span>Sin comprador</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Contrato != null && elemento._Contrato._JefeSector != null)
+                                {
+                                    <div>
+                                        Jefe: @elemento._Contrato._JefeSector.Nombre @elemento._Contrato._JefeSector.Apellido
+                                    </div>
+
+                                    <div>
+                                        Cedula: @elemento._Contrato._JefeSector.Cedula
+                                    </div>
+
+                                    @if (elemento._Contrato._JefeSector._Sector != null)
+                                    {
+                                        <div>
+                                            Sector: @elemento._Contrato._JefeSector._Sector.Nombre
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <span>Sin jefe sector</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Empleado != null)
+                                {
+                                    @($"{elemento._Empleado.Nombre} {elemento._Empleado.Apellido}")
+                                }
+                                else
+                                {
+                                    <span>Sin empleado</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Empleado != null)
+                                {
+                                    @elemento._Empleado.Cedula
+                                }
+                                else
+                                {
+                                    <span>Sin cedula</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Empleado != null &&
+                                     elemento._Empleado._Sector != null)
+                                {
+                                    @elemento._Empleado._Sector.Nombre
+                                }
+                                else
+                                {
+                                    <span>Sin sector</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Empleado != null && elemento._Empleado._JefeSector != null)
+                                {
+                                    @($"{elemento._Empleado._JefeSector.Nombre} {elemento._Empleado._JefeSector.Apellido}")
+                                }
+                                else
+                                {
+                                    <span>Sin jefe</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento._Empleado != null &&
+                                     elemento._Empleado._TipoContrato != null)
+                                {
+                                    @elemento._Empleado._TipoContrato.Nombre
+                                }
+                                else
+                                {
+                                    <span>Sin tipo contrato</span>
+                                }
+                            </td>
+
+                            <td>
+                                <input type="submit"
+                                       value="Modificar"
+                                       asp-page-handler="BtModificar"
+                                       class="btn btn-secondary"
+                                       asp-route-data="@elemento.Id" />
+
+                                <input type="submit"
+                                       value="Borrar"
+                                       asp-page-handler="BtBorrarVal"
+                                       class="btn btn-secondary"
+                                       asp-route-data="@elemento.Id" />
+                            </td>
+                        </tr>
+                    }
+                </table>
+            }
+        </form>
+    </div>
+</center>
