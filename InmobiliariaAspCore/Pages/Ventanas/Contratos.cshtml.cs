@@ -98,6 +98,8 @@ namespace InmobiliariaAspCore.Pages.Ventanas
             {
                 FechaContrato = DateTime.Now,
                 FechaFinalizacion = DateTime.Now,
+                Observaciones = "...", //Se coloca ya que no puede ser NULL, el Modelo esta para que sea obligatorio, lo mismo el SQL, por lo tanto si no se llena saca Exception
+                ArriendoVenta = "Venta o Arriendo" //Se coloca ya que no puede ser NULL, el Modelo esta para que sea obligatorio, lo mismo el SQL, por lo tanto si no se llena saca Exception
             };
 
             Borrando = false;

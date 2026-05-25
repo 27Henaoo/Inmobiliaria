@@ -88,6 +88,7 @@ namespace InmobiliariaAspCore.Pages.Ventanas
             ContratoEmpleado = new ContratosEmpleados()
             {
                 FechaCierre = DateTime.Now,
+                VendidaArrendada = "Vendida o Arrendada" //Se coloca ya que no puede ser NULL, el Modelo esta para que sea obligatorio, lo mismo el SQL, por lo tanto si no se llena saca Exception
             };
 
             Borrando = false;
