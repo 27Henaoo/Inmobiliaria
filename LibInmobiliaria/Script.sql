@@ -4,6 +4,27 @@ GO
 USE db_inmobiliaria;
 GO
 
+
+
+CREATE TABLE Roles
+(
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Nombre NVARCHAR(50) NOT NULL UNIQUE
+);
+
+CREATE TABLE Usuarios
+(
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Nombre NVARCHAR(100) NOT NULL,
+    Correo NVARCHAR(150) NOT NULL UNIQUE,
+    ClaveHash NVARCHAR(MAX) NOT NULL,
+    ClaveSalt NVARCHAR(MAX) NOT NULL,
+    Rol INT NOT NULL,
+
+    CONSTRAINT FK_Usuarios_Roles
+    FOREIGN KEY (Rol) REFERENCES Roles(Id)
+);
+
 CREATE TABLE [Historicos]
 (
   [Id] INT NOT NULL IDENTITY(1, 1) PRIMARY KEY,
@@ -396,6 +417,15 @@ CREATE TABLE [CodeudoresCompradores]
     [Codeudor] INT NOT NULL REFERENCES [Codeudores]([Persona])
 );
 GO
+
+-- =========================================
+-- TABLAS ROLES
+-- =========================================
+
+INSERT INTO Roles (Nombre) VALUES ('Admin');
+INSERT INTO Roles (Nombre) VALUES ('Ejecutivo');
+INSERT INTO Roles (Nombre) VALUES ('Guest');
+
 
 -- =========================================
 -- TABLAS MAESTRAS

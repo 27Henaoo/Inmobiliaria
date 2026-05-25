@@ -1,4 +1,5 @@
 ﻿using LibModelos._5._1ModelosComunes;
+using LibModelos._5._2LoginRegisterEntidades;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
@@ -62,6 +63,12 @@ namespace LibInmobiliaria.Interfaces
 
         //Tabla Historicos
         public DbSet<Historicos>? Historicos{ get; set; }
+
+        //PARA LOGIN Y REGISTRO CON ROLES
+
+        public DbSet<Roles>? Roles { get; set; }
+        public DbSet<Usuarios>? Usuarios { get; set; }
+
         // Métodos heredados de DbContext
 
         public int SaveChanges();
