@@ -1,7 +1,3 @@
-/* =========================
-   RESIDO DARK - GLOBAL CSS
-   Solo visual. Mantiene clases del profe.
-   ========================= */
 
 :root {
     --inmo-accent: #c98500;
@@ -40,9 +36,9 @@ body,
     font-weight: 400;
 }
 
-/* =========================
+/*  
    TEXTOS Y LINKS
-   ========================= */
+     */
 
 h1,
 h2,
@@ -77,9 +73,9 @@ a {
         text-decoration: none;
     }
 
-/* =========================
+/*  
    BOTONES
-   ========================= */
+     */
 
 .btn,
 .btn-primary,
@@ -122,9 +118,9 @@ a {
     border-color: var(--inmo-accent);
 }
 
-/* =========================
+/*  
    MAIN / CONTENIDO
-   ========================= */
+     */
 
 main {
     background: var(--inmo-panel);
@@ -133,9 +129,9 @@ main {
     padding: 1.5rem;
 }
 
-/* =========================
+/*  
    FORMULARIOS
-   ========================= */
+     */
 
 .form-group {
     margin-bottom: 0.9rem;
@@ -181,9 +177,9 @@ input[type="checkbox"] {
     accent-color: var(--inmo-accent);
 }
 
-/* =========================
+/*  
    TABLAS
-   ========================= */
+     */
 
 .tb_data,
 .table {
@@ -254,9 +250,9 @@ input[type="checkbox"] {
     }
 }
 
-/* =========================
+/*  
    CONTENEDORES DEL PROFE
-   ========================= */
+     */
 
 .containers_vn {
     height: 70vh;
@@ -299,9 +295,9 @@ input[type="checkbox"] {
             background: var(--inmo-accent-hover);
         }
 
-/* =========================
+/*  
    CARDS
-   ========================= */
+     */
 
 .card_index {
     background-color: var(--inmo-panel);
@@ -310,9 +306,9 @@ input[type="checkbox"] {
     box-shadow: none;
 }
 
-/* =========================
+/*  
    ALERTAS
-   ========================= */
+     */
 
 .alert {
     border-radius: 0.75rem;
@@ -332,9 +328,9 @@ input[type="checkbox"] {
     border-color: #166534;
 }
 
-/* =========================
+/*  
    POPUPS
-   ========================= */
+     */
 
 .popup {
     position: fixed;
@@ -386,9 +382,9 @@ input[type="checkbox"] {
     color: var(--inmo-text);
 }
 
-/* =========================
+/*  
    BORDES / SOMBRAS / FOOTER
-   ========================= */
+     */
 
 .border-top {
     border-top: 1px solid var(--inmo-border) !important;
@@ -415,9 +411,9 @@ button.accept-policy {
     line-height: 60px;
 }
 
-/* =========================
+/*  
    RESPONSIVE
-   ========================= */
+     */
 
 @media (max-width: 768px) {
     body {

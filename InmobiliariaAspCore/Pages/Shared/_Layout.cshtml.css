@@ -1,7 +1,4 @@
-﻿/* =========================
-   RESIDO DARK - LAYOUT
-   Solo visual del layout
-   ========================= */
+﻿
 
 :root {
     --inmo-accent: #c98500;
@@ -16,9 +13,9 @@
     --inmo-muted: #a7b0ba;
 }
 
-/* =========================
+/* 
    NAVBAR
-   ========================= */
+ */
 
 .site-navbar,
 .navbar {
@@ -35,9 +32,9 @@
         padding-right: 1.5rem;
     }
 
-/* =========================
+/* 
    BRAND
-   ========================= */
+  */
 
 a.navbar-brand {
     white-space: nowrap;
@@ -70,9 +67,9 @@ a.navbar-brand:hover {
     color: #ffffff !important;
 }
 
-/* =========================
+/* 
    MENU LINKS
-   ========================= */
+ */
 
 .navbar-nav {
     align-items: center;
@@ -115,10 +112,10 @@ a.navbar-brand:hover {
         color: var(--inmo-accent-soft) !important;
     }
 
-/* =========================
+/* 
    DROPDOWN FINAL
    Aqui se controlan las variables internas de Bootstrap
-   ========================= */
+*/
 
 .inmo-dropdown,
 .navbar .inmo-dropdown,
@@ -214,9 +211,9 @@ a.navbar-brand:hover {
         background: #e49a07;
     }
 
-/* =========================
+/* 
    USUARIO / ROL
-   ========================= */
+   */
 
 .badge.bg-secondary {
     background: var(--inmo-accent-soft) !important;
@@ -240,9 +237,9 @@ a.navbar-brand:hover {
         color: #ff9b9b !important;
     }
 
-/* =========================
+/*
    CONTENIDO GENERAL DEL LAYOUT
-   ========================= */
+ */
 
 .container {
     max-width: 96% !important;
@@ -258,9 +255,9 @@ main {
     margin-bottom: 2rem;
 }
 
-/* =========================
+/* 
    FOOTER
-   ========================= */
+*/
 
 .footer {
     position: relative;
@@ -282,9 +279,9 @@ main {
             color: #ffffff !important;
         }
 
-/* =========================
+/* 
    BOOTSTRAP HELPERS
-   ========================= */
+ */
 
 .border-top {
     border-top: 1px solid #2d3640 !important;
@@ -298,9 +295,9 @@ main {
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25) !important;
 }
 
-/* =========================
+/* 
    RESPONSIVE
-   ========================= */
+ */
 
 @media (max-width: 991px) {
     .site-navbar .container-fluid,
