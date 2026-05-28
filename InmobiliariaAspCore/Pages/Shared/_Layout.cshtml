@@ -1,7 +1,22 @@
 ﻿@using Microsoft.AspNetCore.Http
 
+@{
+    var usuarioNombre = Context.Session.GetString("UsuarioNombre");
+    var usuarioRolNombre = Context.Session.GetString("UsuarioRolNombre");
+
+    var esAdmin = usuarioRolNombre == "Admin";
+    var esEjecutivo = usuarioRolNombre == "Ejecutivo";
+
+    //Si no hay sesion, se muestra el mismo menu del rol Guest (Inviatado por defecto de Roles en Usuario)
+    var esInvitado = string.IsNullOrEmpty(usuarioNombre) || usuarioRolNombre == "Guest" || usuarioRolNombre == "Invitado";
+
+    var rolVisual = string.IsNullOrEmpty(usuarioRolNombre) ? "Guest" : usuarioRolNombre;
+    var claseRol = rolVisual.ToLower();
+}
+
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport"
@@ -29,7 +44,7 @@
 
 </head>
 
-<body class="inmo-body">
+<body class="inmo-body rol-@claseRol">
     <header>
         @{
             var usuarioNombre = Context.Session.GetString("UsuarioNombre");
@@ -630,6 +645,31 @@
                 </div>
             </div>
         </nav>
+
+
+
+        <style>
+
+            body.rol-guest input[type="submit"][value="Nuevo"],
+            body.rol-guest input[type="submit"][value="Guardar"],
+            body.rol-guest input[type="submit"][value="Modificar"],
+            body.rol-guest input[type="submit"][value="Borrar"],
+            body.rol-invitado input[type="submit"][value="Nuevo"],
+            body.rol-invitado input[type="submit"][value="Guardar"],
+            body.rol-invitado input[type="submit"][value="Modificar"],
+            body.rol-invitado input[type="submit"][value="Borrar"] 
+            {
+                display: none !important;
+            }
+
+            body.rol-ejecutivo input[type="submit"][value="Borrar"] 
+            {
+                display: none !important; 
+            }
+
+        </style>
+
+
     </header>
 
     <div class="container">

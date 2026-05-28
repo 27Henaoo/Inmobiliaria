@@ -1,7 +1,12 @@
+using InmobiliariaAspCore.Filtros;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorPages();
+builder.Services.AddRazorPages(opciones =>
+{
+    opciones.Conventions.ConfigureFilter(new PermisosPageFilter());
+});
 
 builder.Services.AddSession();
 

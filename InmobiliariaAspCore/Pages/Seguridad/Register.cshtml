@@ -4,87 +4,83 @@
     ViewData["Title"] = "Register";
 }
 
-<center>
-    <div>
-        <form method="POST"
-              enctype="multipart/form-data">
-            @Html.AntiForgeryToken()
+<div class="auth-page">
+    <form method="POST"
+          enctype="multipart/form-data"
+          class="auth-card">
+        @Html.AntiForgeryToken()
 
-            <h3>
-                Register
-            </h3>
+        <p class="auth-title">
+            Register
+        </p>
 
-            <div class="form-group">
-                <label>
-                    Nombre
-                </label>
+        <p class="auth-message">
+            Crea tu cuenta para consultar informacion del sistema.
+        </p>
 
-                <div class="col-6">
-                    <input id="inNombre"
-                           class="cts_forms form-control"
-                           asp-for="@Model.Usuario!.Nombre" />
-                </div>
+        <label class="auth-label">
+            <input class="auth-input"
+                   type="text"
+                   placeholder=""
+                   required
+                   asp-for="Usuario.Nombre" />
+            <span>
+                Nombre completo
+            </span>
+        </label>
+
+        <label class="auth-label">
+            <input class="auth-input"
+                   type="email"
+                   placeholder=""
+                   required
+                   asp-for="Usuario.Correo" />
+            <span>
+                Correo
+            </span>
+        </label>
+
+        <label class="auth-label">
+            <input class="auth-input"
+                   type="password"
+                   placeholder=""
+                   required
+                   asp-for="Usuario.ClaveHash" />
+            <span>
+                Clave
+            </span>
+        </label>
+
+        <label class="auth-label">
+            <input class="auth-input"
+                   type="password"
+                   placeholder=""
+                   required
+                   asp-for="ClaveConfirmacion" />
+            <span>
+                Confirmar clave
+            </span>
+        </label>
+
+        <button type="submit"
+                class="auth-submit"
+                asp-page-handler="BtRegistrar">
+            Registrar
+        </button>
+
+        <p class="auth-signin">
+            Ya tienes cuenta?
+            <a asp-area=""
+               asp-page="/Seguridad/Login">
+                Iniciar sesion
+            </a>
+        </p>
+
+        @if (ViewData.ContainsKey("Mensaje"))
+        {
+            <div class="auth-alert">
+                @ViewData["Mensaje"]
             </div>
-
-            <div class="form-group">
-                <label>
-                    Correo
-                </label>
-
-                <div class="col-6">
-                    <input id="inCorreo"
-                           class="cts_forms form-control"
-                           asp-for="@Model.Usuario!.Correo" />
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label>
-                    Clave
-                </label>
-
-                <div class="col-6">
-                    <input id="inClave"
-                           type="password"
-                           class="cts_forms form-control"
-                           asp-for="@Model.Usuario!.ClaveHash" />
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label>
-                    ConfirmarClave
-                </label>
-
-                <div class="col-6">
-                    <input id="inConfirmarClave"
-                           type="password"
-                           class="cts_forms form-control"
-                           asp-for="@Model.ClaveConfirmacion" />
-                </div>
-            </div>
-
-            <br />
-
-            <div>
-                <input type="submit"
-                       value="Registrar"
-                       class="btn btn-secondary"
-                       asp-page-handler="BtRegistrar" />
-
-                <input type="submit"
-                       value="VolverLogin"
-                       class="btn btn-secondary"
-                       asp-page-handler="BtLogin" />
-            </div>
-
-            @if (ViewData.ContainsKey("Mensaje"))
-            {
-                <br />
-                <div class="alert alert-danger">
-                    @ViewData["Mensaje"]
-                </div>
-            }
-        </form>
-    </div>
-</center>
+        }
+    </form>
+</div>
