@@ -31,6 +31,42 @@
                        class="btn btn-secondary"
                        asp-page-handler="BtGuardar"
                        disabled="@(Model.Propiedad == null)" />
+
+                <input type="button"
+                       value="ImprimirPDF"
+                       class="btn btn-secondary"
+                       onclick="window.print()" />
+
+                <input type="submit"
+                       value="ExportarExcel"
+                       class="btn btn-secondary"
+                       asp-page-handler="BtExportarExcel" />
+            </div>
+
+            <div class="print-report-header">
+                <div class="print-report-brand">
+                    I
+                </div>
+
+                <div>
+                    <h1>
+                        Reporte de Propiedades
+                    </h1>
+
+                    <p>
+                        Inmobiliaria - Listado general de propiedades registradas
+                    </p>
+                </div>
+            </div>
+
+            <div class="print-report-info">
+                <span>
+                    Fecha de impresion: @DateTime.Now.ToString("dd/MM/yyyy")
+                </span>
+
+                <span>
+                    Total registros: @(Model.Lista != null ? Model.Lista.Count : 0)
+                </span>
             </div>
 
             @if (Model.Propiedad != null)
@@ -228,7 +264,7 @@
                  Model.Lista != null &&
                  Model.Lista.Count > 0)
             {
-                <table class="tb_data table table-striped table-bordered table-hover">
+                <table class="tb_data table table-striped table-bordered table-hover tabla-reporte-propiedades">
                     <tr>
                         <th>
                             NumeroHabitaciones
@@ -266,8 +302,8 @@
                             Estado
                         </th>
 
-                        <th class="cl_hidden">
-                            TipoPropiedad
+                        <th>
+                            Tipo Propiedad
                         </th>
 
                         <th class="cl_hidden">

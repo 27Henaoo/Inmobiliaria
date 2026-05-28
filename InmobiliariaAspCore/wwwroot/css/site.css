@@ -636,3 +636,220 @@ button.accept-policy {
         font-size: 1.7rem;
     }
 }
+
+/* 
+   IMPRESION PDF - PROPIEDADES BONITO
+ */
+
+.print-report-header,
+.print-report-info {
+    display: none;
+}
+
+@media print {
+    @page {
+        size: A4 landscape;
+        margin: 10mm;
+    }
+
+    header,
+    footer,
+    .navbar,
+    .footer,
+    input[type="submit"],
+    input[type="button"],
+    button,
+    .btn,
+    .cl_actions {
+        display: none !important;
+    }
+
+    html,
+    body,
+    .inmo-body {
+        background: #ffffff !important;
+        color: #111111 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        font-size: 10px !important;
+        font-family: Arial, sans-serif !important;
+    }
+
+    .container {
+        max-width: 100% !important;
+        width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    main {
+        background: #ffffff !important;
+        color: #111111 !important;
+        box-shadow: none !important;
+        border: none !important;
+        border-radius: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    h3 {
+        display: none !important;
+    }
+
+    .print-report-header {
+        display: flex !important;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        margin-bottom: 8px;
+        border: 1px solid #111111;
+        border-radius: 6px;
+        background: #f3f3f3 !important;
+    }
+
+    .print-report-brand {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: #111111 !important;
+        color: #ffffff !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        font-weight: bold;
+        flex-shrink: 0;
+    }
+
+    .print-report-header h1 {
+        color: #111111 !important;
+        font-size: 22px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        font-weight: bold !important;
+    }
+
+    .print-report-header p {
+        color: #333333 !important;
+        font-size: 11px !important;
+        margin: 2px 0 0 0 !important;
+        padding: 0 !important;
+    }
+
+    .print-report-info {
+        display: flex !important;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+        padding: 6px 10px;
+        border: 1px solid #cccccc;
+        background: #fafafa !important;
+        color: #111111 !important;
+        font-size: 10px !important;
+        font-weight: bold;
+    }
+
+    .tabla-reporte-propiedades {
+        width: 100% !important;
+        table-layout: fixed !important;
+        border-collapse: collapse !important;
+        background: #ffffff !important;
+        color: #111111 !important;
+        font-size: 8.5px !important;
+        line-height: 1.2 !important;
+        box-shadow: none !important;
+        border: 1px solid #111111 !important;
+    }
+
+        .tabla-reporte-propiedades th,
+        .tabla-reporte-propiedades td {
+            color: #111111 !important;
+            border: 1px solid #444444 !important;
+            padding: 4px 5px !important;
+            vertical-align: middle !important;
+            word-break: normal !important;
+            overflow-wrap: break-word !important;
+            white-space: normal !important;
+            height: auto !important;
+            min-height: 0 !important;
+        }
+
+        .tabla-reporte-propiedades th {
+            background: #111111 !important;
+            color: #ffffff !important;
+            font-weight: bold !important;
+            text-align: center !important;
+            font-size: 8px !important;
+        }
+
+        .tabla-reporte-propiedades td {
+            background: #ffffff !important;
+        }
+
+        .tabla-reporte-propiedades tr:nth-child(even) td {
+            background: #f2f2f2 !important;
+        }
+
+        .tabla-reporte-propiedades tr {
+            height: auto !important;
+            page-break-inside: avoid;
+        }
+
+        .tabla-reporte-propiedades th:nth-child(n+11),
+        .tabla-reporte-propiedades td:nth-child(n+11) {
+            display: none !important;
+        }
+
+        .tabla-reporte-propiedades th:nth-child(1),
+        .tabla-reporte-propiedades td:nth-child(1) {
+            width: 10% !important;
+        }
+
+        .tabla-reporte-propiedades th:nth-child(2),
+        .tabla-reporte-propiedades td:nth-child(2) {
+            width: 10% !important;
+        }
+
+        .tabla-reporte-propiedades th:nth-child(3),
+        .tabla-reporte-propiedades td:nth-child(3) {
+            width: 6% !important;
+            text-align: center !important;
+        }
+
+        .tabla-reporte-propiedades th:nth-child(4),
+        .tabla-reporte-propiedades td:nth-child(4) {
+            width: 6% !important;
+            text-align: center !important;
+        }
+
+        .tabla-reporte-propiedades th:nth-child(5),
+        .tabla-reporte-propiedades td:nth-child(5) {
+            width: 6% !important;
+            text-align: center !important;
+        }
+
+        .tabla-reporte-propiedades th:nth-child(6),
+        .tabla-reporte-propiedades td:nth-child(6) {
+            width: 12% !important;
+            text-align: center !important;
+        }
+
+        .tabla-reporte-propiedades th:nth-child(7),
+        .tabla-reporte-propiedades td:nth-child(7),
+        .tabla-reporte-propiedades th:nth-child(8),
+        .tabla-reporte-propiedades td:nth-child(8) {
+            width: 12% !important;
+            text-align: right !important;
+        }
+
+        .tabla-reporte-propiedades th:nth-child(9),
+        .tabla-reporte-propiedades td:nth-child(9) {
+            width: 12% !important;
+        }
+
+        .tabla-reporte-propiedades th:nth-child(10),
+        .tabla-reporte-propiedades td:nth-child(10) {
+            width: 14% !important;
+            border-right: 1px solid #111111 !important;
+        }
+}

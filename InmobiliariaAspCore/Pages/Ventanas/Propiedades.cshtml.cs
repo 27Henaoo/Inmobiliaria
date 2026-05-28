@@ -7,6 +7,7 @@ using LibPresentacion._1._2.InterfacesPresentacion._1._2._4.Comercial;
 using LibPresentacion._1._2.InterfacesPresentacion._1._2._7.Convenios;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Text;
 
 namespace InmobiliariaAspCore.Pages.Ventanas
 {
@@ -172,5 +173,73 @@ namespace InmobiliariaAspCore.Pages.Ventanas
             OnPostBtRefrescar();
             Borrando = false;
         }
+
+        //Para generar PDF y Excel de los datos
+        public IActionResult OnPostBtExportarExcel()
+        {
+            try
+            {
+                if (iPropiedadesNegocio == null)
+                    return Page();
+
+                var lista = iPropiedadesNegocio.Consultar();
+
+                var sb = new StringBuilder();
+
+                sb.AppendLine("NumeroHabitaciones;NumeroBanos;Patio;Entradas;Pisos;AnioConstruccion;ValorPropiedad;ValorArriendo;Estado;TipoPropiedad;Cliente");
+
+                foreach (var elemento in lista)
+                {
+                    var tipoPropiedad = "";
+
+                    if (elemento._TipoPropiedad != null)
+                        tipoPropiedad = elemento._TipoPropiedad.Nombre;
+
+                    var cliente = "";
+
+                    if (elemento._Cliente != null)
+                        cliente = elemento._Cliente.Nombre + " " + elemento._Cliente.Apellido;
+
+                    sb.AppendLine(
+                        elemento.NumeroHabitaciones + ";" +
+                        elemento.NumeroBanos + ";" +
+                        elemento.Patio + ";" +
+                        elemento.Entradas + ";" +
+                        elemento.Pisos + ";" +
+                        elemento.AnioConstruccion.ToString("dd/MM/yyyy") + ";" +
+                        elemento.ValorPropiedad.ToString("N0") + ";" +
+                        elemento.ValorArriendo.ToString("N0") + ";" +
+                        LimpiarCsv(elemento.Estado) + ";" +
+                        LimpiarCsv(tipoPropiedad) + ";" +
+                        LimpiarCsv(cliente)
+                    );
+                }
+
+                var bytes = Encoding.UTF8.GetPreamble()
+                    .Concat(Encoding.UTF8.GetBytes(sb.ToString()))
+                    .ToArray();
+
+                return File(bytes, "text/csv", "Propiedades.csv");
+            }
+            catch (Exception ex)
+            {
+                ViewData["Mensaje"] = ex.Message;
+                OnPostBtRefrescar();
+                return Page();
+            }
+        }
+
+        private string LimpiarCsv(string? texto)
+        {
+            if (texto == null)
+                return "";
+
+            return texto
+                .Replace(";", ",")
+                .Replace("\r", " ")
+                .Replace("\n", " ");
+        }
+
     }
+
 }
