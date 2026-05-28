@@ -34,30 +34,31 @@ namespace LibInmobiliaria.Implementaciones.Seguridad
         public Usuarios Guardar(Usuarios entidad)
         {
             if (entidad.Id != 0)
-                throw new Exception("Ya se guardo");
+                return CrearUsuarioVacio();
 
             if (string.IsNullOrWhiteSpace(entidad.Nombre))
-                throw new Exception("Debe ingresar el nombre.");
+                return CrearUsuarioVacio();
 
             if (string.IsNullOrWhiteSpace(entidad.Correo))
-                throw new Exception("Debe ingresar el correo.");
+                return CrearUsuarioVacio();
 
             if (string.IsNullOrWhiteSpace(entidad.ClaveHash))
-                throw new Exception("Debe ingresar la clave.");
+                return CrearUsuarioVacio();
 
             if (entidad.Rol == 0)
-                throw new Exception("Debe seleccionar un rol.");
+                return CrearUsuarioVacio();
 
             this.iConexion = new Conexion();
 
-            this.iConexion.StringConexion = Configuraciones.obtener("StringConexion");
+            this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
 
             var correo = entidad.Correo.Trim().ToLower();
 
-            var usuarioExistente = this.iConexion.Usuarios!.FirstOrDefault(x => x.Correo.ToLower() == correo);
+            var usuarioExistente = this.iConexion.Usuarios!
+                .FirstOrDefault(x => x.Correo.ToLower() == correo);
 
             if (usuarioExistente != null)
-                throw new Exception("Ya existe un usuario con ese correo.");
+                return CrearUsuarioVacio();
 
             var claveOriginal = entidad.ClaveHash;
 
@@ -160,15 +161,15 @@ namespace LibInmobiliaria.Implementaciones.Seguridad
         public Usuarios? ValidarLogin(string correo, string clave)
         {
             if (string.IsNullOrWhiteSpace(correo))
-                throw new Exception("Debe ingresar el correo.");
+                return CrearUsuarioVacio();
 
             if (string.IsNullOrWhiteSpace(clave))
-                throw new Exception("Debe ingresar la clave.");
+                return CrearUsuarioVacio();
 
             var usuario = BuscarPorCorreo(correo);
 
             if (usuario == null)
-                throw new Exception("Correo o clave incorrectos.");
+                return CrearUsuarioVacio();
 
             var claveCorrecta = ValidarClave(
                 clave,
@@ -177,7 +178,7 @@ namespace LibInmobiliaria.Implementaciones.Seguridad
             );
 
             if (!claveCorrecta)
-                throw new Exception("Correo o clave incorrectos.");
+                return CrearUsuarioVacio();
 
             usuario.ClaveHash = "";
             usuario.ClaveSalt = "";
@@ -193,6 +194,19 @@ namespace LibInmobiliaria.Implementaciones.Seguridad
             var bytes = RandomNumberGenerator.GetBytes(32);
 
             return Convert.ToBase64String(bytes);
+        }
+
+        private Usuarios CrearUsuarioVacio()
+        {
+            return new Usuarios()
+            {
+                Id = 0,
+                Nombre = "",
+                Correo = "",
+                ClaveHash = "",
+                ClaveSalt = "",
+                Rol = 0
+            };
         }
 
         private string CrearHash(string clave, string salt)

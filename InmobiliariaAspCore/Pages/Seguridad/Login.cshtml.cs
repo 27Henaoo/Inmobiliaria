@@ -29,7 +29,6 @@ namespace InmobiliariaAspCore.Pages.Seguridad
                 if (Usuario == null)
                     return Page();
 
-                //Se completan campos que el modelo exige, aunque para login no se usen
                 if (Usuario.Nombre == null)
                     Usuario.Nombre = "";
 
@@ -42,10 +41,21 @@ namespace InmobiliariaAspCore.Pages.Seguridad
                 if (Usuario.ClaveSalt == null)
                     Usuario.ClaveSalt = "";
 
+                var correoIngresado = Usuario.Correo;
+
                 Usuario = iUsuariosNegocio!.ValidarLogin(Usuario);
 
                 if (Usuario == null || Usuario.Id == 0)
                 {
+                    Usuario = new Usuarios()
+                    {
+                        Nombre = "",
+                        Correo = correoIngresado,
+                        ClaveHash = "",
+                        ClaveSalt = "",
+                        Rol = 0
+                    };
+
                     ViewData["Mensaje"] = "Correo o clave incorrectos.";
                     return Page();
                 }

@@ -43,16 +43,28 @@ namespace InmobiliariaAspCore.Pages.Seguridad
                 if (Usuario.ClaveHash != ClaveConfirmacion)
                     throw new Exception("Las claves no coinciden.");
 
-                //Rol 3 = Guest
+                // Rol 3 = Guest
                 Usuario.Rol = 3;
 
-                //Se completa porque el modelo Usuarios lo exige.
+                // Se completa porque el modelo Usuarios lo exige.
                 Usuario.ClaveSalt = "";
 
                 Usuario = iUsuariosNegocio!.Guardar(Usuario);
 
-                if (Usuario.Id == 0)
+                if (Usuario == null || Usuario.Id == 0)
+                {
+                    Usuario = new Usuarios()
+                    {
+                        Nombre = "",
+                        Correo = "",
+                        ClaveHash = "",
+                        ClaveSalt = "",
+                        Rol = 0
+                    };
+
+                    ViewData["Mensaje"] = "Ya existe un usuario con ese correo.";
                     return Page();
+                }
 
                 return RedirectToPage("/Seguridad/Login");
             }
