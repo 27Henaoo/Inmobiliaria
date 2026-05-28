@@ -4,285 +4,603 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0" />
+
     <title>@ViewData["Title"] - InmobiliariaAspCore</title>
+
     <script type="importmap"></script>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/InmobiliariaAspCore.styles.css" asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <link rel="stylesheet"
+          href="~/css/site.css"
+          asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="~/InmobiliariaAspCore.styles.css"
+          asp-append-version="true" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+
 </head>
-<body>
+
+<body class="inmo-body">
     <header>
         @{
             var usuarioNombre = Context.Session.GetString("UsuarioNombre");
             var usuarioRolNombre = Context.Session.GetString("UsuarioRolNombre");
+
+            var esAdmin = usuarioRolNombre == "Admin";
+            var esEjecutivo = usuarioRolNombre == "Ejecutivo";
+
+            //Si no hay sesion, se muestra el mismo menu del rol Guest
+            var esInvitado = string.IsNullOrEmpty(usuarioNombre) || usuarioRolNombre == "Guest" || usuarioRolNombre == "Invitado";
         }
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">Inmobiliaria</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+
+        <nav id="header" class="navbar navbar-expand-lg navbar-dark site-navbar border-bottom box-shadow mb-4">
+            <div class="container-fluid">
+
+                <a class="navbar-brand fw-semibold d-flex align-items-center gap-2"
+                   asp-area=""
+                   asp-page="/Index">
+                    <span class="brand-mark">I</span>
+                    <span>Inmobiliaria</span>
+                </a>
+
+                <button class="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target=".navbar-collapse"
+                        aria-controls="navbarSupportedContent"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+
+                <div class="navbar-collapse collapse d-lg-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1 flex-wrap">
+
                         <li class="nav-item">
-                            <a class="nav-link text-dark" 
-                            asp-area="" 
-                            asp-page="/Index">
-                            Home
-                        </a>
+                            <a class="nav-link text-dark"
+                               asp-area=""
+                               asp-page="/Index">
+                                Home
+                            </a>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link text-dark" 
-                            asp-area="" 
-                            asp-page="/Privacy">
-                            Privacy
+                            <a class="nav-link text-dark"
+                               asp-area=""
+                               asp-page="/Privacy">
+                                Privacy
+                            </a>
+                        </li>
+
+                        @* 
+                           Menu Admin
+                           Puede ver todo
+                            *@
+                        @if (esAdmin)
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark"
+                                   href="#"
+                                   role="button"
+                                   data-bs-toggle="dropdown"
+                                   aria-expanded="false">
+                                    Catalogos
                                 </a>
-                        </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark"
-                                   asp-area=""
-                                   asp-page="/Ventanas/EstadosCiviles">
-                                Estados Civiles
-                            </a>
-                        </li>
+                                <ul class="dropdown-menu inmo-dropdown">
+                                    <li>
+                                        <a class="dropdown-item inmo-drop-link"
+                                           asp-area=""
+                                           asp-page="/Ventanas/EstadosCiviles">
+                                            Estados Civiles
+                                        </a>
+                                    </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark"
-                                   asp-area=""
-                                   asp-page="/Ventanas/Nacionalidades">
-                                Nacionalidades
-                            </a>
-                        </li>
+                                    <li>
+                                        <a class="dropdown-item inmo-drop-link"
+                                           asp-area=""
+                                           asp-page="/Ventanas/Nacionalidades">
+                                            Nacionalidades
+                                        </a>
+                                    </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark"
-                                   asp-area=""
-                                   asp-page="/Ventanas/TiposContratos">
-                                Tipos Contratos
-                            </a>
-                        </li>
+                                    <li>
+                                        <a class="dropdown-item inmo-drop-link"
+                                           asp-area=""
+                                           asp-page="/Ventanas/TiposContratos">
+                                            Tipos Contratos
+                                        </a>
+                                    </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark"
-                                   asp-area=""
-                                   asp-page="/Ventanas/TiposPropiedades">
-                                Tipos Propiedades
-                            </a>
-                        </li>
+                                    <li>
+                                        <a class="dropdown-item inmo-drop-link"
+                                           asp-area=""
+                                           asp-page="/Ventanas/TiposPropiedades">
+                                            Tipos Propiedades
+                                        </a>
+                                    </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark"
-                               asp-area=""
-                               asp-page="/Ventanas/Departamentos">
-                                Departamentos
-                            </a>
-                        </li>
+                                    <li>
+                                        <a class="dropdown-item inmo-drop-link"
+                                           asp-area=""
+                                           asp-page="/Ventanas/Departamentos">
+                                            Departamentos
+                                        </a>
+                                    </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark"
-                               asp-area=""
-                               asp-page="/Ventanas/Ciudades">
-                                Ciudades
-                            </a>
-                        </li>
+                                    <li>
+                                        <a class="dropdown-item inmo-drop-link"
+                                           asp-area=""
+                                           asp-page="/Ventanas/Ciudades">
+                                            Ciudades
+                                        </a>
+                                    </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark"
-                               asp-area=""
-                               asp-page="/Ventanas/Sectores">
-                                Sectores
-                            </a>
-                        </li>
+                                    <li>
+                                        <a class="dropdown-item inmo-drop-link"
+                                           asp-area=""
+                                           asp-page="/Ventanas/Sectores">
+                                            Sectores
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark"
-                               asp-area=""
-                               asp-page="/Ventanas/Telefonos">
-                                Telefonos
-                            </a>
-                        </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark"
+                                   href="#"
+                                   role="button"
+                                   data-bs-toggle="dropdown"
+                                   aria-expanded="false">
+                                    Sujetos
+                                </a>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark"
-                               asp-area=""
-                               asp-page="/Ventanas/Direcciones">
-                                Direcciones
-                            </a>
-                        </li>
+                                <ul class="dropdown-menu inmo-dropdown">
+                                    <li>
+                                        <a class="dropdown-item inmo-drop-link"
+                                           asp-area=""
+                                           asp-page="/Ventanas/Personas">
+                                            Personas
+                                        </a>
+                                    </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark"
-                               asp-area=""
-                               asp-page="/Ventanas/Personas">
-                                Personas
-                            </a>
-                        </li>
+                                    <li>
+                                        <a class="dropdown-item inmo-drop-link"
+                                           asp-area=""
+                                           asp-page="/Ventanas/Telefonos">
+                                            Telefonos
+                                        </a>
+                                    </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark"
-                               asp-area=""
-                               asp-page="/Ventanas/Trabajadores">
-                                Trabajadores
-                            </a>
-                        </li>
+                                    <li>
+                                        <a class="dropdown-item inmo-drop-link"
+                                           asp-area=""
+                                           asp-page="/Ventanas/Direcciones">
+                                            Direcciones
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark"
-                               asp-area=""
-                               asp-page="/Ventanas/AdministradoresDepartamentos">
-                                AdministradoresDepartamentos
-                            </a>
-                        </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark"
+                                   href="#"
+                                   role="button"
+                                   data-bs-toggle="dropdown"
+                                   aria-expanded="false">
+                                    RRHH
+                                </a>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark"
-                               asp-area=""
-                               asp-page="/Ventanas/JefesSectores">
-                                JefesSectores
-                            </a>
-                        </li>
+                                <ul class="dropdown-menu inmo-dropdown">
+                                    <li>
+                                        <a class="dropdown-item inmo-drop-link"
+                                           asp-area=""
+                                           asp-page="/Ventanas/Trabajadores">
+                                            Trabajadores
+                                        </a>
+                                    </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark"
-                               asp-area=""
-                               asp-page="/Ventanas/EmpleadosSectores">
-                                EmpleadosSectores
-                            </a>
-                        </li>
+                                    <li>
+                                        <a class="dropdown-item inmo-drop-link"
+                                           asp-area=""
+                                           asp-page="/Ventanas/AdministradoresDepartamentos">
+                                            AdministradoresDepartamentos
+                                        </a>
+                                    </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark"
-                               asp-area=""
-                               asp-page="/Ventanas/ExpedientesLaborales">
-                                ExpedientesLaborales
-                            </a>
-                        </li>
+                                    <li>
+                                        <a class="dropdown-item inmo-drop-link"
+                                           asp-area=""
+                                           asp-page="/Ventanas/JefesSectores">
+                                            JefesSectores
+                                        </a>
+                                    </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark"
-                               asp-area=""
-                               asp-page="/Ventanas/Clientes">
-                                Clientes
-                            </a>
-                        </li>
+                                    <li>
+                                        <a class="dropdown-item inmo-drop-link"
+                                           asp-area=""
+                                           asp-page="/Ventanas/EmpleadosSectores">
+                                            EmpleadosSectores
+                                        </a>
+                                    </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark"
-                               asp-area=""
-                               asp-page="/Ventanas/Compradores">
-                                Compradores
-                            </a>
-                        </li>
+                                    <li>
+                                        <a class="dropdown-item inmo-drop-link"
+                                           asp-area=""
+                                           asp-page="/Ventanas/ExpedientesLaborales">
+                                            ExpedientesLaborales
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark"
-                               asp-area=""
-                               asp-page="/Ventanas/Codeudores">
-                                Codeudores
-                            </a>
-                        </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark"
+                                   href="#"
+                                   role="button"
+                                   data-bs-toggle="dropdown"
+                                   aria-expanded="false">
+                                    Comercial
+                                </a>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark"
-                               asp-area=""
-                               asp-page="/Ventanas/CodeudoresCompradores">
-                                CodeudoresCompradores
-                            </a>
-                        </li>
+                                <ul class="dropdown-menu inmo-dropdown">
+                                    <li>
+                                        <a class="dropdown-item inmo-drop-link"
+                                           asp-area=""
+                                           asp-page="/Ventanas/Clientes">
+                                            Clientes
+                                        </a>
+                                    </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark"
-                               asp-area=""
-                               asp-page="/Ventanas/EmpleadosCompradores">
-                                EmpleadosCompradores
-                            </a>
-                        </li>
+                                    <li>
+                                        <a class="dropdown-item inmo-drop-link"
+                                           asp-area=""
+                                           asp-page="/Ventanas/Compradores">
+                                            Compradores
+                                        </a>
+                                    </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark"
-                               asp-area=""
-                               asp-page="/Ventanas/ExpedientesFinancieros">
-                                ExpedientesFinancieros
-                            </a>
-                        </li>
+                                    <li>
+                                        <a class="dropdown-item inmo-drop-link"
+                                           asp-area=""
+                                           asp-page="/Ventanas/Codeudores">
+                                            Codeudores
+                                        </a>
+                                    </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark"
-                               asp-area=""
-                               asp-page="/Ventanas/ActivosFinancieros">
-                                ActivosFinancieros
-                            </a>
-                        </li>
+                                    <li>
+                                        <a class="dropdown-item inmo-drop-link"
+                                           asp-area=""
+                                           asp-page="/Ventanas/CodeudoresCompradores">
+                                            CodeudoresCompradores
+                                        </a>
+                                    </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark"
-                               asp-area=""
-                               asp-page="/Ventanas/Bienes">
-                                Bienes
-                            </a>
-                        </li>
+                                    <li>
+                                        <a class="dropdown-item inmo-drop-link"
+                                           asp-area=""
+                                           asp-page="/Ventanas/EmpleadosCompradores">
+                                            EmpleadosCompradores
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark"
-                               asp-area=""
-                               asp-page="/Ventanas/BienesMuebles">
-                                BienesMuebles
-                            </a>
-                        </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark"
+                                   href="#"
+                                   role="button"
+                                   data-bs-toggle="dropdown"
+                                   aria-expanded="false">
+                                    Financiero
+                                </a>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark"
-                               asp-area=""
-                               asp-page="/Ventanas/BienesInmuebles">
-                                BienesInmuebles
-                            </a>
-                        </li>
+                                <ul class="dropdown-menu inmo-dropdown">
+                                    <li>
+                                        <a class="dropdown-item inmo-drop-link"
+                                           asp-area=""
+                                           asp-page="/Ventanas/ExpedientesFinancieros">
+                                            ExpedientesFinancieros
+                                        </a>
+                                    </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark"
-                               asp-area=""
-                               asp-page="/Ventanas/Propiedades">
-                                Propiedades
-                            </a>
-                        </li>
+                                    <li>
+                                        <a class="dropdown-item inmo-drop-link"
+                                           asp-area=""
+                                           asp-page="/Ventanas/ActivosFinancieros">
+                                            ActivosFinancieros
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark"
-                               asp-area=""
-                               asp-page="/Ventanas/Contratos">
-                                Contratos
-                            </a>
-                        </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark"
+                                   href="#"
+                                   role="button"
+                                   data-bs-toggle="dropdown"
+                                   aria-expanded="false">
+                                    Patrimonio
+                                </a>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark"
-                               asp-area=""
-                               asp-page="/Ventanas/ContratosEmpleados">
-                                ContratosEmpleados
-                            </a>
-                        </li>
+                                <ul class="dropdown-menu inmo-dropdown">
+                                    <li>
+                                        <a class="dropdown-item inmo-drop-link"
+                                           asp-area=""
+                                           asp-page="/Ventanas/Bienes">
+                                            Bienes
+                                        </a>
+                                    </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark"
-                               asp-area=""
-                               asp-page="/Ventanas/ContratosCodeudores">
-                                ContratosCodeudores
-                            </a>
-                        </li>
-                        
+                                    <li>
+                                        <a class="dropdown-item inmo-drop-link"
+                                           asp-area=""
+                                           asp-page="/Ventanas/BienesMuebles">
+                                            BienesMuebles
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a class="dropdown-item inmo-drop-link"
+                                           asp-area=""
+                                           asp-page="/Ventanas/BienesInmuebles">
+                                            BienesInmuebles
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark"
+                                   href="#"
+                                   role="button"
+                                   data-bs-toggle="dropdown"
+                                   aria-expanded="false">
+                                    Convenios
+                                </a>
+
+                                <ul class="dropdown-menu inmo-dropdown">
+                                    <li>
+                                        <a class="dropdown-item inmo-drop-link"
+                                           asp-area=""
+                                           asp-page="/Ventanas/Propiedades">
+                                            Propiedades
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a class="dropdown-item inmo-drop-link"
+                                           asp-area=""
+                                           asp-page="/Ventanas/Contratos">
+                                            Contratos
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a class="dropdown-item inmo-drop-link"
+                                           asp-area=""
+                                           asp-page="/Ventanas/ContratosEmpleados">
+                                            ContratosEmpleados
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a class="dropdown-item inmo-drop-link"
+                                           asp-area=""
+                                           asp-page="/Ventanas/ContratosCodeudores">
+                                            ContratosCodeudores
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+
+                        @* 
+                           MENU EJECUTIVO
+                           Puede ver lo operativo , lo que necesitamos
+                            *@
+                        @if (esEjecutivo)
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark"
+                                   href="#"
+                                   role="button"
+                                   data-bs-toggle="dropdown"
+                                   aria-expanded="false">
+                                    Gestion Comercial
+                                </a>
+
+                                <ul class="dropdown-menu inmo-dropdown">
+                                    <li>
+                                        <a class="dropdown-item inmo-drop-link"
+                                           asp-area=""
+                                           asp-page="/Ventanas/Propiedades">
+                                            Propiedades
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a class="dropdown-item inmo-drop-link"
+                                           asp-area=""
+                                           asp-page="/Ventanas/Clientes">
+                                            Clientes
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a class="dropdown-item inmo-drop-link"
+                                           asp-area=""
+                                           asp-page="/Ventanas/Compradores">
+                                            Compradores
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a class="dropdown-item inmo-drop-link"
+                                           asp-area=""
+                                           asp-page="/Ventanas/Codeudores">
+                                            Codeudores
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a class="dropdown-item inmo-drop-link"
+                                           asp-area=""
+                                           asp-page="/Ventanas/Contratos">
+                                            Contratos
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark"
+                                   href="#"
+                                   role="button"
+                                   data-bs-toggle="dropdown"
+                                   aria-expanded="false">
+                                    Apoyo RRHH
+                                </a>
+
+                                <ul class="dropdown-menu inmo-dropdown">
+                                    <li>
+                                        <a class="dropdown-item inmo-drop-link"
+                                           asp-area=""
+                                           asp-page="/Ventanas/EmpleadosSectores">
+                                            EmpleadosSectores
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a class="dropdown-item inmo-drop-link"
+                                           asp-area=""
+                                           asp-page="/Ventanas/JefesSectores">
+                                            JefesSectores
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a class="dropdown-item inmo-drop-link"
+                                           asp-area=""
+                                           asp-page="/Ventanas/Sectores">
+                                            Sectores
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a class="dropdown-item inmo-drop-link"
+                                           asp-area=""
+                                           asp-page="/Ventanas/ExpedientesLaborales">
+                                            ExpedientesLaborales
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark"
+                                   href="#"
+                                   role="button"
+                                   data-bs-toggle="dropdown"
+                                   aria-expanded="false">
+                                    Relaciones
+                                </a>
+
+                                <ul class="dropdown-menu inmo-dropdown">
+                                    <li>
+                                        <a class="dropdown-item inmo-drop-link"
+                                           asp-area=""
+                                           asp-page="/Ventanas/EmpleadosCompradores">
+                                            EmpleadosCompradores
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a class="dropdown-item inmo-drop-link"
+                                           asp-area=""
+                                           asp-page="/Ventanas/CodeudoresCompradores">
+                                            CodeudoresCompradores
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a class="dropdown-item inmo-drop-link"
+                                           asp-area=""
+                                           asp-page="/Ventanas/ContratosEmpleados">
+                                            ContratosEmpleados
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a class="dropdown-item inmo-drop-link"
+                                           asp-area=""
+                                           asp-page="/Ventanas/ContratosCodeudores">
+                                            ContratosCodeudores
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+
+                        @* 
+                           Menu GUEST / INVITADO / SIN CUENTA
+                           Sin cuenta ve lo mismo que Guest
+                            *@
+                        @if (esInvitado)
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark"
+                                   href="#"
+                                   role="button"
+                                   data-bs-toggle="dropdown"
+                                   aria-expanded="false">
+                                    Consultas
+                                </a>
+
+                                <ul class="dropdown-menu inmo-dropdown">
+                                    <li>
+                                        <a class="dropdown-item inmo-drop-link"
+                                           asp-area=""
+                                           asp-page="/Ventanas/Propiedades">
+                                            Propiedades
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a class="dropdown-item inmo-drop-link"
+                                           asp-area=""
+                                           asp-page="/Ventanas/TiposPropiedades">
+                                            Tipos Propiedades
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+
+                        @* Dela sesion *@
                         @if (!string.IsNullOrEmpty(usuarioNombre))
                         {
-                            <li class="nav-item">
-                                <span class="nav-link text-dark">
-                                    @usuarioNombre - @usuarioRolNombre
+                            <li class="nav-item ms-lg-auto">
+                                <span class="nav-link text-dark fw-semibold">
+                                    @usuarioNombre
+                                    <span class="badge bg-secondary">
+                                        @usuarioRolNombre
+                                    </span>
                                 </span>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link text-dark"
+                                <a class="nav-link text-danger"
                                    asp-area=""
                                    asp-page="/Seguridad/Logout">
                                     CerrarSesion
@@ -291,7 +609,7 @@
                         }
                         else
                         {
-                            <li class="nav-item">
+                            <li class="nav-item ms-lg-auto">
                                 <a class="nav-link text-dark"
                                    asp-area=""
                                    asp-page="/Seguridad/Login">
@@ -313,8 +631,10 @@
             </div>
         </nav>
     </header>
+
     <div class="container">
-        <main role="main" class="pb-3">
+        <main role="main"
+              class="pb-3">
             @RenderBody()
         </main>
     </div>
@@ -326,8 +646,11 @@
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script src="~/js/site.js"
+            asp-append-version="true"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>
