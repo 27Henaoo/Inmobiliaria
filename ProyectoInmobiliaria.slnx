@@ -10,6 +10,7 @@
   </Folder>
   <Folder Name="/3.PruebasUnitarias/">
     <Project Path="PruebasUnitarias/PruebasUnitarias.csproj" Id="5a46e831-8a58-4a81-b2a4-f3787ee715cf" />
+    <Project Path="PruebasUnitariasComunicaciones/PruebasUnitariasComunicaciones.csproj" Id="186d24e5-86c1-4784-af5a-e0a5358881ef" />
   </Folder>
   <Folder Name="/4. APIs/">
     <Project Path="Inmobiliaria.Api/Inmobiliaria.Api.csproj" Id="ad0dbb03-6de9-4526-bbe8-7bc23f0fea98" />
