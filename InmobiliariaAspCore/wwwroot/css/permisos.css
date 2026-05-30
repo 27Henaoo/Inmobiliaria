@@ -1,0 +1,18 @@
+﻿/* Guest / Invitado / Sin cuenta:
+   solo puede consultar, no crear, guardar, modificar ni borrar */
+body.rol-guest input[type="submit"][value="Nuevo"],
+body.rol-guest input[type="submit"][value="Guardar"],
+body.rol-guest input[type="submit"][value="Modificar"],
+body.rol-guest input[type="submit"][value="Borrar"],
+body.rol-invitado input[type="submit"][value="Nuevo"],
+body.rol-invitado input[type="submit"][value="Guardar"],
+body.rol-invitado input[type="submit"][value="Modificar"],
+body.rol-invitado input[type="submit"][value="Borrar"] {
+    display: none !important;
+}
+
+/* Ejecutivo:
+   puede crear/modificar, pero no borrar */
+body.rol-ejecutivo input[type="submit"][value="Borrar"] {
+    display: none !important;
+}

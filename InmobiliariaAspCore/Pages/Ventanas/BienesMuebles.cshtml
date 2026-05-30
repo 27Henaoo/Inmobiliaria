@@ -7,14 +7,15 @@
 <center>
     <div>
         <form method="POST"
-              enctype="multipart/form-data">
+              enctype="multipart/form-data" 
+              class="crud-page">
             @Html.AntiForgeryToken()
 
             <div align="left">
                 <h3>BienesMuebles</h3>
             </div>
 
-            <div>
+            <div class="crud-toolbar">
                 <input type="submit"
                        value="Refrescar"
                        class="btn btn-secondary"
@@ -38,7 +39,7 @@
                 <input type="hidden"
                        asp-for="@Model.BienMueble!.Id" />
 
-                <div>
+                <div class="crud-editor">
                     <div class="form-group">
                         <label>
                             Nombre
