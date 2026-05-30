@@ -7,6 +7,55 @@ namespace LibInmobiliaria.Implementaciones.Patrimonio
 {
     public class BienesInmueblesNegocio : IBienesInmueblesNegocio
     {
+        private string ObtenerDatosBienesInmuebles(BienesInmuebles entidad)
+        {
+            return $"Id: {entidad.Id}, " +
+                   $"Nombre: {entidad.Nombre}, " +
+                   $"Descripcion: {entidad.Descripcion}, " +
+                   $"FechaAdquisicion: {entidad.FechaAdquisicion}, " +
+                   $"PrecioCompra: {entidad.PrecioCompra}, " +
+                   $"ValorActual: {entidad.ValorActual}, " +
+                   $"ExpedienteFinanciero: {entidad.ExpedienteFinanciero}, " +
+                   $"_ExpedienteFinanciero: {entidad._ExpedienteFinanciero}, " +
+                   $"MetrosCuadrados: {entidad.MetrosCuadrados}, " +
+                   $"Direccion: {entidad.Direccion}, " +
+                   $"EstadoConservacion: {entidad.EstadoConservacion}, " +
+                   $"Estrato: {entidad.Estrato}, " +
+                   $"NumeroHabitaciones: {entidad.NumeroHabitaciones}, " +
+                   $"NumeroBanos: {entidad.NumeroBanos}, " +
+                   $"CodigoCUC: {entidad.CodigoCUC}, " +
+                   $"EncargosDeudas: {entidad.EncargosDeudas}, ";
+        }
+
+
+        private void AgregarHistorico(
+            string accion,
+            int? registroId,
+            string descripcion,
+            string? cambios,
+            string? valorAnterior,
+            string? valorNuevo,
+            bool exitoso,
+            string? error)
+        {
+            this.iConexion!.Historicos!.Add(new Historicos()
+            {
+                Usuario = "ADMIN",
+                Tabla = "BienesInmuebles",
+                Accion = accion,
+                RegistroId = registroId,
+                Descripcion = descripcion,
+                Cambios = cambios,
+                ValorAnterior = valorAnterior,
+                ValorNuevo = valorNuevo,
+                Origen = "Inmobiliaria.Api",
+                Exitoso = exitoso,
+                Error = error,
+                Fecha = DateTime.Now
+            });
+        }
+
+
 
         // Variable privada para manejar la conexión a la base de datos.
         private IConexion? iConexion;
@@ -19,80 +68,217 @@ namespace LibInmobiliaria.Implementaciones.Patrimonio
             // Se asigna la cadena de conexión.
             this.iConexion.StringConexion = Configuraciones.obtener("StringConexion");
 
-            // Se consultan todos los registros de BienesInmuebles y se devuelven en forma de lista.
-            return this.iConexion.BienesInmuebles!.Include(x => x._ExpedienteFinanciero!).ThenInclude(x => x._Persona).ToList();
+            try
+            {
+                // Se consultan los registros de BienesInmuebles en forma de lista.
+                var lista = this.iConexion.BienesInmuebles!.Include(x => x._ExpedienteFinanciero!).ThenInclude(x => x._Persona).ToList();
 
+                AgregarHistorico(
+                    accion: "Consultar",
+                    registroId: null,
+                    descripcion: "Se consultaron los registros de BienesInmuebles",
+                    cambios: "No se modificaron datos",
+                    valorAnterior: null,
+                    valorNuevo: $"Cantidad de registros consultados: {lista.Count}",
+                    exitoso: true,
+                    error: "N/A"
+                );
+
+                this.iConexion.SaveChanges();
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                AgregarHistorico(
+                    accion: "Consultar",
+                    registroId: null,
+                    descripcion: "Fallo al consultar los registros de BienesInmuebles",
+                    cambios: "No se pudo consultar la lista",
+                    valorAnterior: "Error al Consultar",
+                    valorNuevo: "Error al Consultar",
+                    exitoso: false,
+                    error: ex.Message
+                );
+
+                this.iConexion.SaveChanges();
+                throw;
+            }
         }
 
         // Método para guardar BienesInmuebles nuevos.
         public BienesInmuebles Guardar(BienesInmuebles entidad)
         {
-            // Si el Id es distinto de 0, significa que la entidad supuestamente ya fue guardada.
-            if (entidad.Id != 0)
-                throw new Exception("Ya se guardo");
-
             // Se crea una nueva conexión.
             this.iConexion = new Conexion();
 
             // Se asigna la cadena de conexión.
             this.iConexion.StringConexion = Configuraciones.obtener("StringConexion");
 
-            // Se agrega la entidad al conjunto de BienesInmuebles.
-            this.iConexion.BienesInmuebles!.Add(entidad);
+            try
+            {
+                // Si el Id es distinto de 0, significa que la entidad supuestamente ya fue guardada.
+                if (entidad.Id != 0)
+                    throw new Exception("Ya se guardo");
 
-            // Se guardan los cambios en la base de datos.
-            this.iConexion.SaveChanges();
+                // Se agrega la entidad al conjunto de BienesInmuebles.
+                this.iConexion.BienesInmuebles!.Add(entidad);
 
-            // Se devuelve la entidad guardada.
-            return entidad;
+                AgregarHistorico(
+                    accion: "Guardar",
+                    registroId: null,
+                    descripcion: "Se guardo un nuevo registro de BienesInmuebles",
+                    cambios: "Se creo un nuevo registro",
+                    valorAnterior: null,
+                    valorNuevo: ObtenerDatosBienesInmuebles(entidad),
+                    exitoso: true,
+                    error: "N/A"
+                );
+
+                // Se guardan los cambios en la base de datos.
+                this.iConexion.SaveChanges();
+
+                // Se devuelve la entidad guardada.
+                return entidad;
+            }
+            catch (Exception ex)
+            {
+                AgregarHistorico(
+                    accion: "Guardar",
+                    registroId: entidad.Id,
+                    descripcion: "Fallo al guardar un registro de BienesInmuebles",
+                    cambios: "No se pudo crear el registro",
+                    valorAnterior: null,
+                    valorNuevo: ObtenerDatosBienesInmuebles(entidad),
+                    exitoso: false,
+                    error: ex.Message
+                );
+
+                this.iConexion.SaveChanges();
+                throw;
+            }
         }
 
         // Método para modificar BienesInmuebles existentes.
         public BienesInmuebles Modificar(BienesInmuebles entidad)
         {
-            // Si el Id es 0, no se puede modificar porque no existe en base de datos.
-            if (entidad.Id == 0)
-                throw new Exception("No se puede modificar");
-
             // Se crea una nueva conexión.
             this.iConexion = new Conexion();
 
             // Se asigna la cadena de conexión.
             this.iConexion.StringConexion = Configuraciones.obtener("StringConexion");
 
-            // Se obtiene la entrada de Entity Framework para la entidad recibida.
-            var entry = this.iConexion.Entry<BienesInmuebles>(entidad);
+            try
+            {
+                // Si el Id es 0, no se puede modificar porque no existe en base de datos.
+                if (entidad.Id == 0)
+                    throw new Exception("No se puede modificar");
 
-            // Se marca la entidad como modificada.
-            entry.State = EntityState.Modified;
+                var anterior = this.iConexion.BienesInmuebles!.FirstOrDefault(x => x.Id == entidad.Id);
 
-            // Se guardan los cambios en la base de datos.
-            this.iConexion.SaveChanges();
+                if (anterior == null)
+                    throw new Exception("El registro de BienesInmuebles no existe");
 
-            // Se devuelve la entidad modificada.
-            return entidad;
+                string valorAnterior = ObtenerDatosBienesInmuebles(anterior);
+                string valorNuevo = ObtenerDatosBienesInmuebles(entidad);
+
+                // Se obtiene la entrada de Entity Framework para la entidad recibida.
+                var entry = this.iConexion.Entry<BienesInmuebles>(entidad);
+
+                // Se marca la entidad como modificada.
+                entry.State = EntityState.Modified;
+
+                AgregarHistorico(
+                    accion: "Modificar",
+                    registroId: entidad.Id,
+                    descripcion: "Se modifico un registro de BienesInmuebles",
+                    cambios: "Se cambio la informacion del registro",
+                    valorAnterior: valorAnterior,
+                    valorNuevo: valorNuevo,
+                    exitoso: true,
+                    error: "N/A"
+                );
+
+                // Se guardan los cambios en la base de datos.
+                this.iConexion.SaveChanges();
+
+                // Se devuelve la entidad modificada.
+                return entidad;
+            }
+            catch (Exception ex)
+            {
+                AgregarHistorico(
+                    accion: "Modificar",
+                    registroId: entidad.Id,
+                    descripcion: "Fallo al modificar un registro de BienesInmuebles",
+                    cambios: "No se pudo modificar el registro",
+                    valorAnterior: null,
+                    valorNuevo: ObtenerDatosBienesInmuebles(entidad),
+                    exitoso: false,
+                    error: ex.Message
+                );
+
+                this.iConexion.SaveChanges();
+                throw;
+            }
         }
         // Método para borrar BienesInmuebles existentes.
         public BienesInmuebles Borrar(BienesInmuebles entidad)
         {
-            // Si el Id es 0, no se puede borrar porque no existe en base de datos.
-            if (entidad.Id == 0)
-                throw new Exception("No se puede borrar");
-
             // Se crea una nueva conexión.
             this.iConexion = new Conexion();
 
             // Se asigna la cadena de conexión.
             this.iConexion.StringConexion = Configuraciones.obtener("StringConexion");
 
-            // Se marca la entidad para eliminarla.
-            this.iConexion.BienesInmuebles!.Remove(entidad);
+            try
+            {
+                // Si el Id es 0, no se puede borrar porque no existe en base de datos.
+                if (entidad.Id == 0)
+                    throw new Exception("No se puede borrar");
 
-            // Se guardan los cambios en la base de datos.
-            this.iConexion.SaveChanges();
+                var anterior = this.iConexion.BienesInmuebles!.FirstOrDefault(x => x.Id == entidad.Id);
 
-            // Se devuelve la entidad borrada.
-            return entidad;
+                if (anterior == null)
+                    throw new Exception("El registro de BienesInmuebles no existe");
+
+                string valorAnterior = ObtenerDatosBienesInmuebles(anterior);
+
+                // Se marca la entidad para eliminarla.
+                this.iConexion.BienesInmuebles!.Remove(entidad);
+
+                AgregarHistorico(
+                    accion: "Borrar",
+                    registroId: entidad.Id,
+                    descripcion: "Se borro un registro de BienesInmuebles",
+                    cambios: "Se elimino el registro",
+                    valorAnterior: valorAnterior,
+                    valorNuevo: null,
+                    exitoso: true,
+                    error: "N/A"
+                );
+
+                // Se guardan los cambios en la base de datos.
+                this.iConexion.SaveChanges();
+
+                // Se devuelve la entidad borrada.
+                return entidad;
+            }
+            catch (Exception ex)
+            {
+                AgregarHistorico(
+                    accion: "Borrar",
+                    registroId: entidad.Id,
+                    descripcion: "Fallo al borrar un registro de BienesInmuebles",
+                    cambios: "No se pudo eliminar el registro",
+                    valorAnterior: null,
+                    valorNuevo: ObtenerDatosBienesInmuebles(entidad),
+                    exitoso: false,
+                    error: ex.Message
+                );
+
+                this.iConexion.SaveChanges();
+                throw;
+            }
         }
 
     }
