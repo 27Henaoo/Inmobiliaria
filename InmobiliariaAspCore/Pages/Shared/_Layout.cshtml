@@ -37,9 +37,22 @@
           href="~/InmobiliariaAspCore.styles.css"
           asp-append-version="true" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet"
+          href="~/css/navbar.css"
+          asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="~/css/crud.css"
+          asp-append-version="true" />
+
+    <link rel="preconnect" 
+        href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" 
+        href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600;700&display=swap" 
+    rel="stylesheet">
 
 
 </head>
@@ -82,15 +95,15 @@
                     <ul class="navbar-nav flex-grow-1 flex-wrap">
 
                         <li class="nav-item">
-                            <a class="nav-link text-dark"
+                            <a class="nav-link inmo-nav-btn"
                                asp-area=""
                                asp-page="/Index">
-                                Home
+                                Inicio
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link text-dark"
+                            <a class="nav-link inmo-nav-btn"
                                asp-area=""
                                asp-page="/Privacy">
                                 Privacy
@@ -104,7 +117,7 @@
                         @if (esAdmin)
                         {
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-dark"
+                                <a class="nav-link dropdown-toggle inmo-nav-btn"
                                    href="#"
                                    role="button"
                                    data-bs-toggle="dropdown"
@@ -172,7 +185,7 @@
                             </li>
 
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-dark"
+                                <a class="nav-link dropdown-toggle inmo-nav-btn"
                                    href="#"
                                    role="button"
                                    data-bs-toggle="dropdown"
@@ -208,7 +221,7 @@
                             </li>
 
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-dark"
+                                <a class="nav-link dropdown-toggle inmo-nav-btn"
                                    href="#"
                                    role="button"
                                    data-bs-toggle="dropdown"
@@ -260,7 +273,7 @@
                             </li>
 
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-dark"
+                                <a class="nav-link dropdown-toggle inmo-nav-btn"
                                    href="#"
                                    role="button"
                                    data-bs-toggle="dropdown"
@@ -312,7 +325,7 @@
                             </li>
 
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-dark"
+                                <a class="nav-link dropdown-toggle inmo-nav-btn"
                                    href="#"
                                    role="button"
                                    data-bs-toggle="dropdown"
@@ -340,7 +353,7 @@
                             </li>
 
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-dark"
+                                <a class="nav-link dropdown-toggle inmo-nav-btn"
                                    href="#"
                                    role="button"
                                    data-bs-toggle="dropdown"
@@ -376,7 +389,7 @@
                             </li>
 
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-dark"
+                                <a class="nav-link dropdown-toggle inmo-nav-btn"
                                    href="#"
                                    role="button"
                                    data-bs-toggle="dropdown"
@@ -390,6 +403,14 @@
                                            asp-area=""
                                            asp-page="/Ventanas/Propiedades">
                                             Propiedades
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a class="dropdown-item inmo-drop-link"
+                                           asp-area=""
+                                           asp-page="/Ventanas/MapaPropiedades">
+                                            MapaPropiedades
                                         </a>
                                     </li>
 
@@ -427,7 +448,7 @@
                         @if (esEjecutivo)
                         {
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-dark"
+                                <a class="nav-link dropdown-toggle inmo-nav-btn"
                                    href="#"
                                    role="button"
                                    data-bs-toggle="dropdown"
@@ -441,6 +462,15 @@
                                            asp-area=""
                                            asp-page="/Ventanas/Propiedades">
                                             Propiedades
+                                        </a>
+                                    </li>
+
+
+                                    <li>
+                                        <a class="dropdown-item inmo-drop-link"
+                                           asp-area=""
+                                           asp-page="/Ventanas/MapaPropiedades">
+                                            MapaPropiedades
                                         </a>
                                     </li>
 
@@ -479,7 +509,7 @@
                             </li>
 
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-dark"
+                                <a class="nav-link dropdown-toggle inmo-nav-btn"
                                    href="#"
                                    role="button"
                                    data-bs-toggle="dropdown"
@@ -523,7 +553,7 @@
                             </li>
 
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-dark"
+                                <a class="nav-link dropdown-toggle inmo-nav-btn"
                                    href="#"
                                    role="button"
                                    data-bs-toggle="dropdown"
@@ -574,7 +604,7 @@
                         @if (esInvitado)
                         {
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-dark"
+                                <a class="nav-link dropdown-toggle inmo-nav-btn"
                                    href="#"
                                    role="button"
                                    data-bs-toggle="dropdown"
@@ -594,6 +624,16 @@
                                     <li>
                                         <a class="dropdown-item inmo-drop-link"
                                            asp-area=""
+                                           asp-page="/Ventanas/MapaPropiedades">
+                                            MapaPropiedades
+                                        </a>
+                                    </li>
+
+
+
+                                    <li>
+                                        <a class="dropdown-item inmo-drop-link"
+                                           asp-area=""
                                            asp-page="/Ventanas/TiposPropiedades">
                                             Tipos Propiedades
                                         </a>
@@ -606,7 +646,7 @@
                         @if (!string.IsNullOrEmpty(usuarioNombre))
                         {
                             <li class="nav-item ms-lg-auto">
-                                <span class="nav-link text-dark fw-semibold">
+                                <span class="nav-link inmo-user-pill fw-semibold">
                                     @usuarioNombre
                                     <span class="badge bg-secondary">
                                         @usuarioRolNombre
@@ -615,7 +655,7 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link text-danger"
+                                <a class="nav-link inmo-nav-btn inmo-nav-danger"
                                    asp-area=""
                                    asp-page="/Seguridad/Logout">
                                     CerrarSesion
@@ -625,7 +665,7 @@
                         else
                         {
                             <li class="nav-item ms-lg-auto">
-                                <a class="nav-link text-dark"
+                                <a class="nav-link inmo-nav-btn"
                                    asp-area=""
                                    asp-page="/Seguridad/Login">
                                     Login
@@ -633,7 +673,7 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link text-dark"
+                                <a class="nav-link inmo-nav-btn"
                                    asp-area=""
                                    asp-page="/Seguridad/Register">
                                     Register

@@ -1,10 +1,462 @@
 ﻿@page
+@using Microsoft.AspNetCore.Http
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Inicio";
+
+    var usuarioNombre = HttpContext.Session.GetString("UsuarioNombre");
+    var usuarioRolNombre = HttpContext.Session.GetString("UsuarioRolNombre");
+
+    var esAdmin = usuarioRolNombre == "Admin";
+    var esEjecutivo = usuarioRolNombre == "Ejecutivo";
+    var esGuest = string.IsNullOrEmpty(usuarioNombre) ||
+                  usuarioRolNombre == "Guest" ||
+                  usuarioRolNombre == "Invitado";
+
+    var rolActual = string.IsNullOrEmpty(usuarioRolNombre) ? "Guest" : usuarioRolNombre;
+    var nombreActual = string.IsNullOrEmpty(usuarioNombre) ? "Invitado" : usuarioNombre;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<section class="resido-home-hero">
+    <div class="resido-hero-overlay"></div>
+
+    <div class="resido-hero-content">
+        <span class="resido-eyebrow">
+            Sistema Inmobiliario
+        </span>
+
+        <h1>
+            Encuentra, gestiona y visualiza propiedades con facilidad
+        </h1>
+
+        <p>
+            Plataforma inmobiliaria con roles, reportes, imagenes, mapa de ubicacion y control de acceso para cada tipo de usuario.
+        </p>
+
+        <div class="resido-search-panel">
+            <div class="resido-search-item">
+                <span>
+                    Rol actual
+                </span>
+
+                <strong>
+                    @rolActual
+                </strong>
+            </div>
+
+            <div class="resido-search-item">
+                <span>
+                    Usuario
+                </span>
+
+                <strong>
+                    @nombreActual
+                </strong>
+            </div>
+
+            <div class="resido-search-item">
+                <span>
+                    Modulo principal
+                </span>
+
+                <strong>
+                    Propiedades
+                </strong>
+            </div>
+
+            <a class="resido-search-btn"
+               asp-area=""
+               asp-page="/Ventanas/Propiedades">
+                Explorar
+            </a>
+        </div>
+
+        <div class="resido-hero-actions">
+            <a class="resido-btn-primary"
+               asp-area=""
+               asp-page="/Ventanas/Propiedades">
+                Ver Propiedades
+            </a>
+
+            <a class="resido-btn-outline"
+               asp-area=""
+               asp-page="/Ventanas/MapaPropiedades">
+                Ver Mapa
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="resido-about-row">
+    <div class="resido-about-card">
+        <span class="resido-about-icon">
+            B
+        </span>
+
+        <h3>
+            Busqueda rapida
+        </h3>
+
+        <p>
+            Consulta propiedades disponibles y tipos de inmuebles desde el menu de consultas.
+        </p>
+    </div>
+
+    <div class="resido-about-card">
+        <span class="resido-about-icon">
+            M
+        </span>
+
+        <h3>
+            Mapa integrado
+        </h3>
+
+        <p>
+            Visualiza propiedades con latitud y longitud registradas dentro del sistema.
+        </p>
+    </div>
+
+    <div class="resido-about-card">
+        <span class="resido-about-icon">
+            R
+        </span>
+
+        <h3>
+            Reportes
+        </h3>
+
+        <p>
+            Exporta informacion de propiedades a Excel e imprime reportes en PDF.
+        </p>
+    </div>
+</section>
+
+<section class="resido-section">
+    <div class="resido-section-heading">
+        <span>
+            Accesos
+        </span>
+
+        <h2>
+            Opciones disponibles
+        </h2>
+
+        <p>
+            Estas opciones cambian segun el rol activo del usuario.
+        </p>
+    </div>
+
+    <div class="resido-module-grid">
+        @if (esGuest)
+        {
+            <a class="resido-module-card"
+               asp-area=""
+               asp-page="/Ventanas/Propiedades">
+                <div class="resido-module-top">
+                    <span>
+                        P
+                    </span>
+
+                    <small>
+                        Consulta
+                    </small>
+                </div>
+
+                <h3>
+                    Propiedades
+                </h3>
+
+                <p>
+                    Visualiza propiedades registradas sin modificar informacion.
+                </p>
+            </a>
+
+            <a class="resido-module-card"
+               asp-area=""
+               asp-page="/Ventanas/MapaPropiedades">
+                <div class="resido-module-top">
+                    <span>
+                        M
+                    </span>
+
+                    <small>
+                        Ubicacion
+                    </small>
+                </div>
+
+                <h3>
+                    Mapa de Propiedades
+                </h3>
+
+                <p>
+                    Consulta las propiedades ubicadas en el mapa.
+                </p>
+            </a>
+
+            <a class="resido-module-card"
+               asp-area=""
+               asp-page="/Ventanas/TiposPropiedades">
+                <div class="resido-module-top">
+                    <span>
+                        T
+                    </span>
+
+                    <small>
+                        Catalogo
+                    </small>
+                </div>
+
+                <h3>
+                    Tipos de Propiedades
+                </h3>
+
+                <p>
+                    Revisa los tipos de inmuebles disponibles.
+                </p>
+            </a>
+        }
+
+        @if (esEjecutivo)
+        {
+            <a class="resido-module-card"
+               asp-area=""
+               asp-page="/Ventanas/Propiedades">
+                <div class="resido-module-top">
+                    <span>
+                        P
+                    </span>
+
+                    <small>
+                        Gestion
+                    </small>
+                </div>
+
+                <h3>
+                    Propiedades
+                </h3>
+
+                <p>
+                    Crea y modifica propiedades segun permisos.
+                </p>
+            </a>
+
+            <a class="resido-module-card"
+               asp-area=""
+               asp-page="/Ventanas/Clientes">
+                <div class="resido-module-top">
+                    <span>
+                        C
+                    </span>
+
+                    <small>
+                        Comercial
+                    </small>
+                </div>
+
+                <h3>
+                    Clientes
+                </h3>
+
+                <p>
+                    Administra informacion comercial de clientes.
+                </p>
+            </a>
+
+            <a class="resido-module-card"
+               asp-area=""
+               asp-page="/Ventanas/Contratos">
+                <div class="resido-module-top">
+                    <span>
+                        K
+                    </span>
+
+                    <small>
+                        Convenios
+                    </small>
+                </div>
+
+                <h3>
+                    Contratos
+                </h3>
+
+                <p>
+                    Consulta y gestiona contratos inmobiliarios.
+                </p>
+            </a>
+
+            <a class="resido-module-card"
+               asp-area=""
+               asp-page="/Ventanas/MapaPropiedades">
+                <div class="resido-module-top">
+                    <span>
+                        M
+                    </span>
+
+                    <small>
+                        Ubicacion
+                    </small>
+                </div>
+
+                <h3>
+                    Mapa
+                </h3>
+
+                <p>
+                    Visualiza propiedades registradas por ubicacion.
+                </p>
+            </a>
+        }
+
+        @if (esAdmin)
+        {
+            <a class="resido-module-card"
+               asp-area=""
+               asp-page="/Ventanas/Propiedades">
+                <div class="resido-module-top">
+                    <span>
+                        P
+                    </span>
+
+                    <small>
+                        Principal
+                    </small>
+                </div>
+
+                <h3>
+                    Propiedades
+                </h3>
+
+                <p>
+                    Gestiona propiedades, imagenes, reportes y mapa.
+                </p>
+            </a>
+
+            <a class="resido-module-card"
+               asp-area=""
+               asp-page="/Ventanas/Clientes">
+                <div class="resido-module-top">
+                    <span>
+                        C
+                    </span>
+
+                    <small>
+                        Comercial
+                    </small>
+                </div>
+
+                <h3>
+                    Clientes
+                </h3>
+
+                <p>
+                    Gestion completa de clientes del sistema.
+                </p>
+            </a>
+
+            <a class="resido-module-card"
+               asp-area=""
+               asp-page="/Ventanas/Trabajadores">
+                <div class="resido-module-top">
+                    <span>
+                        R
+                    </span>
+
+                    <small>
+                        RRHH
+                    </small>
+                </div>
+
+                <h3>
+                    Recursos Humanos
+                </h3>
+
+                <p>
+                    Acceso a trabajadores, jefes y empleados.
+                </p>
+            </a>
+
+            <a class="resido-module-card"
+               asp-area=""
+               asp-page="/Ventanas/Contratos">
+                <div class="resido-module-top">
+                    <span>
+                        K
+                    </span>
+
+                    <small>
+                        Convenios
+                    </small>
+                </div>
+
+                <h3>
+                    Contratos
+                </h3>
+
+                <p>
+                    Control de contratos, compradores y codeudores.
+                </p>
+            </a>
+
+            <a class="resido-module-card"
+               asp-area=""
+               asp-page="/Ventanas/ExpedientesFinancieros">
+                <div class="resido-module-top">
+                    <span>
+                        F
+                    </span>
+
+                    <small>
+                        Finanzas
+                    </small>
+                </div>
+
+                <h3>
+                    Financiero
+                </h3>
+
+                <p>
+                    Consulta expedientes y activos financieros.
+                </p>
+            </a>
+
+            <a class="resido-module-card"
+               asp-area=""
+               asp-page="/Ventanas/MapaPropiedades">
+                <div class="resido-module-top">
+                    <span>
+                        M
+                    </span>
+
+                    <small>
+                        Ubicacion
+                    </small>
+                </div>
+
+                <h3>
+                    Mapa
+                </h3>
+
+                <p>
+                    Visualiza propiedades por ubicacion.
+                </p>
+            </a>
+        }
+    </div>
+</section>
+
+<section class="resido-banner">
+    <div>
+        <span>
+            Proyecto inmobiliario
+        </span>
+
+        <h2>
+            Roles, reportes, imagenes y mapa en una sola plataforma
+        </h2>
+    </div>
+
+    <a asp-area=""
+       asp-page="/Ventanas/Propiedades">
+        Ir a Propiedades
+    </a>
+</section>

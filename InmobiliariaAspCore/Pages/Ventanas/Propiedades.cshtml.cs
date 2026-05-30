@@ -27,6 +27,8 @@ namespace InmobiliariaAspCore.Pages.Ventanas
         [BindProperty] public Propiedades? Propiedad { get; set; }
         [BindProperty] public bool Borrando { get; set; }
 
+        [BindProperty] public IFormFile? ArchivoImagen { get; set; }
+
         public PropiedadesModel()
         {
             iPropiedadesNegocio = new PropiedadesNegocio();
@@ -114,6 +116,8 @@ namespace InmobiliariaAspCore.Pages.Ventanas
                     return;
 
                 ValidarCombos();
+
+                GuardarImagenPropiedad();
 
                 if (Propiedad.Id == 0)
                     Propiedad = iPropiedadesNegocio!.Guardar(Propiedad!);
@@ -238,6 +242,49 @@ namespace InmobiliariaAspCore.Pages.Ventanas
                 .Replace(";", ",")
                 .Replace("\r", " ")
                 .Replace("\n", " ");
+        }
+
+        private void GuardarImagenPropiedad()
+        {
+            if (Propiedad == null)
+                return;
+
+            if (ArchivoImagen == null || ArchivoImagen.Length == 0)
+                return;
+
+            var extension = Path.GetExtension(ArchivoImagen.FileName).ToLower();
+
+            var extensionesPermitidas = new List<string>()
+            {
+                ".jpg",
+                ".jpeg",
+                ".png",
+                ".webp"
+            };
+
+            if (!extensionesPermitidas.Contains(extension))
+                throw new Exception("Solo se permiten imagenes JPG, JPEG, PNG o WEBP.");
+
+            var carpeta = Path.Combine(
+                Directory.GetCurrentDirectory(),
+                "wwwroot",
+                "imagenes",
+                "propiedades"
+            );
+
+            if (!Directory.Exists(carpeta))
+                Directory.CreateDirectory(carpeta);
+
+            var nombreArchivo = "propiedad_" + Guid.NewGuid().ToString() + extension;
+
+            var rutaFisica = Path.Combine(carpeta, nombreArchivo);
+
+            using (var stream = new FileStream(rutaFisica, FileMode.Create))
+            {
+                ArchivoImagen.CopyTo(stream);
+            }
+
+            Propiedad.Imagen = "/imagenes/propiedades/" + nombreArchivo;
         }
 
     }

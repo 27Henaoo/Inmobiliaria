@@ -347,6 +347,13 @@ CREATE TABLE [Propiedades]
     [ValorPropiedad] DECIMAL(18,2) NOT NULL,
     [ValorArriendo] DECIMAL(18,2) NOT NULL,
     [Estado] NVARCHAR(100) NOT NULL,
+     -- Campos para mapa, pueden ser NULL
+    [Direccion] NVARCHAR(200) NULL,
+    [Latitud] DECIMAL(10,7) NULL,
+    [Longitud] DECIMAL(10,7) NULL,
+
+     -- Campo para imagen, puede ser NULL
+    [Imagen] NVARCHAR(300) NULL,
 
     [Cliente] INT NOT NULL REFERENCES [Clientes]([Persona]),
     [TipoPropiedad] INT NOT NULL REFERENCES [TiposPropiedades]([Id])

@@ -638,8 +638,864 @@ button.accept-policy {
 }
 
 /* 
-   IMPRESION PDF - PROPIEDADES BONITO
+   MAPA DE PROPIEDADES
  */
+
+.mapa-page {
+    width: 100%;
+}
+
+.mapa-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+    .mapa-header h3 {
+        margin-bottom: 0.25rem;
+    }
+
+    .mapa-header p {
+        color: #d1d5db;
+        margin: 0;
+    }
+
+.mapa-resumen {
+    background: #151b22;
+    border: 1px solid #2f3742;
+    border-radius: 1rem;
+    padding: 0.9rem 1rem;
+    min-width: 220px;
+    text-align: center;
+}
+
+    .mapa-resumen span {
+        display: block;
+        color: #d1d5db;
+        font-weight: 700;
+        font-size: 0.85rem;
+    }
+
+    .mapa-resumen strong {
+        display: block;
+        color: #ffb238;
+        font-size: 2rem;
+        line-height: 1;
+        margin-top: 0.35rem;
+    }
+
+.mapa-contenedor {
+    width: 100%;
+    height: 620px;
+    border-radius: 1rem;
+    overflow: hidden;
+    border: 1px solid #2f3742;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.25);
+}
+
+.mapa-vacio {
+    display: none;
+    background: #351c1c;
+    color: #fecaca;
+    border: 1px solid #7f1d1d;
+    border-radius: 0.85rem;
+    padding: 0.9rem 1rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+}
+
+.popup-mapa {
+    min-width: 220px;
+    color: #111111;
+    font-family: "Open Sans", sans-serif;
+}
+
+    .popup-mapa h4 {
+        color: #111111;
+        font-size: 1.05rem;
+        font-weight: 900;
+        margin-bottom: 0.5rem;
+    }
+
+    .popup-mapa p {
+        color: #222222;
+        margin: 0.15rem 0;
+        font-size: 0.9rem;
+    }
+
+.popup-mapa-link {
+    display: inline-block;
+    margin-top: 0.55rem;
+    background: #c98500;
+    color: #ffffff !important;
+    padding: 0.45rem 0.75rem;
+    border-radius: 999px;
+    font-weight: 800;
+}
+
+    .popup-mapa-link:hover {
+        background: #e49a07;
+        color: #ffffff !important;
+    }
+
+@media (max-width: 768px) {
+    .mapa-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .mapa-resumen {
+        width: 100%;
+    }
+
+    .mapa-contenedor {
+        height: 480px;
+    }
+}
+
+/* 
+   IMAGENES DE PROPIEDADES
+*/
+
+.imagen-propiedad-preview {
+    width: 220px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 0.75rem;
+    border: 1px solid #2f3742;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+}
+
+.imagen-propiedad-tabla {
+    width: 90px;
+    height: 65px;
+    object-fit: cover;
+    border-radius: 0.55rem;
+    border: 1px solid #2f3742;
+}
+
+/* 
+   HOME ESTILO RESIDO DARK
+ 
+*/
+
+.resido-home-hero {
+    position: relative;
+    min-height: 620px;
+    border-radius: 1.4rem;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    padding: 4rem 3rem;
+    margin-bottom: 3rem;
+    background: linear-gradient(90deg, rgba(8, 10, 13, 0.96) 0%, rgba(8, 10, 13, 0.78) 52%, rgba(8, 10, 13, 0.50) 100%), radial-gradient(circle at 85% 30%, rgba(255, 178, 56, 0.32), transparent 28%), linear-gradient(135deg, #151b22 0%, #101418 60%, #0b0d10 100%);
+    border: 1px solid #2f3742;
+    box-shadow: 0 28px 70px rgba(0, 0, 0, 0.34);
+}
+
+    .resido-home-hero::after {
+        content: "";
+        position: absolute;
+        right: 4%;
+        bottom: -4%;
+        width: min(420px, 38vw);
+        height: min(420px, 38vw);
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255, 178, 56, 0.18), rgba(255, 178, 56, 0.04) 45%, transparent 70%);
+        pointer-events: none;
+    }
+
+.resido-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+    background-size: 44px 44px;
+    opacity: 0.55;
+}
+
+.resido-hero-content {
+    position: relative;
+    z-index: 2;
+    width: min(980px, 100%);
+}
+
+.resido-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    background: rgba(255, 178, 56, 0.12);
+    border: 1px solid rgba(255, 178, 56, 0.38);
+    color: #ffb238;
+    border-radius: 999px;
+    padding: 0.5rem 0.9rem;
+    font-weight: 900;
+    font-size: 0.9rem;
+    margin-bottom: 1.2rem;
+}
+
+    .resido-eyebrow::before {
+        content: "";
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: #ffb238;
+        box-shadow: 0 0 0 6px rgba(255, 178, 56, 0.13);
+    }
+
+.resido-hero-content h1 {
+    color: #ffffff;
+    font-family: "Nunito", sans-serif;
+    font-size: clamp(2.6rem, 6vw, 5.1rem);
+    font-weight: 900;
+    line-height: 0.98;
+    max-width: 980px;
+    margin: 0 0 1.1rem 0;
+    letter-spacing: -2px;
+}
+
+.resido-hero-content p {
+    color: #d1d5db;
+    font-size: 1.08rem;
+    line-height: 1.7;
+    max-width: 760px;
+    margin: 0 0 1.5rem 0;
+}
+
+.resido-search-panel {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) 170px;
+    gap: 0.5rem;
+    align-items: center;
+    background: #ffffff;
+    border-radius: 999px;
+    padding: 0.55rem;
+    max-width: 900px;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.28);
+    margin-bottom: 1.4rem;
+}
+
+.resido-search-item {
+    padding: 0.55rem 1rem;
+    border-right: 1px solid #eeeeee;
+}
+
+    .resido-search-item span {
+        display: block;
+        color: #83898f;
+        font-size: 0.78rem;
+        font-weight: 800;
+    }
+
+    .resido-search-item strong {
+        display: block;
+        color: #111111;
+        font-size: 0.98rem;
+        font-weight: 900;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+.resido-search-btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 54px;
+    background: #ffb238;
+    color: #111111 !important;
+    font-weight: 900;
+    border-radius: 999px;
+    transition: all 0.25s ease-out;
+}
+
+    .resido-search-btn:hover {
+        background: #e49a07;
+        color: #ffffff !important;
+        transform: translateY(-1px);
+    }
+
+.resido-hero-actions {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+}
+
+.resido-btn-primary,
+.resido-btn-outline {
+    display: inline-flex;
+    min-height: 46px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    padding: 0.7rem 1.35rem;
+    font-weight: 900;
+    transition: all 0.25s ease-out;
+}
+
+.resido-btn-primary {
+    background: #ffb238;
+    color: #111111 !important;
+}
+
+    .resido-btn-primary:hover {
+        background: #e49a07;
+        color: #ffffff !important;
+        transform: translateY(-2px);
+    }
+
+.resido-btn-outline {
+    color: #ffffff !important;
+    border: 1px solid #46505c;
+    background: rgba(255, 255, 255, 0.04);
+}
+
+    .resido-btn-outline:hover {
+        color: #ffb238 !important;
+        border-color: #ffb238;
+        transform: translateY(-2px);
+    }
+
+.resido-about-row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    margin-bottom: 3rem;
+}
+
+.resido-about-card {
+    text-align: center;
+    background: #151b22;
+    border: 1px solid #2f3742;
+    border-radius: 1.3rem;
+    padding: 2rem 1.2rem;
+    transition: all 0.25s ease-out;
+}
+
+    .resido-about-card:hover {
+        transform: translateY(-4px);
+        border-color: rgba(255, 178, 56, 0.55);
+        box-shadow: 0 18px 45px rgba(0, 0, 0, 0.25);
+    }
+
+.resido-about-icon {
+    width: 58px;
+    height: 58px;
+    margin: 0 auto 1rem auto;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 178, 56, 0.13);
+    color: #ffb238;
+    font-weight: 900;
+    font-size: 1.35rem;
+    border: 1px solid rgba(255, 178, 56, 0.35);
+}
+
+.resido-about-card h3 {
+    color: #ffffff;
+    font-size: 1.2rem;
+    font-weight: 900;
+    margin-bottom: 0.55rem;
+}
+
+.resido-about-card p {
+    color: #a7b0ba;
+    margin: 0;
+    line-height: 1.6;
+}
+
+.resido-section {
+    margin-bottom: 3rem;
+}
+
+.resido-section-heading {
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto 1.6rem auto;
+}
+
+    .resido-section-heading span {
+        color: #ffb238;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 0.8rem;
+    }
+
+    .resido-section-heading h2 {
+        color: #ffffff;
+        font-size: clamp(2rem, 4vw, 3.1rem);
+        font-weight: 900;
+        margin: 0.25rem 0 0.5rem 0;
+    }
+
+    .resido-section-heading p {
+        color: #a7b0ba;
+        margin: 0;
+    }
+
+.resido-module-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.resido-module-card {
+    position: relative;
+    background: #151b22;
+    border: 1px solid #2f3742;
+    border-radius: 1.2rem;
+    padding: 1.25rem;
+    min-height: 220px;
+    overflow: hidden;
+    transition: all 0.25s ease-out;
+}
+
+    .resido-module-card::after {
+        content: "";
+        position: absolute;
+        right: -45px;
+        bottom: -45px;
+        width: 140px;
+        height: 140px;
+        background: rgba(255, 178, 56, 0.09);
+        border-radius: 50%;
+        transition: all 0.25s ease-out;
+    }
+
+    .resido-module-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(255, 178, 56, 0.58);
+        box-shadow: 0 18px 45px rgba(0, 0, 0, 0.25);
+    }
+
+        .resido-module-card:hover::after {
+            transform: scale(1.16);
+            background: rgba(255, 178, 56, 0.17);
+        }
+
+.resido-module-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+    .resido-module-top span {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: #ffb238;
+        color: #111111;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 900;
+    }
+
+    .resido-module-top small {
+        color: #ffb238;
+        border: 1px solid rgba(255, 178, 56, 0.35);
+        background: rgba(255, 178, 56, 0.08);
+        border-radius: 999px;
+        padding: 0.3rem 0.6rem;
+        font-weight: 900;
+    }
+
+.resido-module-card h3 {
+    color: #ffffff;
+    font-size: 1.22rem;
+    font-weight: 900;
+    margin-bottom: 0.55rem;
+}
+
+.resido-module-card p {
+    color: #d1d5db;
+    line-height: 1.6;
+    margin: 0;
+    position: relative;
+    z-index: 2;
+}
+
+.resido-banner {
+    background: linear-gradient(90deg, #ffb238 0%, #e49a07 100%);
+    border-radius: 1.3rem;
+    padding: 2rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+    .resido-banner span {
+        color: #111111;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 0.8rem;
+    }
+
+    .resido-banner h2 {
+        color: #111111;
+        font-size: clamp(1.5rem, 3vw, 2.35rem);
+        font-weight: 900;
+        margin: 0.25rem 0 0 0;
+        max-width: 850px;
+    }
+
+    .resido-banner a {
+        background: #111111;
+        color: #ffffff !important;
+        border-radius: 999px;
+        padding: 0.75rem 1.25rem;
+        font-weight: 900;
+        white-space: nowrap;
+    }
+
+        .resido-banner a:hover {
+            background: #ffffff;
+            color: #111111 !important;
+        }
+
+@media (max-width: 1100px) {
+    .resido-search-panel {
+        grid-template-columns: 1fr 1fr;
+        border-radius: 1.2rem;
+    }
+
+    .resido-search-item {
+        border-right: none;
+        border-bottom: 1px solid #eeeeee;
+    }
+
+    .resido-search-btn {
+        grid-column: span 2;
+    }
+}
+
+@media (max-width: 991px) {
+    .resido-home-hero {
+        min-height: auto;
+        padding: 3rem 1.5rem;
+    }
+
+    .resido-about-row,
+    .resido-module-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .resido-banner {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 650px) {
+    .resido-home-hero {
+        padding: 2rem 1rem;
+    }
+
+    .resido-search-panel {
+        grid-template-columns: 1fr;
+    }
+
+    .resido-search-btn {
+        grid-column: auto;
+    }
+
+    .resido-about-row,
+    .resido-module-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .resido-hero-actions {
+        flex-direction: column;
+    }
+
+    .resido-btn-primary,
+    .resido-btn-outline {
+        width: 100%;
+    }
+}
+
+/* 
+   PROPIEDADES
+
+   Requiere en Propiedades.cshtml:
+   form class="propiedades-page"
+   div botones class="propiedades-toolbar"
+   div campos class="propiedades-editor"
+*/
+
+.propiedades-page {
+    background: radial-gradient(circle at top left, rgba(255, 178, 56, 0.08), transparent 30%), #12171d;
+    border: 1px solid #2f3742;
+    border-radius: 1.25rem;
+    padding: 1.35rem;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.26);
+    overflow-x: auto;
+    text-align: left !important;
+}
+
+    .propiedades-page h3 {
+        color: #ffffff;
+        font-size: 2rem;
+        font-weight: 900;
+        margin-bottom: 0.25rem;
+        position: relative;
+        padding-left: 1rem;
+    }
+
+        .propiedades-page h3::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0.35rem;
+            width: 5px;
+            height: 2rem;
+            border-radius: 999px;
+            background: #ffb238;
+            box-shadow: 0 0 18px rgba(255, 178, 56, 0.35);
+        }
+
+/* Barra superior de acciones */
+.propiedades-toolbar {
+    display: flex !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    gap: 0.55rem !important;
+    background: #151b22;
+    border: 1px solid #2f3742;
+    border-radius: 1rem;
+    padding: 0.85rem;
+    margin: 1rem 0 1.25rem 0;
+}
+
+    .propiedades-toolbar .btn,
+    .propiedades-toolbar input {
+        border-radius: 999px !important;
+        padding: 0.68rem 1.15rem !important;
+        font-weight: 900 !important;
+        letter-spacing: 0.1px;
+        box-shadow: 0 10px 24px rgba(201, 133, 0, 0.16);
+    }
+
+        .propiedades-toolbar .btn:disabled,
+        .propiedades-toolbar input:disabled {
+            background: #343b44 !important;
+            border-color: #343b44 !important;
+            color: #9ca3af !important;
+            box-shadow: none !important;
+        }
+
+/* Formulario de crear / modificar */
+.propiedades-editor {
+    width: 100% !important;
+    max-width: 100% !important;
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(240px, 1fr)) !important;
+    gap: 1rem !important;
+    align-items: start !important;
+    text-align: left !important;
+    background: linear-gradient(135deg, rgba(255, 178, 56, 0.08), transparent 35%), #151b22;
+    border: 1px solid #2f3742;
+    border-radius: 1.2rem;
+    padding: 1.25rem;
+    margin-bottom: 1.35rem;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.20);
+}
+
+    .propiedades-editor .form-group {
+        width: 100% !important;
+        margin: 0 !important;
+        text-align: left !important;
+    }
+
+    .propiedades-editor .col-6,
+    .propiedades-editor .col-lg-6,
+    .propiedades-editor .col-lg-4 {
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: none !important;
+        padding: 0 !important;
+    }
+
+    .propiedades-editor label {
+        display: block !important;
+        color: #f8fafc !important;
+        font-size: 0.82rem !important;
+        font-weight: 900 !important;
+        margin-bottom: 0.35rem !important;
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+        text-align: left !important;
+    }
+
+    .propiedades-editor input,
+    .propiedades-editor select {
+        width: 100% !important;
+    }
+
+    .propiedades-editor .form-control,
+    .propiedades-editor .cts_forms {
+        background: #101418 !important;
+        border: 1px solid #35404b !important;
+        border-radius: 0.85rem !important;
+        color: #ffffff !important;
+        min-height: 46px;
+    }
+
+        .propiedades-editor .form-control:focus,
+        .propiedades-editor .cts_forms:focus {
+            border-color: #ffb238 !important;
+            box-shadow: 0 0 0 0.18rem rgba(255, 178, 56, 0.15) !important;
+        }
+
+    .propiedades-editor #inPatio {
+        width: 22px !important;
+        height: 22px !important;
+        accent-color: #ffb238;
+        margin-top: 0.55rem;
+    }
+
+    .propiedades-editor .form-group:has(.imagen-propiedad-preview) {
+        grid-column: span 1;
+    }
+
+    .propiedades-editor .imagen-propiedad-preview {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 190px !important;
+        object-fit: cover;
+        border-radius: 1rem;
+        border: 1px solid #46505c;
+        box-shadow: 0 18px 45px rgba(0, 0, 0, 0.28);
+    }
+
+/* Tabla de Propiedades */
+.propiedades-page .tabla-reporte-propiedades {
+    margin-top: 1rem;
+    border-collapse: separate !important;
+    border-spacing: 0;
+    overflow: hidden;
+    border-radius: 1rem !important;
+}
+
+    .propiedades-page .tabla-reporte-propiedades th {
+        background: #0f1318 !important;
+        color: #ffffff !important;
+        font-size: 0.78rem;
+        font-weight: 900 !important;
+        text-transform: uppercase;
+        letter-spacing: 0.25px;
+        border-color: #34404c !important;
+    }
+
+    .propiedades-page .tabla-reporte-propiedades td {
+        background: #141a21 !important;
+        color: #e5e7eb !important;
+        border-color: #2f3742 !important;
+        font-size: 0.88rem;
+    }
+
+    .propiedades-page .tabla-reporte-propiedades tr:nth-child(even) td {
+        background: #10161c !important;
+    }
+
+    .propiedades-page .tabla-reporte-propiedades tr:hover td {
+        background: #1a222b !important;
+    }
+
+.propiedades-page .imagen-propiedad-tabla {
+    width: 105px;
+    height: 76px;
+    border-radius: 0.85rem;
+    object-fit: cover;
+    border: 1px solid #46505c;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+}
+
+.propiedades-page td .btn {
+    display: block;
+    width: 100%;
+    min-width: 110px;
+    margin-bottom: 0.45rem;
+    padding: 0.55rem 0.9rem !important;
+    font-size: 0.82rem;
+}
+
+/* Popup de borrar en Propiedades */
+.propiedades-page .popup {
+    backdrop-filter: blur(5px);
+}
+
+.propiedades-page .pp_ms_inner {
+    background: radial-gradient(circle at top left, rgba(255, 107, 107, 0.12), transparent 35%), #151b22;
+    border: 1px solid #46505c;
+    border-radius: 1.2rem;
+    box-shadow: 0 28px 70px rgba(0, 0, 0, 0.45);
+}
+
+    .propiedades-page .pp_ms_inner h2 {
+        color: #ffffff;
+        font-weight: 900;
+    }
+
+    .propiedades-page .pp_ms_inner h6 {
+        color: #d1d5db;
+    }
+
+/* Scroll horizontal de Propiedades */
+.propiedades-page::-webkit-scrollbar {
+    height: 9px;
+}
+
+.propiedades-page::-webkit-scrollbar-track {
+    background: #101418;
+}
+
+.propiedades-page::-webkit-scrollbar-thumb {
+    background: #c98500;
+    border-radius: 999px;
+}
+
+/* Responsive Propiedades */
+@media (max-width: 1200px) {
+    .propiedades-editor {
+        grid-template-columns: repeat(2, minmax(240px, 1fr)) !important;
+    }
+}
+
+@media (max-width: 700px) {
+    .propiedades-page {
+        padding: 1rem;
+    }
+
+    .propiedades-toolbar {
+        flex-direction: column;
+        align-items: stretch !important;
+    }
+
+        .propiedades-toolbar .btn,
+        .propiedades-toolbar input {
+            width: 100%;
+        }
+
+    .propiedades-editor {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+/* 
+   IMPRESION PDF - PROPIEDADES
+  
+*/
 
 .print-report-header,
 .print-report-info {
@@ -656,6 +1512,8 @@ button.accept-policy {
     footer,
     .navbar,
     .footer,
+    .propiedades-toolbar,
+    .propiedades-editor,
     input[type="submit"],
     input[type="button"],
     button,
@@ -667,6 +1525,9 @@ button.accept-policy {
     html,
     body,
     .inmo-body {
+        width: 100% !important;
+        min-width: 100% !important;
+        max-width: 100% !important;
         background: #ffffff !important;
         color: #111111 !important;
         margin: 0 !important;
@@ -675,14 +1536,14 @@ button.accept-policy {
         font-family: Arial, sans-serif !important;
     }
 
-    .container {
-        max-width: 100% !important;
-        width: 100% !important;
-        padding: 0 !important;
-        margin: 0 !important;
-    }
-
+    center,
+    center > div,
+    .container,
     main {
+        display: block !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 100% !important;
         background: #ffffff !important;
         color: #111111 !important;
         box-shadow: none !important;
@@ -690,38 +1551,62 @@ button.accept-policy {
         border-radius: 0 !important;
         padding: 0 !important;
         margin: 0 !important;
+        text-align: left !important;
+        overflow: visible !important;
     }
 
-    h3 {
-        display: none !important;
+    .propiedades-page,
+    form.propiedades-page {
+        display: block !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 100% !important;
+        background: #ffffff !important;
+        color: #111111 !important;
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        overflow: visible !important;
+        text-align: left !important;
     }
+
+        h3,
+        .propiedades-page h3,
+        .propiedades-page h3::before {
+            display: none !important;
+        }
 
     .print-report-header {
         display: flex !important;
-        align-items: center;
-        gap: 12px;
-        padding: 10px 12px;
-        margin-bottom: 8px;
-        border: 1px solid #111111;
-        border-radius: 6px;
+        align-items: center !important;
+        gap: 12px !important;
+        padding: 10px 12px !important;
+        margin: 0 0 8px 0 !important;
+        border: 1px solid #111111 !important;
+        border-radius: 6px !important;
         background: #f3f3f3 !important;
+        box-shadow: none !important;
+        width: 100% !important;
     }
 
     .print-report-brand {
-        width: 42px;
-        height: 42px;
-        border-radius: 50%;
+        width: 42px !important;
+        height: 42px !important;
+        border-radius: 50% !important;
         background: #111111 !important;
         color: #ffffff !important;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 22px;
-        font-weight: bold;
-        flex-shrink: 0;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 22px !important;
+        font-weight: bold !important;
+        flex-shrink: 0 !important;
     }
 
     .print-report-header h1 {
+        display: block !important;
         color: #111111 !important;
         font-size: 22px !important;
         margin: 0 !important;
@@ -730,6 +1615,7 @@ button.accept-policy {
     }
 
     .print-report-header p {
+        display: block !important;
         color: #333333 !important;
         font-size: 11px !important;
         margin: 2px 0 0 0 !important;
@@ -738,31 +1624,45 @@ button.accept-policy {
 
     .print-report-info {
         display: flex !important;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 8px;
-        padding: 6px 10px;
-        border: 1px solid #cccccc;
+        justify-content: space-between !important;
+        align-items: center !important;
+        margin: 0 0 8px 0 !important;
+        padding: 6px 10px !important;
+        border: 1px solid #cccccc !important;
         background: #fafafa !important;
         color: #111111 !important;
         font-size: 10px !important;
-        font-weight: bold;
+        font-weight: bold !important;
+        width: 100% !important;
     }
 
-    .tabla-reporte-propiedades {
+        .print-report-info span {
+            color: #111111 !important;
+        }
+
+    .tabla-reporte-propiedades,
+    .propiedades-page .tabla-reporte-propiedades,
+    table.tabla-reporte-propiedades {
         width: 100% !important;
+        max-width: 100% !important;
         table-layout: fixed !important;
         border-collapse: collapse !important;
+        border-spacing: 0 !important;
         background: #ffffff !important;
         color: #111111 !important;
         font-size: 8.5px !important;
         line-height: 1.2 !important;
         box-shadow: none !important;
         border: 1px solid #111111 !important;
+        border-radius: 0 !important;
+        margin: 0 !important;
+        overflow: visible !important;
     }
 
         .tabla-reporte-propiedades th,
-        .tabla-reporte-propiedades td {
+        .tabla-reporte-propiedades td,
+        .propiedades-page .tabla-reporte-propiedades th,
+        .propiedades-page .tabla-reporte-propiedades td {
             color: #111111 !important;
             border: 1px solid #444444 !important;
             padding: 4px 5px !important;
@@ -772,9 +1672,12 @@ button.accept-policy {
             white-space: normal !important;
             height: auto !important;
             min-height: 0 !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
         }
 
-        .tabla-reporte-propiedades th {
+        .tabla-reporte-propiedades th,
+        .propiedades-page .tabla-reporte-propiedades th {
             background: #111111 !important;
             color: #ffffff !important;
             font-weight: bold !important;
@@ -782,21 +1685,24 @@ button.accept-policy {
             font-size: 8px !important;
         }
 
-        .tabla-reporte-propiedades td {
+        .tabla-reporte-propiedades td,
+        .propiedades-page .tabla-reporte-propiedades td {
             background: #ffffff !important;
         }
 
-        .tabla-reporte-propiedades tr:nth-child(even) td {
+        .tabla-reporte-propiedades tr:nth-child(even) td,
+        .propiedades-page .tabla-reporte-propiedades tr:nth-child(even) td {
             background: #f2f2f2 !important;
         }
 
         .tabla-reporte-propiedades tr {
             height: auto !important;
-            page-break-inside: avoid;
+            page-break-inside: avoid !important;
         }
 
         .tabla-reporte-propiedades th:nth-child(n+11),
-        .tabla-reporte-propiedades td:nth-child(n+11) {
+        .tabla-reporte-propiedades td:nth-child(n+11),
+        .tabla-reporte-propiedades img {
             display: none !important;
         }
 

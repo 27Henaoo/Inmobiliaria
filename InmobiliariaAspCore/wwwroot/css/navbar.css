@@ -1,0 +1,208 @@
+﻿/* NAVBAR GLOBAL - SE CARGA DESPUES DE TODO */
+
+#header {
+    background: #0b0d10 !important;
+    border-bottom: 1px solid #1d232b !important;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35) !important;
+}
+
+    #header .navbar-brand {
+        color: #ffffff !important;
+        font-weight: 800 !important;
+    }
+
+    #header .brand-mark {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: #c98500;
+        color: #ffffff;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 900;
+        box-shadow: 0 8px 18px rgba(201, 133, 0, 0.35);
+    }
+
+    /* Botones del navbar */
+    #header .inmo-nav-btn {
+        cursor: pointer !important;
+        position: relative !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        color: #f8fafc !important;
+        border: 1px solid rgba(255, 178, 56, 0.58) !important;
+        border-radius: 34px !important;
+        background: transparent !important;
+        font-weight: 800 !important;
+        padding: 0.48rem 1rem !important;
+        margin: 0 0.12rem !important;
+        overflow: hidden !important;
+        isolation: isolate !important;
+        opacity: 1 !important;
+        text-decoration: none !important;
+        transition: all 0.28s cubic-bezier(0.23, 1, 0.32, 1) !important;
+    }
+
+        /* Burbuja */
+        #header .inmo-nav-btn::before {
+            content: "" !important;
+            position: absolute !important;
+            inset: 0 !important;
+            margin: auto !important;
+            width: 44px !important;
+            height: 44px !important;
+            border-radius: inherit !important;
+            transform: scale(0) !important;
+            z-index: -1 !important;
+            background: #ffb238 !important;
+            transition: all 0.55s cubic-bezier(0.23, 1, 0.32, 1) !important;
+        }
+
+        #header .inmo-nav-btn:hover::before,
+        #header .inmo-nav-btn:focus::before {
+            transform: scale(4) !important;
+        }
+
+        #header .inmo-nav-btn:hover,
+        #header .inmo-nav-btn:focus {
+            color: #111111 !important;
+            border-color: #ffb238 !important;
+            transform: translateY(-1px) scale(1.04) !important;
+            box-shadow: 0 0 18px rgba(255, 178, 56, 0.32) !important;
+        }
+
+        /* Dropdown abierto */
+        #header .inmo-nav-btn.dropdown-toggle.show {
+            color: #111111 !important;
+            background: #ffb238 !important;
+            border-color: #ffb238 !important;
+            box-shadow: 0 0 18px rgba(255, 178, 56, 0.32) !important;
+        }
+
+        /* Flecha dropdown */
+        #header .inmo-nav-btn.dropdown-toggle::after {
+            display: inline-block !important;
+            color: inherit !important;
+            margin-left: 0.45rem !important;
+        }
+
+    /* Dropdown */
+    #header .inmo-dropdown {
+        background: #151b22 !important;
+        border: 1px solid #46505c !important;
+        border-radius: 0.75rem !important;
+        box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45) !important;
+        padding: 0.55rem !important;
+        min-width: 245px;
+        max-height: 430px;
+        overflow-y: auto;
+    }
+
+        #header .inmo-dropdown li + li {
+            margin-top: 0.25rem;
+        }
+
+    #header .inmo-drop-link,
+    #header .dropdown-item {
+        color: #f8fafc !important;
+        background: #151b22 !important;
+        font-weight: 700 !important;
+        border-radius: 0.5rem !important;
+        padding: 0.72rem 0.9rem !important;
+    }
+
+        #header .inmo-drop-link:hover,
+        #header .inmo-drop-link:focus,
+        #header .dropdown-item:hover,
+        #header .dropdown-item:focus {
+            color: #111111 !important;
+            background: #ffb238 !important;
+            padding-left: 1.05rem !important;
+        }
+
+    /* Usuario */
+    #header .inmo-user-pill {
+        color: #ffffff !important;
+        background: rgba(255, 255, 255, 0.07) !important;
+        border: 1px solid rgba(255, 255, 255, 0.14) !important;
+        border-radius: 34px !important;
+        padding: 0.48rem 1rem !important;
+        margin: 0 0.12rem !important;
+        font-weight: 800 !important;
+    }
+
+        #header .inmo-user-pill .badge {
+            margin-left: 0.35rem !important;
+        }
+
+    /* Cerrar sesion */
+    #header .inmo-nav-danger {
+        color: #ff8a8a !important;
+        border-color: rgba(255, 107, 107, 0.55) !important;
+    }
+
+        #header .inmo-nav-danger::before {
+            background: #ff6b6b !important;
+        }
+
+        #header .inmo-nav-danger:hover,
+        #header .inmo-nav-danger:focus {
+            color: #111111 !important;
+            border-color: #ff6b6b !important;
+            box-shadow: 0 0 18px rgba(255, 107, 107, 0.32) !important;
+        }
+
+/* Responsive */
+@media (max-width: 991px) {
+    #header .inmo-nav-btn,
+    #header .inmo-user-pill {
+        width: 100% !important;
+        margin: 0.15rem 0 !important;
+        text-align: center !important;
+    }
+}
+
+/*
+    Rol NAVBAR
+   
+   */
+
+#header .inmo-user-pill {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.45rem !important;
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.07) !important;
+    border: 1px solid rgba(255, 255, 255, 0.16) !important;
+    border-radius: 999px !important;
+    padding: 0.48rem 0.75rem !important;
+    margin: 0 0.12rem !important;
+    font-weight: 900 !important;
+    line-height: 1 !important;
+}
+
+    #header .inmo-user-pill .badge,
+    #header .inmo-user-pill .bg-secondary,
+    #header .badge.bg-secondary {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        background: #ffb238 !important;
+        color: #111111 !important;
+        border: 1px solid rgba(255, 178, 56, 0.65) !important;
+        border-radius: 999px !important;
+        padding: 0.32rem 0.55rem !important;
+        margin-left: 0.25rem !important;
+        font-size: 0.72rem !important;
+        font-weight: 900 !important;
+        line-height: 1 !important;
+        opacity: 1 !important;
+        text-transform: capitalize !important;
+    }
+
+    #header .inmo-user-pill:hover {
+        border-color: rgba(255, 178, 56, 0.45) !important;
+        box-shadow: 0 0 16px rgba(255, 178, 56, 0.16) !important;
+    }

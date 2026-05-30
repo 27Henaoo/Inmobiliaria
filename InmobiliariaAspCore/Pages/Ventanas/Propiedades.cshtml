@@ -7,14 +7,15 @@
 <center>
     <div>
         <form method="POST"
-              enctype="multipart/form-data">
+              enctype="multipart/form-data"
+              class="propiedades-page">
             @Html.AntiForgeryToken()
 
             <div align="left">
                 <h3>Propiedades</h3>
             </div>
 
-            <div>
+            <div class="propiedades-toolbar">
                 <input type="submit"
                        value="Refrescar"
                        class="btn btn-secondary"
@@ -74,11 +75,15 @@
                 <input type="hidden"
                        asp-for="@Model.Propiedad!.Id" />
 
-                <div>
+                <input type="hidden"
+                       asp-for="@Model.Propiedad!.Imagen" />
+
+                <div class="propiedades-editor">
                     <div class="form-group">
                         <label>
                             NumeroHabitaciones
                         </label>
+
                         <div class="col-6">
                             <input id="inNumeroHabitaciones"
                                    class="cts_forms form-control"
@@ -90,6 +95,7 @@
                         <label>
                             NumeroBanos
                         </label>
+
                         <div class="col-6">
                             <input id="inNumeroBanos"
                                    class="cts_forms form-control"
@@ -101,6 +107,7 @@
                         <label>
                             Patio
                         </label>
+
                         <div class="col-6">
                             <input id="inPatio"
                                    asp-for="@Model.Propiedad!.Patio" />
@@ -111,6 +118,7 @@
                         <label>
                             Entradas
                         </label>
+
                         <div class="col-6">
                             <input id="inEntradas"
                                    class="cts_forms form-control"
@@ -122,6 +130,7 @@
                         <label>
                             Pisos
                         </label>
+
                         <div class="col-6">
                             <input id="inPisos"
                                    class="cts_forms form-control"
@@ -133,6 +142,7 @@
                         <label>
                             AnioConstruccion
                         </label>
+
                         <div class="col-6">
                             <input id="inAnioConstruccion"
                                    class="cts_forms form-control"
@@ -144,6 +154,7 @@
                         <label>
                             ValorPropiedad
                         </label>
+
                         <div class="col-6">
                             <input id="inValorPropiedad"
                                    class="cts_forms form-control"
@@ -155,6 +166,7 @@
                         <label>
                             ValorArriendo
                         </label>
+
                         <div class="col-6">
                             <input id="inValorArriendo"
                                    class="cts_forms form-control"
@@ -166,12 +178,77 @@
                         <label>
                             Estado
                         </label>
+
                         <div class="col-6">
                             <input id="inEstado"
                                    class="cts_forms form-control"
                                    asp-for="@Model.Propiedad!.Estado" />
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        <label>
+                            Direccion
+                        </label>
+
+                        <div class="col-6">
+                            <input id="inDireccion"
+                                   class="cts_forms form-control"
+                                   asp-for="@Model.Propiedad!.Direccion" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            Latitud
+                        </label>
+
+                        <div class="col-6">
+                            <input id="inLatitud"
+                                   class="cts_forms form-control"
+                                   asp-for="@Model.Propiedad!.Latitud" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            Longitud
+                        </label>
+
+                        <div class="col-6">
+                            <input id="inLongitud"
+                                   class="cts_forms form-control"
+                                   asp-for="@Model.Propiedad!.Longitud" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            Imagen
+                        </label>
+
+                        <div class="col-6">
+                            <input id="inImagen"
+                                   type="file"
+                                   class="cts_forms form-control"
+                                   asp-for="@Model.ArchivoImagen"
+                                   accept="image/png, image/jpeg, image/jpg, image/webp" />
+                        </div>
+                    </div>
+
+                    @if (!string.IsNullOrWhiteSpace(Model.Propiedad!.Imagen))
+                    {
+                        <div class="form-group">
+                            <label>
+                                ImagenActual
+                            </label>
+
+                            <div class="col-6">
+                                <img src="@Model.Propiedad!.Imagen"
+                                     class="imagen-propiedad-preview" />
+                            </div>
+                        </div>
+                    }
 
                     <div class="form-group">
                         <label class="col-lg-4 control-label">
@@ -307,6 +384,22 @@
                         </th>
 
                         <th class="cl_hidden">
+                            Imagen
+                        </th>
+
+                        <th class="cl_hidden">
+                            Direccion
+                        </th>
+
+                        <th class="cl_hidden">
+                            Latitud
+                        </th>
+
+                        <th class="cl_hidden">
+                            Longitud
+                        </th>
+
+                        <th class="cl_hidden">
                             Cliente
                         </th>
 
@@ -382,6 +475,51 @@
                                 else
                                 {
                                     <span>Sin tipo propiedad</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (!string.IsNullOrWhiteSpace(elemento.Imagen))
+                                {
+                                    <img src="@elemento.Imagen"
+                                         class="imagen-propiedad-tabla" />
+                                }
+                                else
+                                {
+                                    <span>Sin imagen</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (!string.IsNullOrWhiteSpace(elemento.Direccion))
+                                {
+                                    @elemento.Direccion
+                                }
+                                else
+                                {
+                                    <span>Sin direccion</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento.Latitud != null)
+                                {
+                                    @elemento.Latitud
+                                }
+                                else
+                                {
+                                    <span>Sin latitud</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (elemento.Longitud != null)
+                                {
+                                    @elemento.Longitud
+                                }
+                                else
+                                {
+                                    <span>Sin longitud</span>
                                 }
                             </td>
 

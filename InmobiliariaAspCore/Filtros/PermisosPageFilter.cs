@@ -122,12 +122,14 @@ namespace InmobiliariaAspCore.Filtros
             var paginasGuest = new List<string>()
             {
                 "/ventanas/propiedades",
-                "/ventanas/tipospropiedades"
+                "/ventanas/tipospropiedades",
+                 "/ventanas/mapapropiedades"
             };
 
             var paginasEjecutivo = new List<string>()
             {
                 "/ventanas/propiedades",
+                 "/ventanas/mapapropiedades",
                 "/ventanas/clientes",
                 "/ventanas/compradores",
                 "/ventanas/codeudores",

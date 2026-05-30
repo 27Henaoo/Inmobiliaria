@@ -1,0 +1,121 @@
+﻿@page
+@model InmobiliariaAspCore.Pages.Ventanas.MapaPropiedadesModel
+@{
+    ViewData["Title"] = "MapaPropiedades";
+}
+
+<link rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+<div class="mapa-page">
+    <div class="mapa-header">
+        <div>
+            <h3>
+                Mapa de Propiedades
+            </h3>
+
+            <p>
+                Consulta visual de propiedades registradas con ubicacion.
+            </p>
+        </div>
+
+        <div class="mapa-resumen">
+            <span>
+                Propiedades con ubicacion
+            </span>
+
+            <strong>
+                @Model.TotalPropiedadesConUbicacion
+            </strong>
+        </div>
+    </div>
+
+    <div id="mapaVacio" class="mapa-vacio">
+        No hay propiedades con Latitud y Longitud registradas.
+    </div>
+
+    <div id="mapaPropiedades" class="mapa-contenedor"></div>
+</div>
+
+@section Scripts {
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script>
+        const propiedades = @Html.Raw(Model.PropiedadesJson);
+
+        const mapa = L.map('mapaPropiedades').setView([6.2442, -75.5812], 12);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(mapa);
+
+        const bounds = [];
+
+        function limpiarTexto(valor) {
+        if (valor === null || valor === undefined) {
+        return '';
+        }
+
+        return String(valor)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+        }
+
+        function formatearMoneda(valor) {
+        return new Intl.NumberFormat('es-CO', {
+        style: 'currency',
+        currency: 'COP',
+        maximumFractionDigits: 0
+        }).format(valor || 0);
+        }
+
+        propiedades.forEach(p => {
+        if (p.latitud === null || p.longitud === null) {
+        return;
+        }
+
+        const latitud = Number(p.latitud);
+        const longitud = Number(p.longitud);
+
+        const marcador = L.marker([latitud, longitud]).addTo(mapa);
+
+        const contenido = `
+        <div class="popup-mapa">
+        <h4>Propiedad ${limpiarTexto(p.id)}</h4>
+
+        <p><strong>Tipo:</strong> ${limpiarTexto(p.tipoPropiedad)}</p>
+        <p><strong>Estado:</strong> ${limpiarTexto(p.estado)}</p>
+        <p><strong>Direccion:</strong> ${limpiarTexto(p.direccion || 'Sin direccion')}</p>
+        <p><strong>Habitaciones:</strong> ${limpiarTexto(p.numeroHabitaciones)}</p>
+        <p><strong>Banos:</strong> ${limpiarTexto(p.numeroBanos)}</p>
+        <p><strong>Valor propiedad:</strong> ${formatearMoneda(p.valorPropiedad)}</p>
+        <p><strong>Valor arriendo:</strong> ${formatearMoneda(p.valorArriendo)}</p>
+        <p><strong>Cliente:</strong> ${limpiarTexto(p.cliente)}</p>
+
+        <a href="/Ventanas/Propiedades" class="popup-mapa-link">
+        Ver propiedades
+        </a>
+        </div>
+        `;
+
+        marcador.bindPopup(contenido);
+
+        bounds.push([latitud, longitud]);
+        });
+
+        if (bounds.length > 0) {
+        mapa.fitBounds(bounds, {
+        padding: [35, 35]
+        });
+
+        document.getElementById('mapaVacio').style.display = 'none';
+        }
+        else {
+        document.getElementById('mapaVacio').style.display = 'block';
+        }
+    </script>
+}

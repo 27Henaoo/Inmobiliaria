@@ -23,6 +23,15 @@ namespace LibModelos._5._1ModelosComunes
         // En el SQL este campo quedó obligatorio para evitar los NULLS
         public string Estado { get; set; } = null!;
 
+
+        //Campos para mapa pueden ser NULL
+        public string? Direccion { get; set; }
+        public decimal? Latitud { get; set; }
+        public decimal? Longitud { get; set; }
+
+        //Campo para imagen puede ser NULL
+        public string? Imagen { get; set; }
+
         // =========================
         // CLAVES FORÁNEAS
         // =========================
