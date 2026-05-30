@@ -1,0 +1,404 @@
+﻿@page
+@model InmobiliariaAspCore.Pages.Ventanas.ExplorarPropiedadesModel
+@{
+    ViewData["Title"] = "Explorar Propiedades";
+}
+
+<link rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+<section class="explorar-page">
+    <section class="explorar-hero">
+        <div class="explorar-hero-content">
+            <span class="explorar-pill">
+                Catalogo inmobiliario
+            </span>
+
+            <h1>
+                Explora propiedades disponibles
+            </h1>
+
+            <p>
+                Consulta propiedades registradas con imagen, ubicacion, valores principales y mapa interactivo.
+            </p>
+
+            <div class="explorar-stats">
+                <div>
+                    <span>
+                        Propiedades
+                    </span>
+
+                    <strong>
+                        @Model.TotalPropiedades
+                    </strong>
+                </div>
+
+                <div>
+                    <span>
+                        Con ubicacion
+                    </span>
+
+                    <strong>
+                        @Model.TotalPropiedadesConUbicacion
+                    </strong>
+                </div>
+
+                <div>
+                    <span>
+                        Disponibles
+                    </span>
+
+                    <strong>
+                        @Model.TotalDisponibles
+                    </strong>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    @if (Model.Lista != null && Model.Lista.Count > 0)
+    {
+        <section class="explorar-layout">
+            <div class="explorar-listado">
+                <div class="explorar-section-title">
+                    <span>
+                        Propiedades destacadas
+                    </span>
+
+                    <h2>
+                        Catalogo visual
+                    </h2>
+                </div>
+
+                <div class="explorar-grid">
+                    @foreach (var propiedad in Model.Lista)
+                    {
+                        <article class="explorar-card">
+                            <div class="explorar-card-img">
+                                @if (!string.IsNullOrWhiteSpace(propiedad.Imagen))
+                                {
+                                    <img src="@propiedad.Imagen"
+                                         alt="Imagen de propiedad" />
+                                }
+                                else
+                                {
+                                    <div class="explorar-img-placeholder">
+                                        Sin imagen
+                                    </div>
+                                }
+
+                                <span class="explorar-badge">
+                                    @propiedad.Estado
+                                </span>
+                            </div>
+
+                            <div class="explorar-card-body">
+                                <div class="explorar-card-top">
+                                    <h3>
+                                        @if (propiedad._TipoPropiedad != null)
+                                        {
+                                            @propiedad._TipoPropiedad.Nombre
+                                        }
+                                        else
+                                        {
+                                            <span>Sin tipo</span>
+                                        }
+                                    </h3>
+
+                                    <span>
+                                        ID @propiedad.Id
+                                    </span>
+                                </div>
+
+                                <p class="explorar-direccion">
+                                    @if (!string.IsNullOrWhiteSpace(propiedad.Direccion))
+                                    {
+                                        @propiedad.Direccion
+                                    }
+                                    else
+                                    {
+                                        <span>Sin direccion registrada</span>
+                                    }
+                                </p>
+
+                                <div class="explorar-precios">
+                                    <div>
+                                        <span>
+                                            Valor propiedad
+                                        </span>
+
+                                        <strong>
+                                            @propiedad.ValorPropiedad.ToString("C0")
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            Valor arriendo
+                                        </span>
+
+                                        <strong>
+                                            @propiedad.ValorArriendo.ToString("C0")
+                                        </strong>
+                                    </div>
+                                </div>
+
+                                <div class="explorar-features">
+                                    <span>
+                                        @propiedad.NumeroHabitaciones Hab.
+                                    </span>
+
+                                    <span>
+                                        @propiedad.NumeroBanos Banos
+                                    </span>
+
+                                    <span>
+                                        @propiedad.Pisos Pisos
+                                    </span>
+
+                                    <span>
+                                        @propiedad.Entradas Entradas
+                                    </span>
+                                </div>
+
+                                <div class="explorar-card-footer">
+                                    @if (propiedad.Latitud != null && propiedad.Longitud != null)
+                                    {
+                                        <span class="explorar-location ok">
+                                            Ubicacion disponible
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="explorar-location no">
+                                            Sin ubicacion
+                                        </span>
+                                    }
+                                </div>
+                            </div>
+                        </article>
+                    }
+                </div>
+            </div>
+
+            <aside class="explorar-mapa-panel">
+                <div class="explorar-map-header">
+                    <div>
+                        <span>
+                            Mapa
+                        </span>
+
+                        <h2>
+                            Ubicacion de propiedades
+                        </h2>
+                    </div>
+                </div>
+
+                <div id="explorarMapaVacio"
+                     class="explorar-mapa-vacio">
+                    No hay propiedades con Latitud y Longitud registradas.
+                </div>
+
+                <div id="explorarMapa"
+                     class="explorar-mapa"></div>
+            </aside>
+        </section>
+
+        <section class="explorar-tabla-section">
+            <div class="explorar-section-title">
+                <span>
+                    Resumen
+                </span>
+
+                <h2>
+                    Tabla de consulta
+                </h2>
+            </div>
+
+            <div class="explorar-tabla-wrapper">
+                <table class="explorar-tabla">
+                    <tr>
+                        <th>
+                            Tipo
+                        </th>
+
+                        <th>
+                            Estado
+                        </th>
+
+                        <th>
+                            Habitaciones
+                        </th>
+
+                        <th>
+                            Banos
+                        </th>
+
+                        <th>
+                            Valor propiedad
+                        </th>
+
+                        <th>
+                            Valor arriendo
+                        </th>
+
+                        <th>
+                            Direccion
+                        </th>
+
+                        <th>
+                            Ubicacion
+                        </th>
+                    </tr>
+
+                    @foreach (var propiedad in Model.Lista)
+                    {
+                        <tr>
+                            <td>
+                                @if (propiedad._TipoPropiedad != null)
+                                {
+                                    @propiedad._TipoPropiedad.Nombre
+                                }
+                                else
+                                {
+                                    <span>Sin tipo</span>
+                                }
+                            </td>
+
+                            <td>
+                                @propiedad.Estado
+                            </td>
+
+                            <td>
+                                @propiedad.NumeroHabitaciones
+                            </td>
+
+                            <td>
+                                @propiedad.NumeroBanos
+                            </td>
+
+                            <td>
+                                @propiedad.ValorPropiedad.ToString("N0")
+                            </td>
+
+                            <td>
+                                @propiedad.ValorArriendo.ToString("N0")
+                            </td>
+
+                            <td>
+                                @if (!string.IsNullOrWhiteSpace(propiedad.Direccion))
+                                {
+                                    @propiedad.Direccion
+                                }
+                                else
+                                {
+                                    <span>Sin direccion</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (propiedad.Latitud != null && propiedad.Longitud != null)
+                                {
+                                    <span>Con ubicacion</span>
+                                }
+                                else
+                                {
+                                    <span>Sin ubicacion</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </section>
+    }
+    else
+    {
+        <div class="explorar-empty">
+            No hay propiedades registradas para mostrar.
+        </div>
+    }
+</section>
+
+@section Scripts {
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script>
+        const propiedades = @Html.Raw(Model.PropiedadesJson);
+
+        const mapa = L.map('explorarMapa').setView([6.2442, -75.5812], 12);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(mapa);
+
+        const bounds = [];
+
+        function limpiarTexto(valor) {
+        if (valor === null || valor === undefined) {
+        return '';
+        }
+
+        return String(valor)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+        }
+
+        function formatearMoneda(valor) {
+        return new Intl.NumberFormat('es-CO', {
+        style: 'currency',
+        currency: 'COP',
+        maximumFractionDigits: 0
+        }).format(valor || 0);
+        }
+
+        propiedades.forEach(p => {
+        if (p.latitud === null || p.longitud === null) {
+        return;
+        }
+
+        const latitud = Number(p.latitud);
+        const longitud = Number(p.longitud);
+
+        const marcador = L.marker([latitud, longitud]).addTo(mapa);
+
+        const imagen = p.imagen && p.imagen.trim() !== ''
+        ? `<img class="explorar-popup-img" src="${limpiarTexto(p.imagen)}" alt="Propiedad" />`
+        : `<div class="explorar-popup-img explorar-popup-placeholder">Sin imagen</div>`;
+
+        const contenido = `
+        <div class="explorar-popup">
+        ${imagen}
+
+        <h4>${limpiarTexto(p.tipoPropiedad)}</h4>
+
+        <p><strong>Estado:</strong> ${limpiarTexto(p.estado)}</p>
+        <p><strong>Direccion:</strong> ${limpiarTexto(p.direccion || 'Sin direccion')}</p>
+        <p><strong>Habitaciones:</strong> ${limpiarTexto(p.numeroHabitaciones)}</p>
+        <p><strong>Banos:</strong> ${limpiarTexto(p.numeroBanos)}</p>
+        <p><strong>Valor propiedad:</strong> ${formatearMoneda(p.valorPropiedad)}</p>
+        <p><strong>Valor arriendo:</strong> ${formatearMoneda(p.valorArriendo)}</p>
+        </div>
+        `;
+
+        marcador.bindPopup(contenido);
+
+        bounds.push([latitud, longitud]);
+        });
+
+        if (bounds.length > 0) {
+        mapa.fitBounds(bounds, {
+        padding: [35, 35]
+        });
+
+        document.getElementById('explorarMapaVacio').style.display = 'none';
+        }
+        else {
+        document.getElementById('explorarMapaVacio').style.display = 'block';
+        }
+    </script>
+}

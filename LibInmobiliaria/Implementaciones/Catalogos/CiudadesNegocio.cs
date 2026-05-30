@@ -9,7 +9,7 @@ namespace LibInmobiliaria.Implementaciones.Catalogos
 {
     public class CiudadesNegocio : ICiudadesNegocio
     {
-        private string ObtenerDatosCiudad(Ciudades entidad) //Convierte un Galaxiaito a puro texto papi!
+        private string ObtenerDatosCiudad(Ciudades entidad) //Convierte Ciudad a puro texto papi!
         {
             return $"Id: {entidad.Id}, " +
                    $"Nombre: {entidad.Nombre}, " +
@@ -143,6 +143,8 @@ namespace LibInmobiliaria.Implementaciones.Catalogos
                    error: ex.Message
                );
 
+                this.iConexion.SaveChanges();
+
                 throw;
             }   
         }
@@ -233,7 +235,7 @@ namespace LibInmobiliaria.Implementaciones.Catalogos
                 AgregarHistorico(
                  accion: "Borrar",
                  registroId: entidad.Id,
-                 descripcion: "Se borro una Piscina",
+                 descripcion: "Se borro una Ciudad",
                  cambios: "Se eliminó el registro",
                  valorAnterior: valorAnterior,
                  valorNuevo: null,

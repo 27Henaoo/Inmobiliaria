@@ -26,11 +26,11 @@
         </span>
 
         <h1>
-            Encuentra, gestiona y visualiza propiedades con facilidad
+            Encuentra, consulta y visualiza propiedades con facilidad
         </h1>
 
         <p>
-            Plataforma inmobiliaria con roles, reportes, imagenes, mapa de ubicacion y control de acceso para cada tipo de usuario.
+            Plataforma inmobiliaria con catalogo visual, imagenes, mapa de ubicacion, reportes y control de acceso por roles.
         </p>
 
         <div class="resido-search-panel">
@@ -60,13 +60,13 @@
                 </span>
 
                 <strong>
-                    Propiedades
+                    Explorar Propiedades
                 </strong>
             </div>
 
             <a class="resido-search-btn"
                asp-area=""
-               asp-page="/Ventanas/Propiedades">
+               asp-page="/Ventanas/ExplorarPropiedades">
                 Explorar
             </a>
         </div>
@@ -74,15 +74,18 @@
         <div class="resido-hero-actions">
             <a class="resido-btn-primary"
                asp-area=""
-               asp-page="/Ventanas/Propiedades">
-                Ver Propiedades
+               asp-page="/Ventanas/ExplorarPropiedades">
+                Explorar Propiedades
             </a>
 
-            <a class="resido-btn-outline"
-               asp-area=""
-               asp-page="/Ventanas/MapaPropiedades">
-                Ver Mapa
-            </a>
+            @if (esAdmin || esEjecutivo)
+            {
+                <a class="resido-btn-outline"
+                   asp-area=""
+                   asp-page="/Ventanas/Propiedades">
+                    Reportes Propiedades
+                </a>
+            }
         </div>
     </div>
 </section>
@@ -90,15 +93,15 @@
 <section class="resido-about-row">
     <div class="resido-about-card">
         <span class="resido-about-icon">
-            B
+            C
         </span>
 
         <h3>
-            Busqueda rapida
+            Catalogo visual
         </h3>
 
         <p>
-            Consulta propiedades disponibles y tipos de inmuebles desde el menu de consultas.
+            Consulta propiedades con imagenes, datos principales, estado y precios.
         </p>
     </div>
 
@@ -126,7 +129,7 @@
         </h3>
 
         <p>
-            Exporta informacion de propiedades a Excel e imprime reportes en PDF.
+            Los roles autorizados pueden exportar informacion a Excel e imprimir reportes en PDF.
         </p>
     </div>
 </section>
@@ -151,54 +154,10 @@
         {
             <a class="resido-module-card"
                asp-area=""
-               asp-page="/Ventanas/Propiedades">
+               asp-page="/Ventanas/ExplorarPropiedades">
                 <div class="resido-module-top">
                     <span>
-                        P
-                    </span>
-
-                    <small>
-                        Consulta
-                    </small>
-                </div>
-
-                <h3>
-                    Propiedades
-                </h3>
-
-                <p>
-                    Visualiza propiedades registradas sin modificar informacion.
-                </p>
-            </a>
-
-            <a class="resido-module-card"
-               asp-area=""
-               asp-page="/Ventanas/MapaPropiedades">
-                <div class="resido-module-top">
-                    <span>
-                        M
-                    </span>
-
-                    <small>
-                        Ubicacion
-                    </small>
-                </div>
-
-                <h3>
-                    Mapa de Propiedades
-                </h3>
-
-                <p>
-                    Consulta las propiedades ubicadas en el mapa.
-                </p>
-            </a>
-
-            <a class="resido-module-card"
-               asp-area=""
-               asp-page="/Ventanas/TiposPropiedades">
-                <div class="resido-module-top">
-                    <span>
-                        T
+                        E
                     </span>
 
                     <small>
@@ -207,17 +166,39 @@
                 </div>
 
                 <h3>
-                    Tipos de Propiedades
+                    Explorar Propiedades
                 </h3>
 
                 <p>
-                    Revisa los tipos de inmuebles disponibles.
+                    Consulta propiedades con imagenes, mapa, precios y detalles principales.
                 </p>
             </a>
         }
 
         @if (esEjecutivo)
         {
+            <a class="resido-module-card"
+               asp-area=""
+               asp-page="/Ventanas/ExplorarPropiedades">
+                <div class="resido-module-top">
+                    <span>
+                        E
+                    </span>
+
+                    <small>
+                        Vista pro
+                    </small>
+                </div>
+
+                <h3>
+                    Explorar Propiedades
+                </h3>
+
+                <p>
+                    Vista visual para mostrar propiedades con cards, imagenes y mapa integrado.
+                </p>
+            </a>
+
             <a class="resido-module-card"
                asp-area=""
                asp-page="/Ventanas/Propiedades">
@@ -227,7 +208,7 @@
                     </span>
 
                     <small>
-                        Gestion
+                        Reportes
                     </small>
                 </div>
 
@@ -236,7 +217,7 @@
                 </h3>
 
                 <p>
-                    Crea y modifica propiedades segun permisos.
+                    Consulta propiedades, imprime PDF y exporta informacion a Excel cuando se requieran informes.
                 </p>
             </a>
 
@@ -311,6 +292,28 @@
         {
             <a class="resido-module-card"
                asp-area=""
+               asp-page="/Ventanas/ExplorarPropiedades">
+                <div class="resido-module-top">
+                    <span>
+                        E
+                    </span>
+
+                    <small>
+                        Vista publica
+                    </small>
+                </div>
+
+                <h3>
+                    Explorar Propiedades
+                </h3>
+
+                <p>
+                    Presentacion profesional de propiedades con imagenes, mapa y resumen visual.
+                </p>
+            </a>
+
+            <a class="resido-module-card"
+               asp-area=""
                asp-page="/Ventanas/Propiedades">
                 <div class="resido-module-top">
                     <span>
@@ -327,7 +330,7 @@
                 </h3>
 
                 <p>
-                    Gestiona propiedades, imagenes, reportes y mapa.
+                    Gestiona propiedades, imagenes, reportes, Excel, PDF y mapa.
                 </p>
             </a>
 
@@ -456,7 +459,7 @@
     </div>
 
     <a asp-area=""
-       asp-page="/Ventanas/Propiedades">
-        Ir a Propiedades
+       asp-page="/Ventanas/ExplorarPropiedades">
+        Ir a Explorar
     </a>
 </section>

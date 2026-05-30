@@ -123,13 +123,15 @@ namespace InmobiliariaAspCore.Filtros
             {
                 "/ventanas/propiedades",
                 "/ventanas/tipospropiedades",
-                 "/ventanas/mapapropiedades"
+                "/ventanas/mapapropiedades",
+                "/ventanas/explorarpropiedades"
             };
 
             var paginasEjecutivo = new List<string>()
             {
                 "/ventanas/propiedades",
-                 "/ventanas/mapapropiedades",
+                "/ventanas/mapapropiedades",
+                "/ventanas/explorarpropiedades",
                 "/ventanas/clientes",
                 "/ventanas/compradores",
                 "/ventanas/codeudores",
