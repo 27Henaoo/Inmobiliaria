@@ -2,6 +2,7 @@
 using LibInmobiliaria.Interfaces;
 using LibInmobiliaria.Interfaces.Seguridad;
 using LibModelos._5._2LoginRegisterEntidades;
+using LibModelos._5._1ModelosComunes;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using System.Text;
@@ -10,6 +11,46 @@ namespace LibInmobiliaria.Implementaciones.Seguridad
 {
     public class UsuariosNegocio : IUsuariosNegocio
     {
+        private string ObtenerDatosUsuarios(Usuarios entidad)
+        {
+            return $"Id: {entidad.Id}, " +
+                   $"Nombre: {entidad.Nombre}, " +
+                   $"Correo: {entidad.Correo}, " +
+                   $"ClaveHash: {"Oculto"}, " +
+                   $"ClaveSalt: {"Oculto"}, " +
+                   $"Rol: {entidad.Rol}, " +
+                   $"_Rol: {entidad._Rol}, ";
+        }
+
+
+        private void AgregarHistorico(
+            string accion,
+            int? registroId,
+            string descripcion,
+            string? cambios,
+            string? valorAnterior,
+            string? valorNuevo,
+            bool exitoso,
+            string? error)
+        {
+            this.iConexion!.Historicos!.Add(new Historicos()
+            {
+                Usuario = "ADMIN",
+                Tabla = "Usuarios",
+                Accion = accion,
+                RegistroId = registroId,
+                Descripcion = descripcion,
+                Cambios = cambios,
+                ValorAnterior = valorAnterior,
+                ValorNuevo = valorNuevo,
+                Origen = "Inmobiliaria.Api",
+                Exitoso = exitoso,
+                Error = error,
+                Fecha = DateTime.Now
+            });
+        }
+
+
         private IConexion? iConexion;
 
         public List<Usuarios> Consultar()
@@ -18,17 +59,49 @@ namespace LibInmobiliaria.Implementaciones.Seguridad
 
             this.iConexion.StringConexion = Configuraciones.obtener("StringConexion");
 
-            //Se consultan todos los usuarios con su rol, no se hce desde Roles porque puede haber filtracion de datos
-            var lista = this.iConexion.Usuarios!.Include(x => x._Rol).ToList();
-
-            //Se limpian los datos sensibles antes de devolverlos.
-            foreach (var usuario in lista)
+            try
             {
-                usuario.ClaveHash = "";
-                usuario.ClaveSalt = "";
-            }
+                //Se consultan todos los usuarios con su rol, no se hce desde Roles porque puede haber filtracion de datos
+                var lista = this.iConexion.Usuarios!.Include(x => x._Rol).ToList();
 
-            return lista;
+                AgregarHistorico(
+                    accion: "Consultar",
+                    registroId: null,
+                    descripcion: "Se consultaron los registros de Usuarios",
+                    cambios: "No se modificaron datos",
+                    valorAnterior: null,
+                    valorNuevo: $"Cantidad de registros consultados: {lista.Count}",
+                    exitoso: true,
+                    error: "N/A"
+                );
+
+                this.iConexion.SaveChanges();
+
+                //Se limpian los datos sensibles antes de devolverlos.
+                foreach (var usuario in lista)
+                {
+                    usuario.ClaveHash = "";
+                    usuario.ClaveSalt = "";
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                AgregarHistorico(
+                    accion: "Consultar",
+                    registroId: null,
+                    descripcion: "Fallo al consultar los registros de Usuarios",
+                    cambios: "No se pudo consultar la lista",
+                    valorAnterior: "Error al Consultar",
+                    valorNuevo: "Error al Consultar",
+                    exitoso: false,
+                    error: ex.Message
+                );
+
+                this.iConexion.SaveChanges();
+                throw;
+            }
         }
 
         public Usuarios Guardar(Usuarios entidad)
@@ -52,28 +125,72 @@ namespace LibInmobiliaria.Implementaciones.Seguridad
 
             this.iConexion.StringConexion = Configuraciones.obtener("string_conexion");
 
-            var correo = entidad.Correo.Trim().ToLower();
+            try
+            {
+                var correo = entidad.Correo.Trim().ToLower();
 
-            var usuarioExistente = this.iConexion.Usuarios!
-                .FirstOrDefault(x => x.Correo.ToLower() == correo);
+                var usuarioExistente = this.iConexion.Usuarios!
+                    .FirstOrDefault(x => x.Correo.ToLower() == correo);
 
-            if (usuarioExistente != null)
-                return CrearUsuarioVacio();
+                if (usuarioExistente != null)
+                {
+                    AgregarHistorico(
+                        accion: "Guardar",
+                        registroId: entidad.Id,
+                        descripcion: "Fallo al guardar un registro de Usuarios",
+                        cambios: "No se pudo crear el registro",
+                        valorAnterior: null,
+                        valorNuevo: ObtenerDatosUsuarios(entidad),
+                        exitoso: false,
+                        error: "El correo ya se encuentra registrado"
+                    );
 
-            var claveOriginal = entidad.ClaveHash;
+                    this.iConexion.SaveChanges();
+                    return CrearUsuarioVacio();
+                }
 
-            entidad.Correo = correo;
-            entidad.ClaveSalt = CrearSalt();
-            entidad.ClaveHash = CrearHash(claveOriginal, entidad.ClaveSalt);
+                var claveOriginal = entidad.ClaveHash;
 
-            this.iConexion.Usuarios!.Add(entidad);
+                entidad.Correo = correo;
+                entidad.ClaveSalt = CrearSalt();
+                entidad.ClaveHash = CrearHash(claveOriginal, entidad.ClaveSalt);
 
-            this.iConexion.SaveChanges();
+                this.iConexion.Usuarios!.Add(entidad);
 
-            entidad.ClaveHash = "";
-            entidad.ClaveSalt = "";
+                AgregarHistorico(
+                    accion: "Guardar",
+                    registroId: null,
+                    descripcion: "Se guardo un nuevo registro de Usuarios",
+                    cambios: "Se creo un nuevo registro",
+                    valorAnterior: null,
+                    valorNuevo: ObtenerDatosUsuarios(entidad),
+                    exitoso: true,
+                    error: "N/A"
+                );
 
-            return entidad;
+                this.iConexion.SaveChanges();
+
+                entidad.ClaveHash = "";
+                entidad.ClaveSalt = "";
+
+                return entidad;
+            }
+            catch (Exception ex)
+            {
+                AgregarHistorico(
+                    accion: "Guardar",
+                    registroId: entidad.Id,
+                    descripcion: "Fallo al guardar un registro de Usuarios",
+                    cambios: "No se pudo crear el registro",
+                    valorAnterior: null,
+                    valorNuevo: ObtenerDatosUsuarios(entidad),
+                    exitoso: false,
+                    error: ex.Message
+                );
+
+                this.iConexion.SaveChanges();
+                throw;
+            }
         }
 
         public Usuarios Modificar(Usuarios entidad)
@@ -94,36 +211,70 @@ namespace LibInmobiliaria.Implementaciones.Seguridad
 
             this.iConexion.StringConexion = Configuraciones.obtener("StringConexion");
 
-            var usuarioActual = this.iConexion.Usuarios!.FirstOrDefault(x => x.Id == entidad.Id);
-
-            if (usuarioActual == null)
-                throw new Exception("El usuario no existe.");
-
-            entidad.Correo = entidad.Correo.Trim().ToLower();
-
-            if (string.IsNullOrWhiteSpace(entidad.ClaveHash))
+            try
             {
-                entidad.ClaveHash = usuarioActual.ClaveHash;
-                entidad.ClaveSalt = usuarioActual.ClaveSalt;
+                var usuarioActual = this.iConexion.Usuarios!.FirstOrDefault(x => x.Id == entidad.Id);
+
+                if (usuarioActual == null)
+                    throw new Exception("El usuario no existe.");
+
+                string valorAnterior = ObtenerDatosUsuarios(usuarioActual);
+
+                entidad.Correo = entidad.Correo.Trim().ToLower();
+
+                if (string.IsNullOrWhiteSpace(entidad.ClaveHash))
+                {
+                    entidad.ClaveHash = usuarioActual.ClaveHash;
+                    entidad.ClaveSalt = usuarioActual.ClaveSalt;
+                }
+                else
+                {
+                    var claveOriginal = entidad.ClaveHash;
+
+                    entidad.ClaveSalt = CrearSalt();
+                    entidad.ClaveHash = CrearHash(claveOriginal, entidad.ClaveSalt);
+                }
+
+                string valorNuevo = ObtenerDatosUsuarios(entidad);
+
+                var entry = this.iConexion.Entry<Usuarios>(entidad);
+
+                entry.State = EntityState.Modified;
+
+                AgregarHistorico(
+                    accion: "Modificar",
+                    registroId: entidad.Id,
+                    descripcion: "Se modifico un registro de Usuarios",
+                    cambios: "Se cambio la informacion del registro",
+                    valorAnterior: valorAnterior,
+                    valorNuevo: valorNuevo,
+                    exitoso: true,
+                    error: "N/A"
+                );
+
+                this.iConexion.SaveChanges();
+
+                entidad.ClaveHash = "";
+                entidad.ClaveSalt = "";
+
+                return entidad;
             }
-            else
+            catch (Exception ex)
             {
-                var claveOriginal = entidad.ClaveHash;
+                AgregarHistorico(
+                    accion: "Modificar",
+                    registroId: entidad.Id,
+                    descripcion: "Fallo al modificar un registro de Usuarios",
+                    cambios: "No se pudo modificar el registro",
+                    valorAnterior: null,
+                    valorNuevo: ObtenerDatosUsuarios(entidad),
+                    exitoso: false,
+                    error: ex.Message
+                );
 
-                entidad.ClaveSalt = CrearSalt();
-                entidad.ClaveHash = CrearHash(claveOriginal, entidad.ClaveSalt);
+                this.iConexion.SaveChanges();
+                throw;
             }
-
-            var entry = this.iConexion.Entry<Usuarios>(entidad);
-
-            entry.State = EntityState.Modified;
-
-            this.iConexion.SaveChanges();
-
-            entidad.ClaveHash = "";
-            entidad.ClaveSalt = "";
-
-            return entidad;
         }
 
         public Usuarios Borrar(Usuarios entidad)
@@ -135,11 +286,48 @@ namespace LibInmobiliaria.Implementaciones.Seguridad
 
             this.iConexion.StringConexion = Configuraciones.obtener("StringConexion");
 
-            this.iConexion.Usuarios!.Remove(entidad);
+            try
+            {
+                var anterior = this.iConexion.Usuarios!.FirstOrDefault(x => x.Id == entidad.Id);
 
-            this.iConexion.SaveChanges();
+                if (anterior == null)
+                    throw new Exception("El usuario no existe.");
 
-            return entidad;
+                string valorAnterior = ObtenerDatosUsuarios(anterior);
+
+                this.iConexion.Usuarios!.Remove(entidad);
+
+                AgregarHistorico(
+                    accion: "Borrar",
+                    registroId: entidad.Id,
+                    descripcion: "Se borro un registro de Usuarios",
+                    cambios: "Se elimino el registro",
+                    valorAnterior: valorAnterior,
+                    valorNuevo: null,
+                    exitoso: true,
+                    error: "N/A"
+                );
+
+                this.iConexion.SaveChanges();
+
+                return entidad;
+            }
+            catch (Exception ex)
+            {
+                AgregarHistorico(
+                    accion: "Borrar",
+                    registroId: entidad.Id,
+                    descripcion: "Fallo al borrar un registro de Usuarios",
+                    cambios: "No se pudo eliminar el registro",
+                    valorAnterior: null,
+                    valorNuevo: ObtenerDatosUsuarios(entidad),
+                    exitoso: false,
+                    error: ex.Message
+                );
+
+                this.iConexion.SaveChanges();
+                throw;
+            }
         }
 
         public Usuarios? BuscarPorCorreo(string correo)
